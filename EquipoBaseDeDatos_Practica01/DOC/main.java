@@ -6,7 +6,7 @@ public class main {
 
 	public static void main(String[] args) {
 		
-		
+		//SE DEBE CAMBIAR LA DIRECCIÓN DEL ARCHIVO
 		String ubicacionArchivo = "C:\\Users\\ST\\Documents\\Curso Java\\LecturaVuelos\\src\\vuelos.txt";
 		
 		LectorArchivoDeTextoTabla miLector = new LectorArchivoDeTextoTabla(ubicacionArchivo);
@@ -45,3 +45,4 @@ public class main {
 	}
 
 }
+
