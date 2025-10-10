@@ -171,8 +171,8 @@ CREATE TABLE vuelo (
     id_origen INT,
     id_destino INT,
     estado VARCHAR(20),
-    etd DATE,
-    eta DATE,
+    etd TIMESTAMP,
+    eta TIMESTAMP,
     precio DOUBLE PRECISION
 );
 
@@ -228,13 +228,13 @@ ALTER TABLE vuelo
     ADD CONSTRAINT chk_tiempo_vuelo
     CHECK (eta > etd);
 
-COMMENT ON TABLE vuelo IS 'Tabla que almacena los registros de los vuelos programados';
+COMMENT ON TABLE vuelo IS 'Tabla que almacena los registros de los vuelos registrados en el sistema';
 COMMENT ON COLUMN vuelo.id_vuelo IS 'Identificador único del vuelo';
 COMMENT ON COLUMN vuelo.id_avion IS 'Referencia al avión asignado al vuelo';
 COMMENT ON COLUMN vuelo.id_piloto IS 'Referencia al piloto asignado al vuelo';
 COMMENT ON COLUMN vuelo.id_origen IS 'Aeropuerto de origen del vuelo';
 COMMENT ON COLUMN vuelo.id_destino IS 'Aeropuerto de destino del vuelo';
 COMMENT ON COLUMN vuelo.estado IS 'Estado actual del vuelo (PROGRAMADO, EN_VUELO, CANCELADO, FINALIZADO)';
-COMMENT ON COLUMN vuelo.etd IS 'Hora estimada de salida (Estimated Time of Departure)';
-COMMENT ON COLUMN vuelo.eta IS 'Hora estimada de llegada (Estimated Time of Arrival)';
+COMMENT ON COLUMN vuelo.etd IS 'Horario estimado de salida (Estimated Time of Departure)';
+COMMENT ON COLUMN vuelo.eta IS 'Horario estimado de llegada (Estimated Time of Arrival)';
 COMMENT ON COLUMN vuelo.precio IS 'Precio del boleto para el vuelo';
