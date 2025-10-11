@@ -1,263 +1,258 @@
 --INSERT
 
 --AEROPUERTOS
--- México 🇲🇽
-INSERT INTO aeropuerto VALUES (1, 'Aeropuerto Internacional de la Ciudad de México', 'INTERNACIONAL', 'México', 'Ciudad de México', 'MEX');
-INSERT INTO aeropuerto VALUES (2, 'Aeropuerto Internacional de Guadalajara', 'INTERNACIONAL', 'México', 'Guadalajara', 'GDL');
-INSERT INTO aeropuerto VALUES (3, 'Aeropuerto Internacional de Monterrey', 'INTERNACIONAL', 'México', 'Monterrey', 'MTY');
-INSERT INTO aeropuerto VALUES (4, 'Aeropuerto Internacional de Cancún', 'INTERNACIONAL', 'México', 'Cancún', 'CUN');
-INSERT INTO aeropuerto VALUES (5, 'Nuevo Aeropuerto Internacional de México', 'INTERNACIONAL', 'México', 'Ciudad de México', null);               --BORRAR
-INSERT INTO aeropuerto VALUES (6, 'Aeropuerto Internacional de Mérida', 'NACIONAL', 'México', 'Mérida', 'MID');
-INSERT INTO aeropuerto VALUES (7, 'Aeropuerto Nacional de Oaxaca', 'NACIONAL', 'México', 'Oaxaca', 'OAX');
-INSERT INTO aeropuerto VALUES (8, 'Aeropuerto Internacional de Querétaro', 'NACIONAL', 'México', 'Querétaro', 'QRO');
-INSERT INTO aeropuerto VALUES (9, 'Aeropuerto Internacional de León-Bajío', 'NACIONAL', 'México', 'León', 'BJX');
+INSERT INTO aeropuerto (id_aeropuerto, nombre, tipo, pais, ciudad, codigo_iata) VALUES
+-- México
+(1, 'Aeropuerto Internacional de la Ciudad de México', 'INTERNACIONAL', 'México', 'Ciudad de México', 'MEX'),
+(2, 'Aeropuerto Internacional de Guadalajara', 'INTERNACIONAL', 'México', 'Guadalajara', 'GDL'),
+(3, 'Aeropuerto Internacional de Monterrey', 'INTERNACIONAL', 'México', 'Monterrey', 'MTY'),
+(4, 'Aeropuerto Internacional de Cancún', 'INTERNACIONAL', 'México', 'Cancún', 'CUN'),
+(5, 'Nuevo Aeropuerto Internacional de México', 'INTERNACIONAL', 'México', 'Ciudad de México', null),
+(6, 'Aeropuerto Internacional de Mérida', 'NACIONAL', 'México', 'Mérida', 'MID'),
+(7, 'Aeropuerto Nacional de Oaxaca', 'NACIONAL', 'México', 'Oaxaca', 'OAX'),
+(8, 'Aeropuerto Internacional de Querétaro', 'NACIONAL', 'México', 'Querétaro', 'QRO'),
+(9, 'Aeropuerto Internacional de León-Bajío', 'NACIONAL', 'México', 'León', 'BJX'),
 
--- Estados Unidos 🇺🇸
-INSERT INTO aeropuerto VALUES (10, 'Los Angeles International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Los Ángeles', 'LAX');
-INSERT INTO aeropuerto VALUES (11, 'John F. Kennedy International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Nueva York', 'JFK');
-INSERT INTO aeropuerto VALUES (12, 'Dallas/Fort Worth International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Dallas', 'DFW');
-INSERT INTO aeropuerto VALUES (13, 'Chicago Midway Airport', 'NACIONAL', 'Estados Unidos', 'Chicago', 'MDW');
-INSERT INTO aeropuerto VALUES (14, 'Denver International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Denver', 'DEN');
-INSERT INTO aeropuerto VALUES (15, 'Orlando International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Orlando', 'MCO');
+-- Estados Unidos
+(10, 'Los Angeles International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Los Ángeles', 'LAX'),
+(11, 'John F. Kennedy International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Nueva York', 'JFK'),
+(12, 'Dallas/Fort Worth International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Dallas', 'DFW'),
+(13, 'Chicago Midway Airport', 'NACIONAL', 'Estados Unidos', 'Chicago', 'MDW'),
+(14, 'Denver International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Denver', 'DEN'),
+(15, 'Orlando International Airport', 'INTERNACIONAL', 'Estados Unidos', 'Orlando', 'MCO'),
 
--- Brasil 🇧🇷
-INSERT INTO aeropuerto VALUES (16, 'Aeroporto Internacional de São Paulo-Guarulhos', 'INTERNACIONAL', 'Brasil', 'São Paulo', 'GRU');
-INSERT INTO aeropuerto VALUES (17, 'Aeroporto Internacional de Brasília', 'INTERNACIONAL', 'Brasil', 'Brasília', 'BSB');
-INSERT INTO aeropuerto VALUES (18, 'Aeroporto Santos Dumont', 'NACIONAL', 'Brasil', 'Río de Janeiro', 'SDU');
-INSERT INTO aeropuerto VALUES (19, 'Aeroporto Internacional Tancredo Neves', 'NACIONAL', 'Brasil', 'Belo Horizonte', 'CNF');
+-- Brasil
+(16, 'Aeroporto Internacional de São Paulo-Guarulhos', 'INTERNACIONAL', 'Brasil', 'São Paulo', 'GRU'),
+(17, 'Aeroporto Internacional de Brasília', 'INTERNACIONAL', 'Brasil', 'Brasília', 'BSB'),
+(18, 'Aeroporto Santos Dumont', 'NACIONAL', 'Brasil', 'Río de Janeiro', 'SDU'),
+(19, 'Aeroporto Internacional Tancredo Neves', 'NACIONAL', 'Brasil', 'Belo Horizonte', 'CNF'),
 
--- España 🇪🇸
-INSERT INTO aeropuerto VALUES (20, 'Aeropuerto Adolfo Suárez Madrid-Barajas', 'INTERNACIONAL', 'España', 'Madrid', 'MAD');
-INSERT INTO aeropuerto VALUES (21, 'Aeropuerto de Barcelona-El Prat', 'INTERNACIONAL', 'España', 'Barcelona', 'BCN');
-INSERT INTO aeropuerto VALUES (22, 'Aeropuerto de Málaga-Costa del Sol', 'NACIONAL', 'España', 'Málaga', 'AGP');
-INSERT INTO aeropuerto VALUES (23, 'Aeropuerto de Valencia', 'NACIONAL', 'España', 'Valencia', 'VLC');
+-- España
+(20, 'Aeropuerto Adolfo Suárez Madrid-Barajas', 'INTERNACIONAL', 'España', 'Madrid', 'MAD'),
+(21, 'Aeropuerto de Barcelona-El Prat', 'INTERNACIONAL', 'España', 'Barcelona', 'BCN'),
+(22, 'Aeropuerto de Málaga-Costa del Sol', 'NACIONAL', 'España', 'Málaga', 'AGP'),
+(23, 'Aeropuerto de Valencia', 'NACIONAL', 'España', 'Valencia', 'VLC'),
 
--- Japón 🇯🇵
-INSERT INTO aeropuerto VALUES (24, 'Tokyo Haneda International Airport', 'INTERNACIONAL', 'Japón', 'Tokio', 'HND');
-INSERT INTO aeropuerto VALUES (25, 'Kansai International Airport', 'INTERNACIONAL', 'Japón', 'Osaka', 'KIX');
-INSERT INTO aeropuerto VALUES (26, 'New Chitose Airport', 'NACIONAL', 'Japón', 'Sapporo', 'CTS');
-INSERT INTO aeropuerto VALUES (27, 'Fukuoka Airport', 'NACIONAL', 'Japón', 'Fukuoka', 'FUK');
+-- Japón
+(24, 'Tokyo Haneda International Airport', 'INTERNACIONAL', 'Japón', 'Tokio', 'HND'),
+(25, 'Kansai International Airport', 'INTERNACIONAL', 'Japón', 'Osaka', 'KIX'),
+(26, 'New Chitose Airport', 'NACIONAL', 'Japón', 'Sapporo', 'CTS'),
+(27, 'Fukuoka Airport', 'NACIONAL', 'Japón', 'Fukuoka', 'FUK');
+
 
 
 
 -- TERMINALES
--- México (Terminales de MEX)
--- Aeropuerto MEX (id = 1) — tiene 2 terminales reales. :contentReference[oaicite:0]{index=0}
-INSERT INTO terminal VALUES (1, 1, 50, 20000);  -- Terminal 1 en MEX: capacidad estimada de aviones 50, público 20 000
-INSERT INTO terminal VALUES (1, 2, 40, 15000);  -- Terminal 2 en MEX: capacidad de 40 aviones, público 15 000
+INSERT INTO terminal (id_aeropuerto, numero_terminal, capacidadd_aviones, capacidadd_publico) VALUES
+-- México
+-- Aeropuerto MEX (id = 1)
+(1, 1, 50, 20000),
+(1, 2, 40, 15000),
 -- Guadalajara (GDL, id = 2)
-INSERT INTO terminal VALUES (2, 1, 20, 8000);
-INSERT INTO terminal VALUES (2, 2, 10, 4000);
+(2, 1, 20, 8000),
+(2, 2, 10, 4000),
 -- Monterrey (MTY, id = 3)
-INSERT INTO terminal VALUES (3, 1, 18, 7000);
+(3, 1, 18, 7000),
 -- Cancún (CUN, id = 4)
-INSERT INTO terminal VALUES (4, 1, 25, 10000);
-INSERT INTO terminal VALUES (4, 2, 15, 6000);
--- NAIM (TIJ, id = 5)
---       NO HAY
+(4, 1, 25, 10000),
+(4, 2, 15, 6000),
+-- NAIM (NULL, id = 5) 
+  -- no hay
 -- Mérida (MID, id = 6)
-INSERT INTO terminal VALUES (6, 1, 8, 3000);
+(6, 1, 8, 3000),
 -- Oaxaca (OAX, id = 7)
-INSERT INTO terminal VALUES (7, 1, 6, 2000);
+(7, 1, 6, 2000),
 -- Querétaro (QRO, id = 8)
-INSERT INTO terminal VALUES (8, 1, 10, 4000);
+(8, 1, 10, 4000),
 -- León-Bajío (BJX, id = 9)
-INSERT INTO terminal VALUES (9, 1, 10, 4000);
+(9, 1, 10, 4000),
 
 -- Estados Unidos
--- LAX (Los Ángeles, id = 10) — tiene 9 terminales según datos reales :contentReference[oaicite:1]{index=1}
-INSERT INTO terminal VALUES (10, 1, 20, 8000);
-INSERT INTO terminal VALUES (10, 2, 18, 7000);
-INSERT INTO terminal VALUES (10, 3, 22, 9000);
-INSERT INTO terminal VALUES (10, 4, 16, 6000);
-INSERT INTO terminal VALUES (10, 5, 15, 6000);
-INSERT INTO terminal VALUES (10, 6, 12, 5000);
-INSERT INTO terminal VALUES (10, 7, 14, 5500);
-INSERT INTO terminal VALUES (10, 8, 14, 5500);
-INSERT INTO terminal VALUES (10, 9, 25, 10000);
+-- LAX (Los Ángeles, id = 10)
+(10, 1, 20, 8000),
+(10, 2, 18, 7000),
+(10, 3, 22, 9000),
+(10, 4, 16, 6000),
+(10, 5, 15, 6000),
+(10, 6, 12, 5000),
+(10, 7, 14, 5500),
+(10, 8, 14, 5500),
+(10, 9, 25, 10000),
 -- JFK (Nueva York, id = 11)
-INSERT INTO terminal VALUES (11, 1, 30, 12000);
-INSERT INTO terminal VALUES (11, 2, 25, 10000);
-INSERT INTO terminal VALUES (11, 3, 20, 8000);
+(11, 1, 30, 12000),
+(11, 2, 25, 10000),
+(11, 3, 20, 8000),
 -- DFW (Dallas/Fort Worth, id = 12)
-INSERT INTO terminal VALUES (12, 1, 28, 11000);
-INSERT INTO terminal VALUES (12, 2, 22, 9000);
-INSERT INTO terminal VALUES (12, 3, 18, 7000);
+(12, 1, 28, 11000),
+(12, 2, 22, 9000),
+(12, 3, 18, 7000),
 -- MDW (Chicago Midway, id = 13)
-INSERT INTO terminal VALUES (13, 1, 10, 4000);
+(13, 1, 10, 4000),
 -- DEN (Denver, id = 14)
-INSERT INTO terminal VALUES (14, 1, 15, 6000);
-INSERT INTO terminal VALUES (14, 2, 10, 4000);
+(14, 1, 15, 6000),
+(14, 2, 10, 4000),
 -- MCO (Orlando, id = 15)
-INSERT INTO terminal VALUES (15, 1, 20, 8000);
-INSERT INTO terminal VALUES (15, 2, 15, 6000);
-INSERT INTO terminal VALUES (15, 3, 12, 5000);
+(15, 1, 20, 8000),
+(15, 2, 15, 6000),
+(15, 3, 12, 5000),
 
 -- Brasil
 -- GRU (São Paulo-Guarulhos, id = 16)
-INSERT INTO terminal VALUES (16, 1, 35, 14000);
-INSERT INTO terminal VALUES (16, 2, 25, 10000);
-INSERT INTO terminal VALUES (16, 3, 20, 8000);
+(16, 1, 35, 14000),
+(16, 2, 25, 10000),
+(16, 3, 20, 8000),
 -- BSB (Brasilia, id = 17)
-INSERT INTO terminal VALUES (17, 1, 20, 8000);
+(17, 1, 20, 8000),
 -- SDU (Rio de Janeiro, id = 18)
-INSERT INTO terminal VALUES (18, 1, 15, 6000);
+(18, 1, 15, 6000),
 -- CNF (Belo Horizonte, id = 19)
-INSERT INTO terminal VALUES (19, 1, 12, 5000);
+(19, 1, 12, 5000),
 
 -- España
 -- MAD (Madrid-Barajas, id = 20)
-INSERT INTO terminal VALUES (20, 1, 30, 12000);
-INSERT INTO terminal VALUES (20, 2, 25, 10000);
-INSERT INTO terminal VALUES (20, 3, 18, 7000);
-INSERT INTO terminal VALUES (20, 4, 15, 5000);
+(20, 1, 30, 12000),
+(20, 2, 25, 10000),
+(20, 3, 18, 7000),
+(20, 4, 15, 5000),
 -- BCN (Barcelona, id = 21)
-INSERT INTO terminal VALUES (21, 1, 22, 9000);
-INSERT INTO terminal VALUES (21, 2, 18, 7000);
+(21, 1, 22, 9000),
+(21, 2, 18, 7000),
 -- AGP (Málaga, id = 22)
-INSERT INTO terminal VALUES (22, 1, 12, 5000);
+(22, 1, 12, 5000),
 -- VLC (Valencia, id = 23)
-INSERT INTO terminal VALUES (23, 1, 10, 4000);
+(23, 1, 10, 4000),
 
 -- Japón
--- HND (Tokio Haneda, id = 24) — tiene 3 terminales reales :contentReference[oaicite:2]{index=2}
-INSERT INTO terminal VALUES (24, 1, 20, 8000);
-INSERT INTO terminal VALUES (24, 2, 18, 7000);
-INSERT INTO terminal VALUES (24, 3, 25, 10000);
+-- HND (Tokio Haneda, id = 24)
+(24, 1, 20, 8000),
+(24, 2, 18, 7000),
+(24, 3, 25, 10000),
 -- KIX (Osaka Kansai, id = 25)
-INSERT INTO terminal VALUES (25, 1, 15, 6000);
+(25, 1, 15, 6000),
 -- CTS (Sapporo New Chitose, id = 26)
-INSERT INTO terminal VALUES (26, 1, 12, 5000);
+(26, 1, 12, 5000),
 -- FUK (Fukuoka, id = 27)
-INSERT INTO terminal VALUES (27, 1, 10, 4000);
-
-
+(27, 1, 10, 4000);
 
 
 
 
 -- AEROLÍNEAS
+INSERT INTO aerolinea (id_aerolinea, nombre, pais_origen, codigo_internacional, fecha_fundacion) VALUES
 -- México
-INSERT INTO aerolinea VALUES (1,  'Aerolíneas Mexicanas', 'México', 'AMX', '1934-09-14');  -- Aeroméxico
-INSERT INTO aerolinea VALUES (2,  'Volaris',               'México', 'VOI', '2005-03-13');
-INSERT INTO aerolinea VALUES (3,  'Viva Aerobus',          'México', 'VIV', '2006-11-30');
-INSERT INTO aerolinea VALUES (4,  'Interjet',              'México', 'AIJ', '2005-12-01');
-INSERT INTO aerolinea VALUES (5,  'Calafia Airlines',      'México', 'CFV', '1993-01-01');
-INSERT INTO aerolinea VALUES (6,  'Aeromar',               'México', 'TAO', '1987-01-29');
-INSERT INTO aerolinea VALUES (7,  'Aerus',                 'México', 'NCS', '2023-04-27');
-INSERT INTO aerolinea VALUES (8,  'Magnicharters',         'México', 'GMT', '1994-01-01');
-INSERT INTO aerolinea VALUES (9,  'Mexicana de Aviación',  'México', 'MXA', '1921-07-12');
+(1,  'Aerolíneas Mexicanas', 'México', 'AMX', '1934-09-14'),
+(2,  'Volaris',               'México', 'VOI', '2005-03-13'),
+(3,  'Viva Aerobus',          'México', 'VIV', '2006-11-30'),
+(4,  'Interjet',              'México', 'AIJ', '2005-12-01'),
+(5,  'Calafia Airlines',      'México', 'CFV', '1993-01-01'),
+(6,  'Aeromar',               'México', 'TAO', '1987-01-29'),
+(7,  'Aerus',                 'México', 'NCS', '2023-04-27'),
+(8,  'Magnicharters',         'México', 'GMT', '1994-01-01'),
+(9,  'Mexicana de Aviación',  'México', 'MXA', '1921-07-12'),
 
 -- Estados Unidos
-INSERT INTO aerolinea VALUES (10, 'American Airlines',     'Estados Unidos', 'AAL', '1930-04-15');
-INSERT INTO aerolinea VALUES (11, 'Delta Air Lines',       'Estados Unidos', 'DAL', '1925-03-02');
-INSERT INTO aerolinea VALUES (12, 'United Airlines',       'Estados Unidos', 'UAL', '1926-04-06');
-INSERT INTO aerolinea VALUES (13, 'Southwest Airlines',    'Estados Unidos', 'SWA', '1967-03-15');
-INSERT INTO aerolinea VALUES (14, 'JetBlue Airways',       'Estados Unidos', 'JBU', '1998-08-01');
-INSERT INTO aerolinea VALUES (15, 'Alaska Airlines',       'Estados Unidos', 'ASA', '1932-04-14');
-INSERT INTO aerolinea VALUES (16, 'Spirit Airlines',       'Estados Unidos', 'NKS', '1983-06-01');
-INSERT INTO aerolinea VALUES (17, 'Frontier Airlines',     'Estados Unidos', 'FFT', '1994-02-08');
+(10, 'American Airlines',     'Estados Unidos', 'AAL', '1930-04-15'),
+(11, 'Delta Air Lines',       'Estados Unidos', 'DAL', '1925-03-02'),
+(12, 'United Airlines',       'Estados Unidos', 'UAL', '1926-04-06'),
+(13, 'Southwest Airlines',    'Estados Unidos', 'SWA', '1967-03-15'),
+(14, 'JetBlue Airways',       'Estados Unidos', 'JBU', '1998-08-01'),
+(15, 'Alaska Airlines',       'Estados Unidos', 'ASA', '1932-04-14'),
+(16, 'Spirit Airlines',       'Estados Unidos', 'NKS', '1983-06-01'),
+(17, 'Frontier Airlines',     'Estados Unidos', 'FFT', '1994-02-08'),
 
 -- Brasil
-INSERT INTO aerolinea VALUES (18, 'LATAM Brasil',          'Brasil', 'TAM', '1976-01-01');
-INSERT INTO aerolinea VALUES (19, 'Gol Linhas Aéreas',     'Brasil', 'GLO', '2001-01-15');
-INSERT INTO aerolinea VALUES (20, 'Azul Linhas Aéreas',    'Brasil', 'AZU', '2008-05-05');
+(18, 'LATAM Brasil',          'Brasil', 'TAM', '1976-01-01'),
+(19, 'Gol Linhas Aéreas',     'Brasil', 'GLO', '2001-01-15'),
+(20, 'Azul Linhas Aéreas',    'Brasil', 'AZU', '2008-05-05'),
 
 -- España
-INSERT INTO aerolinea VALUES (21, 'Iberia',                'España', 'IBE', '1927-06-28');
-INSERT INTO aerolinea VALUES (22, 'Air Europa',            'España', 'AEA', '1986-02-21');
-INSERT INTO aerolinea VALUES (23, 'Vueling',               'España', 'VLG', '2004-07-01');
+(21, 'Iberia',                'España', 'IBE', '1927-06-28'),
+(22, 'Air Europa',            'España', 'AEA', '1986-02-21'),
+(23, 'Vueling',               'España', 'VLG', '2004-07-01'),
 
 -- Japón
-INSERT INTO aerolinea VALUES (24, 'Japan Airlines',        'Japón', 'JAL', '1951-08-01');
-INSERT INTO aerolinea VALUES (25, 'All Nippon Airways',    'Japón', 'ANA', '1952-12-27');          --BORRAR
+(24, 'Japan Airlines',        'Japón', 'JAL', '1951-08-01'),
+(25, 'All Nippon Airways',    'Japón', 'ANA', '1952-12-27');          --BORRAR
+
 
 
 
 -- AVIONES
+INSERT INTO avion (id_avion, id_aeropuerto, id_aerolinea, modelo, capacidad_pasajeros) VALUES
 ---------------MEXICO------------------
 -- Aeroméxico
-INSERT INTO avion VALUES
 (1, 1, 1, 'Boeing 737-800', 160),
 (2, 1, 1, 'Boeing 737 MAX 9', 180),
 (3, 2, 1, 'Boeing 787-9 Dreamliner', 290),
 (4, 3, 1, 'Embraer 190', 99),
 (5, 4, 1, 'Boeing 737-700', 144),
 (6, 1, 1, 'Boeing 737 MAX 8', 175),
-(7, 2, 1, 'Boeing 787-8 Dreamliner', 250);
+(7, 2, 1, 'Boeing 787-8 Dreamliner', 250),
 
 -- Volaris
-INSERT INTO avion VALUES
 (8, 2, 2, 'Airbus A320neo', 186),
 (9, 3, 2, 'Airbus A321neo', 230),
 (10, 4, 2, 'Airbus A319', 144),
 (11, 1, 2, 'Airbus A320', 174),
 (12, 2, 2, 'Airbus A320neo', 186),
 (13, 3, 2, 'Airbus A321', 220),
-(14, 4, 2, 'Airbus A320neo', 186);
+(14, 4, 2, 'Airbus A320neo', 186),
 
 -- Viva Aerobus
-INSERT INTO avion VALUES
 (15, 1, 3, 'Airbus A320', 180),
 (16, 2, 3, 'Airbus A321neo', 230),
 (17, 3, 3, 'Airbus A320neo', 186),
 (18, 4, 3, 'Airbus A321', 220),
 (19, 2, 3, 'Airbus A320', 180),
 (20, 3, 3, 'Airbus A321neo', 230),
-(21, 4, 3, 'Airbus A320', 180);
+(21, 4, 3, 'Airbus A320', 180),
 
 -- Interjet
-INSERT INTO avion VALUES
 (22, 1, 4, 'Sukhoi Superjet 100', 93),
 (23, 2, 4, 'Airbus A320', 174),
 (24, 3, 4, 'Airbus A321', 220),
 (25, 4, 4, 'Airbus A320neo', 186),
 (26, 1, 4, 'Sukhoi Superjet 100', 98),
 (27, 2, 4, 'Airbus A320', 180),
-(28, 3, 4, 'Airbus A320neo', 186);
+(28, 3, 4, 'Airbus A320neo', 186),
 
 -- Calafia Airlines
-INSERT INTO avion VALUES
 (29, 4, 5, 'Embraer ERJ-145', 50),
 (30, 3, 5, 'Cessna 208 Caravan', 12),
 (31, 4, 5, 'Embraer EMB-120', 30),
 (32, 2, 5, 'Embraer ERJ-145', 50),
 (33, 3, 5, 'Cessna 208 Caravan', 12),
 (34, 1, 5, 'Embraer ERJ-135', 37),
-(35, 4, 5, 'Embraer EMB-120', 30);
+(35, 4, 5, 'Embraer EMB-120', 30),
 
 -- Aeromar
-INSERT INTO avion VALUES
 (36, 4, 6, 'ATR 72-600', 70),
 (37, 3, 6, 'ATR 42-500', 50),
 (38, 1, 6, 'ATR 72-600', 70),
 (39, 2, 6, 'ATR 42-300', 48),
 (40, 4, 6, 'ATR 72-600', 70),
 (41, 3, 6, 'ATR 42-500', 50),
-(42, 1, 6, 'ATR 72-600', 70);
+(42, 1, 6, 'ATR 72-600', 70),
 
 -- Aerus
-INSERT INTO avion VALUES
 (43, 3, 7, 'Cessna 408 SkyCourier', 19),
 (44, 4, 7, 'Pilatus PC-12', 9),
 (45, 2, 7, 'Cessna 208 Caravan', 12),
 (46, 1, 7, 'Cessna 408 SkyCourier', 19),
 (47, 3, 7, 'Pilatus PC-12', 9),
 (48, 4, 7, 'Cessna 208 Caravan', 12),
-(49, 1, 7, 'Cessna 408 SkyCourier', 19);
+(49, 1, 7, 'Cessna 408 SkyCourier', 19),
 
 -- Magnicharters
-INSERT INTO avion VALUES
 (50, 1, 8, 'Boeing 737-300', 148),
 (51, 2, 8, 'Boeing 737-200', 130),
 (52, 3, 8, 'Boeing 737-300', 148),
 (53, 4, 8, 'Boeing 737-400', 159),
 (54, 1, 8, 'Boeing 737-300', 148),
 (55, 2, 8, 'Boeing 737-200', 130),
-(56, 3, 8, 'Boeing 737-400', 159);
+(56, 3, 8, 'Boeing 737-400', 159),
 
 -- Mexicana de Aviación
-INSERT INTO avion VALUES
 (57, 1, 9, 'Airbus A320', 174),
 (58, 2, 9, 'Airbus A319', 144),
 (59, 3, 9, 'Boeing 757-200', 200),
@@ -268,77 +263,69 @@ INSERT INTO avion VALUES
 
 ---------------EU------------------
 -- American Airlines
-INSERT INTO avion VALUES
 (64, 6, 10, 'Boeing 737-800', 160),
 (65, 7, 10, 'Airbus A321', 220),
 (66, 8, 10, 'Boeing 777-200ER', 305),
 (67, 9, 10, 'Boeing 787-8 Dreamliner', 248),
 (68, 10, 10, 'Airbus A319', 144),
 (69, 11, 10, 'Boeing 737 MAX 8', 172),
-(70, 12, 10, 'Airbus A320', 174);
+(70, 12, 10, 'Airbus A320', 174),
 
 -- Delta Airlines
-INSERT INTO avion VALUES
 (71, 6, 11, 'Boeing 737-900ER', 180),
 (72, 7, 11, 'Airbus A321', 220),
 (73, 8, 11, 'Airbus A350-900', 315),
 (74, 9, 11, 'Boeing 767-400ER', 245),
 (75, 10, 11, 'Airbus A220-100', 120),
 (76, 11, 11, 'Boeing 757-300', 243),
-(77, 12, 11, 'Airbus A321neo', 228);
+(77, 12, 11, 'Airbus A321neo', 228),
 
 -- United Airlines
-INSERT INTO avion VALUES
 (78, 6, 12, 'Boeing 737 MAX 9', 179),
 (79, 7, 12, 'Boeing 757-200', 200),
 (80, 8, 12, 'Boeing 787-9 Dreamliner', 290),
 (81, 9, 12, 'Airbus A320', 174),
 (82, 10, 12, 'Boeing 767-300ER', 218),
 (83, 11, 12, 'Airbus A321', 220),
-(84, 12, 12, 'Boeing 777-200', 312);
+(84, 12, 12, 'Boeing 777-200', 312),
 
 -- Southwest Airlines
-INSERT INTO avion VALUES
 (85, 6, 13, 'Boeing 737-700', 143),
 (86, 7, 13, 'Boeing 737-800', 175),
 (87, 8, 13, 'Boeing 737 MAX 8', 175),
 (88, 9, 13, 'Boeing 737-700', 143),
 (89, 10, 13, 'Boeing 737-800', 175),
 (90, 11, 13, 'Boeing 737 MAX 8', 175),
-(91, 12, 13, 'Boeing 737-700', 143);
+(91, 12, 13, 'Boeing 737-700', 143),
 
 -- JetBlue Airways
-INSERT INTO avion VALUES
 (92, 6, 14, 'Airbus A320', 162),
 (93, 7, 14, 'Airbus A321neo', 200),
 (94, 8, 14, 'Airbus A220-300', 140),
 (95, 9, 14, 'Airbus A320neo', 174),
 (96, 10, 14, 'Airbus A321LR', 200),
 (97, 11, 14, 'Embraer E190', 100),
-(98, 12, 14, 'Airbus A321', 220);
+(98, 12, 14, 'Airbus A321', 220),
 
 -- Alaska Airlines
-INSERT INTO avion VALUES
 (99, 6, 15, 'Boeing 737-800', 160),
 (100, 7, 15, 'Boeing 737-900ER', 178),
 (101, 8, 15, 'Boeing 737 MAX 9', 178),
 (102, 9, 15, 'Embraer 175', 76),
 (103, 10, 15, 'Boeing 737-800', 160),
 (104, 11, 15, 'Boeing 737-900ER', 178),
-(105, 12, 15, 'Embraer 175', 76);
+(105, 12, 15, 'Embraer 175', 76),
 
 -- Spirit Airlines
-INSERT INTO avion VALUES
 (106, 6, 16, 'Airbus A320', 174),
 (107, 7, 16, 'Airbus A321', 220),
 (108, 8, 16, 'Airbus A320neo', 186),
 (109, 9, 16, 'Airbus A319', 144),
 (110, 10, 16, 'Airbus A320neo', 186),
 (111, 11, 16, 'Airbus A321neo', 230),
-(112, 12, 16, 'Airbus A320', 174);
+(112, 12, 16, 'Airbus A320', 174),
 
 -- Frontier Airlines
-INSERT INTO avion VALUES
 (113, 6, 17, 'Airbus A320neo', 186),
 (114, 7, 17, 'Airbus A321', 220),
 (115, 8, 17, 'Airbus A320', 180),
@@ -349,27 +336,24 @@ INSERT INTO avion VALUES
 
 ----------BRASIL------------
 -- LATAM Brasil
-INSERT INTO avion VALUES
 (120, 14, 18, 'Airbus A321', 220),
 (121, 15, 18, 'Boeing 767-300ER', 238),
 (122, 16, 18, 'Airbus A320', 174),
 (123, 14, 18, 'Airbus A319', 144),
 (124, 15, 18, 'Boeing 787-9 Dreamliner', 296),
 (125, 16, 18, 'Airbus A321neo', 230),
-(126, 15, 18, 'Airbus A320neo', 186);
+(126, 15, 18, 'Airbus A320neo', 186),
 
 -- GOL Linhas Aéreas
-INSERT INTO avion VALUES
 (127, 14, 19, 'Boeing 737-800', 176),
 (128, 15, 19, 'Boeing 737 MAX 8', 186),
 (129, 16, 19, 'Boeing 737-700', 144),
 (130, 14, 19, 'Boeing 737-800', 176),
 (131, 15, 19, 'Boeing 737 MAX 8', 186),
 (132, 16, 19, 'Boeing 737-800', 176),
-(133, 15, 19, 'Boeing 737 MAX 8', 186);
+(133, 15, 19, 'Boeing 737 MAX 8', 186),
 
 -- Azul Linhas Aéreas Brasileiras
-INSERT INTO avion VALUES
 (134, 14, 20, 'Airbus A320neo', 174),
 (135, 15, 20, 'Embraer 195-E2', 136),
 (136, 16, 20, 'Airbus A321neo', 220),
@@ -380,17 +364,15 @@ INSERT INTO avion VALUES
 
 -------------ESPAÑA-------------
 -- Iberia
-INSERT INTO avion VALUES
 (155, 19, 23, 'Airbus A320neo', 186),
 (156, 20, 23, 'Airbus A321', 220),
 (157, 19, 23, 'Airbus A330-300', 288),
 (158, 20, 23, 'Airbus A350-900', 348),
 (159, 19, 23, 'Airbus A319', 144),
 (160, 20, 23, 'Airbus A321neo', 230),
-(161, 19, 23, 'Airbus A320', 174);
+(161, 19, 23, 'Airbus A320', 174),
 
 -- Vueling Airlines
-INSERT INTO avion VALUES
 (162, 19, 24, 'Airbus A320', 180),
 (163, 20, 24, 'Airbus A321', 220),
 (164, 19, 24, 'Airbus A320neo', 186),
@@ -400,8 +382,7 @@ INSERT INTO avion VALUES
 (168, 19, 24, 'Airbus A320neo', 186);
 
 -------------JAPÓN------------
--- Aviones de Japan Airlines
-INSERT INTO avion VALUES
+-- Japan Airlines
 (169, 24, 24, 'Boeing 787-9 Dreamliner', 296),
 (170, 25, 24, 'Boeing 777-300ER', 396),
 (171, 26, 24, 'Airbus A350-900', 325),
@@ -411,6 +392,375 @@ INSERT INTO avion VALUES
 
 
 
+--PILOTOS
+INSERT INTO piloto (id_empleado, id_aeropuerto, id_aerolinea, nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, nacionalidad, licencia, tipo_licencia, esta_certificado, horas_de_vuelo) VALUES
+--------Mexico----------
+-- Aerolíneas Mexicanas (Aeroméxico)
+(1, 1, 1, 'Juan', 'Pérez', 'López', '1980-03-15', 'Mexicana', 'AMX001', 'ATPL', TRUE, 5200),
+(2, 2, 1, 'María', 'González', 'Hernández', '1985-07-22', 'Mexicana', 'AMX002', 'CPL', TRUE, 4800),
+(3, 3, 1, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana', 'AMX003', 'ATPL', TRUE, 6100),
+(4, 1, 1, 'Ana', 'Sánchez', 'Morales', '1990-01-18', 'Mexicana', 'AMX004', 'PPL', FALSE, 1200),
+
+-- Volaris
+(5, 2, 2, 'Luis', 'Torres', 'Reyes', '1982-05-27', 'Mexicana', 'VOI001', 'ATPL', TRUE, 4200),
+(6, 3, 2, 'Fernanda', 'Vázquez', 'Cruz', '1991-09-12', 'Mexicana', 'VOI002', 'CPL', TRUE, 3900),
+(7, 4, 2, 'Miguel', 'Castillo', 'Ríos', '1987-12-09', 'Mexicana', 'VOI003', 'PPL', FALSE, 800),
+
+-- Viva Aerobus
+(8, 3, 3, 'Paola', 'Flores', 'Jiménez', '1984-04-30', 'Mexicana', 'VIV001', 'ATPL', TRUE, 4300),
+(9, 6, 3, 'Roberto', 'Mendoza', 'Soto', '1979-08-11', 'Mexicana', 'VIV002', 'CPL', TRUE, 5600),
+(10, 7, 3, 'Lorena', 'Romero', 'Gutiérrez', '1986-06-21', 'Mexicana', 'VIV003', 'ATPL', TRUE, 4100),
+
+-- Interjet
+(11, 6, 4, 'Jorge', 'Ortega', 'Navarro', '1983-02-14', 'Mexicana', 'AIJ001', 'ATPL', TRUE, 5000),
+(12, 7, 4, 'Claudia', 'Domínguez', 'Ramos', '1992-10-05', 'Mexicana', 'AIJ002', 'CPL', TRUE, 3600),
+(13, 8, 4, 'Diego', 'Martínez', 'Pérez', '1985-07-12', 'Mexicana', 'AIJ003', 'PPL', FALSE, 900),
+
+-- Calafia Airlines
+(14, 8, 5, 'Alejandra', 'Ramírez', 'Soto', '1989-11-19', 'Mexicana', 'CFV001', 'ATPL', TRUE, 4000),
+(15, 9, 5, 'Eduardo', 'Vega', 'García', '1979-05-30', 'Mexicana', 'CFV002', 'CPL', TRUE, 5600),
+(16, 6, 5, 'Paula', 'Morales', 'Díaz', '1984-10-05', 'Mexicana', 'CFV003', 'PPL', FALSE, 1000),
+
+-- Aeromar
+(17, 1, 6, 'Santiago', 'Mendoza', 'López', '1980-12-21', 'Mexicana', 'TAO001', 'ATPL', TRUE, 4700),
+(18, 2, 6, 'Valeria', 'Hernández', 'Torres', '1987-03-13', 'Mexicana', 'TAO002', 'CPL', TRUE, 4200),
+(19, 3, 6, 'Jorge', 'Ortiz', 'Navarro', '1982-07-04', 'Mexicana', 'TAO003', 'PPL', FALSE, 900),
+
+-- Aerus
+(20, 1, 7, 'Claudia', 'Domínguez', 'Ramos', '1992-10-05', 'Mexicana', 'NCS001', 'ATPL', TRUE, 3600),
+(21, 2, 7, 'Luis', 'Ramírez', 'Vega', '1987-12-09', 'Mexicana', 'NCS002', 'CPL', TRUE, 4200),
+(22, 3, 7, 'Mariana', 'Gómez', 'Pérez', '1985-02-20', 'Mexicana', 'NCS003', 'PPL', FALSE, 1100),
+
+-- Magnicharters
+(23, 4, 8, 'Eduardo', 'Santos', 'López', '1982-05-10', 'Mexicana', 'GMT001', 'ATPL', TRUE, 5000),
+(24, 1, 8, 'Paola', 'Hernández', 'Morales', '1990-01-18', 'Mexicana', 'GMT002', 'CPL', TRUE, 3500),
+(25, 2, 8, 'Diego', 'Castillo', 'Ríos', '1987-12-09', 'Mexicana', 'GMT003', 'PPL', FALSE, 800),
+
+-- Mexicana de Aviación
+(26, 1, 9, 'Juan', 'Ramírez', 'Torres', '1980-03-15', 'Mexicana', 'MXA001', 'ATPL', TRUE, 5200),
+(27, 2, 9, 'María', 'González', 'Hernández', '1985-07-22', 'Mexicana', 'MXA002', 'CPL', TRUE, 4800),
+(28, 3, 9, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana', 'MXA003', 'PPL', FALSE, 1200),
+
+-----Estados Unidos-------
+-- American Airlines
+(29, 10, 10, 'John', 'Smith', 'Johnson', '1978-04-15', 'Estadounidense', 'AAL001', 'ATPL', TRUE, 7200),
+(30, 12, 10, 'Emily', 'Davis', 'Brown', '1985-09-20', 'Estadounidense', 'AAL002', 'CPL', TRUE, 4800),
+(31, 11, 10, 'Michael', 'Wilson', 'Taylor', '1982-01-11', 'Estadounidense', 'AAL003', 'PPL', FALSE, 1200),
+
+-- Delta Air Lines
+(32, 11, 11, 'Sarah', 'Moore', 'Clark', '1983-05-07', 'Estadounidense', 'DAL001', 'ATPL', TRUE, 6500),
+(33, 12, 11, 'James', 'White', 'Hall', '1980-11-23', 'Estadounidense', 'DAL002', 'CPL', TRUE, 5100),
+(34, 14, 11, 'Anna', 'Young', 'Allen', '1990-02-28', 'Estadounidense', 'DAL003', 'PPL', FALSE, 900),
+
+-- United Airlines
+(35, 12, 12, 'Robert', 'Hernandez', 'King', '1979-08-14', 'Estadounidense', 'UAL001', 'ATPL', TRUE, 7000),
+(36, 13, 12, 'Jessica', 'Wright', 'Lopez', '1987-06-30', 'Estadounidense', 'UAL002', 'CPL', TRUE, 4600),
+(37, 10, 12, 'William', 'Hill', 'Scott', '1985-12-05', 'Estadounidense', 'UAL003', 'PPL', FALSE, 1000),
+
+-- Southwest Airlines
+(38, 12, 13, 'Daniel', 'Green', 'Adams', '1984-03-21', 'Estadounidense', 'SWA001', 'ATPL', TRUE, 6000),
+(39, 13, 13, 'Laura', 'Baker', 'Nelson', '1990-07-19', 'Estadounidense', 'SWA002', 'CPL', TRUE, 4200),
+(40, 15, 13, 'Kevin', 'Carter', 'Mitchell', '1988-09-12', 'Estadounidense', 'SWA003', 'PPL', FALSE, 1100),
+
+-- JetBlue Airways
+(41, 11, 14, 'Stephanie', 'Perez', 'Roberts', '1985-10-05', 'Estadounidense', 'JBU001', 'ATPL', TRUE, 5000),
+(42, 15, 14, 'Brian', 'Turner', 'Phillips', '1982-03-18', 'Estadounidense', 'JBU002', 'CPL', TRUE, 4700),
+(43, 10, 14, 'Rachel', 'Campbell', 'Parker', '1991-01-22', 'Estadounidense', 'JBU003', 'PPL', FALSE, 900),
+
+-- Alaska Airlines
+(44, 10, 15, 'Mark', 'Evans', 'Edwards', '1980-07-14', 'Estadounidense', 'ASA001', 'ATPL', TRUE, 6900),
+(45, 14, 15, 'Olivia', 'Collins', 'Stewart', '1986-11-09', 'Estadounidense', 'ASA002', 'CPL', TRUE, 4500),
+(46, 12, 15, 'Nathan', 'Sanchez', 'Morris', '1983-05-25', 'Estadounidense', 'ASA003', 'PPL', FALSE, 1200),
+
+-- Spirit Airlines
+(47, 15, 16, 'Amanda', 'Rogers', 'Reed', '1988-02-13', 'Estadounidense', 'NKS001', 'ATPL', TRUE, 5200),
+(48, 12, 16, 'Joshua', 'Cook', 'Morgan', '1985-08-30', 'Estadounidense', 'NKS002', 'CPL', TRUE, 4600),
+(49, 13, 16, 'Megan', 'Bell', 'Murphy', '1990-06-17', 'Estadounidense', 'NKS003', 'PPL', FALSE, 800),
+
+-- Frontier Airlines
+(50, 14, 17, 'Tyler', 'Bailey', 'Rivera', '1982-09-22', 'Estadounidense', 'FFT001', 'ATPL', TRUE, 6100),
+(51, 15, 17, 'Samantha', 'Cooper', 'Cook', '1987-12-10', 'Estadounidense', 'FFT002', 'CPL', TRUE, 4300),
+(52, 12, 17, 'Brandon', 'Ward', 'Morgan', '1991-04-03', 'Estadounidense', 'FFT003', 'PPL', FALSE, 950),
+
+---------Brasil--------
+-- LATAM Brasil
+(53, 16, 18, 'Lucas', 'Silva', 'Souza', '1980-03-11', 'Brasileña', 'TAM001', 'ATPL', TRUE, 6200),
+(54, 17, 18, 'Mariana', 'Costa', 'Lima', '1985-07-24', 'Brasileña', 'TAM002', 'CPL', TRUE, 4800),
+(55, 18, 18, 'Pedro', 'Oliveira', 'Mendes', '1982-11-03', 'Brasileña', 'TAM003', 'PPL', FALSE, 900),
+
+-- Gol Linhas Aéreas
+(56, 16, 19, 'Fernanda', 'Almeida', 'Ribeiro', '1983-05-17', 'Brasileña', 'GLO001', 'ATPL', TRUE, 5600),
+(57, 19, 19, 'Rafael', 'Santos', 'Gomes', '1987-09-09', 'Brasileña', 'GLO002', 'CPL', TRUE, 4300),
+(58, 18, 19, 'Juliana', 'Ferreira', 'Costa', '1990-02-25', 'Brasileña', 'GLO003', 'PPL', FALSE, 800),
+
+-- Azul Linhas Aéreas
+(59, 16, 20, 'Mateus', 'Rodrigues', 'Silva', '1984-04-12', 'Brasileña', 'AZU001', 'ATPL', TRUE, 5100),
+(60, 17, 20, 'Camila', 'Martins', 'Pereira', '1988-08-30', 'Brasileña', 'AZU002', 'CPL', TRUE, 4200),
+(61, 19, 20, 'Gustavo', 'Lima', 'Santos', '1982-12-18', 'Brasileña', 'AZU003', 'PPL', FALSE, 1000),
+
+----------ESPAÑA-------
+-- Iberia
+(62, 20, 21, 'Carlos', 'García', 'Fernández', '1978-05-14', 'Española', 'IBE001', 'ATPL', TRUE, 7200),
+(63, 21, 21, 'Laura', 'Martínez', 'López', '1985-11-22', 'Española', 'IBE002', 'CPL', TRUE, 4800),
+(64, 22, 21, 'Javier', 'Sánchez', 'Gómez', '1983-03-03', 'Española', 'IBE003', 'PPL', FALSE, 900),
+
+-- Air Europa
+(65, 20, 22, 'Ana', 'Pérez', 'Hernández', '1984-07-10', 'Española', 'AEA001', 'ATPL', TRUE, 6100),
+(66, 21, 22, 'Miguel', 'Rodríguez', 'Torres', '1987-09-25', 'Española', 'AEA002', 'CPL', TRUE, 4300),
+(67, 23, 22, 'Lucía', 'Gómez', 'Vargas', '1990-01-15', 'Española', 'AEA003', 'PPL', FALSE, 850),
+
+-- Vueling
+(68, 21, 23, 'David', 'Ramírez', 'Santos', '1982-02-12', 'Española', 'VLG001', 'ATPL', TRUE, 5000),
+(69, 22, 23, 'Elena', 'Torres', 'Jiménez', '1989-06-21', 'Española', 'VLG002', 'CPL', TRUE, 4200),
+(70, 23, 23, 'Sergio', 'Castillo', 'Moreno', '1985-10-09', 'Española', 'VLG003', 'PPL', FALSE, 900),
+
+---------JAPÓN-----------
+-- Japan Airlines
+(71, 24, 24, 'Takashi', 'Yamamoto', 'Sato', '1978-04-20', 'Japonesa', 'JAL001', 'ATPL', TRUE, 7000),
+(72, 25, 24, 'Yuki', 'Tanaka', 'Kobayashi', '1985-09-18', 'Japonesa', 'JAL002', 'CPL', TRUE, 4800),
+(73, 26, 24, 'Hiroshi', 'Nakamura', 'Fujimoto', '1982-01-11', 'Japonesa', 'JAL003', 'PPL', FALSE, 1000),
+(74, 27, 24, 'Miyuki', 'Ito', 'Kawasaki', '1990-06-25', 'Japonesa', 'JAL004', 'ATPL', TRUE, 5200);
+
+
+
+
+
+-- CONTROLADORES
+INSERT INTO controlador (id_empleado, id_aeropuerto, id_aerolinea, nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, nacionalidad, numero_torre_asignada, licencia_controlador, turno) VALUES
+
+--------MÉXICO--------
+-- Aerolíneas Mexicanas
+(1, 1, 1, 'Arturo', 'Pérez', 'Gómez', '1975-02-14', 'Mexicana', 1, 'CTL001', 'Matutino'),
+(2, 3, 1, 'Lucía', 'Ramírez', 'Morales', '1980-06-20', 'Mexicana', 2, 'CTL002', 'Vespertino'),
+
+-- Volaris
+(3, 2, 2, 'Fernando', 'Torres', 'Hernández', '1978-11-03', 'Mexicana', 1, 'CTL003', 'Nocturno'),
+(4, 4, 2, 'Isabel', 'Mendoza', 'López', '1982-08-11', 'Mexicana', 2, 'CTL004', 'Matutino'),
+
+-- Viva Aerobus
+(5, 3, 3, 'Miguel', 'Soto', 'Ramírez', '1979-05-17', 'Mexicana', 1, 'CTL005', 'Vespertino'),
+(6, 4, 3, 'Ana', 'Flores', 'Gómez', '1985-01-25', 'Mexicana', 2, 'CTL006', 'Nocturno'),
+
+-- Interjet
+(7, 6, 4, 'Jorge', 'Hernández', 'Pérez', '1980-12-10', 'Mexicana', 1, 'CTL007', 'Matutino'),
+(8, 7, 4, 'Claudia', 'González', 'Martínez', '1983-07-18', 'Mexicana', 2, 'CTL008', 'Vespertino'),
+
+-- Calafia Airlines
+(9, 6, 5, 'Eduardo', 'Vega', 'Santos', '1978-03-22', 'Mexicana', 1, 'CTL009', 'Nocturno'),
+(10, 7, 5, 'Paola', 'Morales', 'Ríos', '1981-09-30', 'Mexicana', 2, 'CTL010', 'Matutino'),
+
+-- Aeromar
+(11, 1, 6, 'Santiago', 'Ortiz', 'López', '1979-11-05', 'Mexicana', 1, 'CTL011', 'Vespertino'),
+(12, 2, 6, 'Valeria', 'Ramírez', 'Torres', '1984-02-19', 'Mexicana', 2, 'CTL012', 'Nocturno'),
+
+-- Aerus
+(13, 1, 7, 'Luis', 'Domínguez', 'Vega', '1980-08-14', 'Mexicana', 1, 'CTL013', 'Matutino'),
+(14, 3, 7, 'Mariana', 'Gómez', 'Pérez', '1985-04-27', 'Mexicana', 2, 'CTL014', 'Vespertino'),
+
+-- Magnicharters
+(15, 4, 8, 'Eduardo', 'Santos', 'López', '1978-06-09', 'Mexicana', 1, 'CTL015', 'Nocturno'),
+(16, 8, 8, 'Paola', 'Hernández', 'Morales', '1983-12-12', 'Mexicana', 2, 'CTL016', 'Matutino'),
+
+-- Mexicana de Aviación
+(17, 1, 9, 'Juan', 'Ramírez', 'Torres', '1977-01-23', 'Mexicana', 1, 'CTL017', 'Vespertino'),
+(18, 3, 9, 'María', 'González', 'Hernández', '1982-09-30', 'Mexicana', 2, 'CTL018', 'Nocturno');
+
+--------ESTADOS UNIDOS--------
+-- American Airlines
+(19, 10, 10, 'John', 'Smith', 'Johnson', '1975-05-14', 'Estadounidense', 1, 'CTL019', 'Matutino'),
+(20, 11, 10, 'Emily', 'Davis', 'Brown', '1980-12-01', 'Estadounidense', 2, 'CTL020', 'Vespertino'),
+
+-- Delta Air Lines
+(21, 12, 11, 'Sarah', 'Moore', 'Clark', '1982-03-07', 'Estadounidense', 1, 'CTL021', 'Nocturno'),
+(22, 14, 11, 'James', 'White', 'Hall', '1978-09-19', 'Estadounidense', 2, 'CTL022', 'Matutino'),
+
+-- United Airlines
+(23, 12, 12, 'Robert', 'Hernandez', 'King', '1980-08-14', 'Estadounidense', 1, 'CTL023', 'Vespertino'),
+(24, 13, 12, 'Jessica', 'Wright', 'Lopez', '1985-06-30', 'Estadounidense', 2, 'CTL024', 'Nocturno'),
+
+-- Southwest Airlines
+(25, 12, 13, 'Daniel', 'Green', 'Adams', '1979-03-21', 'Estadounidense', 1, 'CTL025', 'Matutino'),
+(26, 15, 13, 'Laura', 'Baker', 'Nelson', '1983-07-19', 'Estadounidense', 2, 'CTL026', 'Vespertino'),
+
+-- JetBlue Airways
+(27, 11, 14, 'Stephanie', 'Perez', 'Roberts', '1980-10-05', 'Estadounidense', 1, 'CTL027', 'Nocturno'),
+(28, 15, 14, 'Brian', 'Turner', 'Phillips', '1985-03-18', 'Estadounidense', 2, 'CTL028', 'Matutino'),
+
+-- Alaska Airlines
+(29, 10, 15, 'Mark', 'Evans', 'Edwards', '1978-07-14', 'Estadounidense', 1, 'CTL029', 'Vespertino'),
+(30, 14, 15, 'Olivia', 'Collins', 'Stewart', '1983-11-09', 'Estadounidense', 2, 'CTL030', 'Nocturno'),
+
+-- Spirit Airlines
+(31, 12, 16, 'Amanda', 'Rogers', 'Reed', '1982-02-13', 'Estadounidense', 1, 'CTL031', 'Matutino'),
+(32, 15, 16, 'Joshua', 'Cook', 'Morgan', '1986-08-30', 'Estadounidense', 2, 'CTL032', 'Vespertino'),
+
+-- Frontier Airlines
+(33, 14, 17, 'Tyler', 'Bailey', 'Rivera', '1980-09-22', 'Estadounidense', 1, 'CTL033', 'Nocturno'),
+(34, 15, 17, 'Samantha', 'Cooper', 'Cook', '1985-12-10', 'Estadounidense', 2, 'CTL034', 'Matutino');
+
+--------BRASIL--------
+-- LATAM Brasil
+(35, 16, 18, 'Lucas', 'Silva', 'Souza', '1978-03-11', 'Brasileña', 1, 'CTL035', 'Matutino'),
+(36, 17, 18, 'Mariana', 'Costa', 'Lima', '1982-07-24', 'Brasileña', 2, 'CTL036', 'Vespertino'),
+
+-- Gol Linhas Aéreas
+(37, 16, 19, 'Fernanda', 'Almeida', 'Ribeiro', '1980-05-17', 'Brasileña', 1, 'CTL037', 'Nocturno'),
+(38, 19, 19, 'Rafael', 'Santos', 'Gomes', '1983-09-09', 'Brasileña', 2, 'CTL038', 'Matutino'),
+
+-- Azul Linhas Aéreas
+(39, 16, 20, 'Mateus', 'Rodrigues', 'Silva', '1979-04-12', 'Brasileña', 1, 'CTL039', 'Vespertino'),
+(40, 17, 20, 'Camila', 'Martins', 'Pereira', '1985-08-30', 'Brasileña', 2, 'CTL040', 'Nocturno');
+
+--------ESPAÑA--------
+-- Iberia
+(41, 20, 21, 'Carlos', 'García', 'Fernández', '1977-05-14', 'Española', 1, 'CTL041', 'Matutino'),
+(42, 21, 21, 'Laura', 'Martínez', 'López', '1983-11-22', 'Española', 2, 'CTL042', 'Vespertino'),
+
+-- Air Europa
+(43, 20, 22, 'Ana', 'Pérez', 'Hernández', '1980-07-10', 'Española', 1, 'CTL043', 'Nocturno'),
+(44, 21, 22, 'Miguel', 'Rodríguez', 'Torres', '1985-09-25', 'Española', 2, 'CTL044', 'Matutino'),
+
+-- Vueling
+(45, 22, 23, 'David', 'Ramírez', 'Santos', '1982-02-12', 'Española', 1, 'CTL045', 'Vespertino'),
+(46, 23, 23, 'Elena', 'Torres', 'Jiménez', '1986-06-21', 'Española', 2, 'CTL046', 'Nocturno');
+
+--------JAPÓN--------
+-- Japan Airlines
+(47, 24, 24, 'Takashi', 'Yamamoto', 'Sato', '1978-04-20', 'Japonesa', 1, 'CTL047', 'Matutino'),
+(48, 26, 24, 'Hiroshi', 'Nakamura', 'Fujimoto', '1982-01-11', 'Japonesa', 1, 'CTL049', 'Nocturno');
+
+
+
+
+
+--SOBRECARGO
+INSERT INTO sobrecargo (id_empleado, id_aeropuerto, id_aerolinea, nombre, apellido_paterno, apellido_materno, fecha_de_nacimiento, nacionalidad, años_experiencia) VALUES
+--------MÉXICO--------
+--------Aerolineas Mexicanas (Aeroméxico)
+(1, 1, 1, 'Sofía', 'Ramírez', 'Gómez', '1985-03-12', 'Mexicana', 10),
+(2, 2, 1, 'Diego', 'Hernández', 'Pérez', '1982-07-20', 'Mexicana', 12),
+(3, 3, 1, 'Valentina', 'López', 'Santos', '1990-11-05', 'Mexicana', 8),
+
+--------Volaris
+(4, 2, 2, 'Mariana', 'Torres', 'Hernández', '1986-09-14', 'Mexicana', 7),
+(5, 3, 2, 'Javier', 'Flores', 'Ramos', '1983-05-22', 'Mexicana', 11),
+(6, 4, 2, 'Lucía', 'Vega', 'Martínez', '1991-12-03', 'Mexicana', 6),
+
+--------Viva Aerobus
+(7, 1, 3, 'Andrés', 'Cruz', 'López', '1984-02-28', 'Mexicana', 10),
+(8, 2, 3, 'Paola', 'Soto', 'Ramírez', '1989-06-15', 'Mexicana', 7),
+(9, 3, 3, 'Eduardo', 'Morales', 'Gómez', '1992-10-21', 'Mexicana', 5),
+
+--------Interjet
+(10, 4, 4, 'Ana', 'Hernández', 'Torres', '1985-11-19', 'Mexicana', 9),
+(11, 6, 4, 'Miguel', 'Gómez', 'Vega', '1981-07-30', 'Mexicana', 12),
+(12, 7, 4, 'Sofía', 'Ramírez', 'Mendoza', '1988-04-05', 'Mexicana', 6),
+
+--------Calafia Airlines
+(13, 6, 5, 'Laura', 'Santos', 'Vega', '1983-01-12', 'Mexicana', 8),
+(14, 7, 5, 'Diego', 'Ramos', 'Morales', '1987-09-21', 'Mexicana', 9),
+(15, 8, 5, 'Paola', 'Hernández', 'Gómez', '1990-03-30', 'Mexicana', 6),
+
+--------Aeromar
+(16, 1, 6, 'Javier', 'Martínez', 'Torres', '1982-08-10', 'Mexicana', 11),
+(17, 2, 6, 'Lucía', 'Gómez', 'Ramírez', '1985-02-17', 'Mexicana', 9),
+(18, 3, 6, 'Carlos', 'López', 'Santos', '1988-06-04', 'Mexicana', 7),
+
+--------Aerus
+(19, 1, 7, 'Ana', 'Cruz', 'Morales', '1984-09-25', 'Mexicana', 8),
+(20, 2, 7, 'Luis', 'Torres', 'Vega', '1987-03-13', 'Mexicana', 7),
+(21, 3, 7, 'Mariana', 'Ramírez', 'Gómez', '1990-12-05', 'Mexicana', 6),
+
+--------Magnicharters
+(22, 4, 8, 'Eduardo', 'Hernández', 'Soto', '1983-04-18', 'Mexicana', 9),
+(23, 1, 8, 'Paola', 'Morales', 'Ramírez', '1986-08-22', 'Mexicana', 7),
+(24, 2, 8, 'Diego', 'Vega', 'González', '1989-11-11', 'Mexicana', 6),
+
+--------Mexicana de Aviación
+(25, 1, 9, 'Juan', 'Ramírez', 'Torres', '1981-05-16', 'Mexicana', 12),
+(26, 2, 9, 'María', 'González', 'Hernández', '1984-09-23', 'Mexicana', 10),
+(27, 3, 9, 'Carlos', 'Ramírez', 'Vega', '1987-12-07', 'Mexicana', 8),
+
+--------ESTADOS UNIDOS--------
+--------American Airlines
+(28, 10, 10, 'John', 'Smith', 'Johnson', '1982-03-15', 'Estadounidense', 12),
+(29, 11, 10, 'Emily', 'Davis', 'Brown', '1985-07-20', 'Estadounidense', 10),
+(30, 12, 10, 'Michael', 'Wilson', 'Taylor', '1983-11-05', 'Estadounidense', 8),
+
+--------Delta Air Lines
+(31, 11, 11, 'Sarah', 'Moore', 'Clark', '1984-05-07', 'Estadounidense', 11),
+(32, 12, 11, 'James', 'White', 'Hall', '1980-11-23', 'Estadounidense', 13),
+(33, 14, 11, 'Anna', 'Young', 'Allen', '1990-02-28', 'Estadounidense', 7),
+
+--------United Airlines
+(34, 12, 12, 'Robert', 'Hernandez', 'King', '1979-08-14', 'Estadounidense', 14),
+(35, 13, 12, 'Jessica', 'Wright', 'Lopez', '1987-06-30', 'Estadounidense', 9),
+(36, 10, 12, 'William', 'Hill', 'Scott', '1985-12-05', 'Estadounidense', 8),
+
+--------Southwest Airlines
+(37, 12, 13, 'Daniel', 'Green', 'Adams', '1984-03-21', 'Estadounidense', 12),
+(38, 13, 13, 'Laura', 'Baker', 'Nelson', '1990-07-19', 'Estadounidense', 9),
+(39, 15, 13, 'Kevin', 'Carter', 'Mitchell', '1988-09-12', 'Estadounidense', 7),
+
+--------JetBlue Airways
+(40, 11, 14, 'Stephanie', 'Perez', 'Roberts', '1985-10-05', 'Estadounidense', 11),
+(41, 15, 14, 'Brian', 'Turner', 'Phillips', '1982-03-18', 'Estadounidense', 12),
+(42, 10, 14, 'Rachel', 'Campbell', 'Parker', '1991-01-22', 'Estadounidense', 7),
+
+--------Alaska Airlines
+(43, 10, 15, 'Mark', 'Evans', 'Edwards', '1980-07-14', 'Estadounidense', 13),
+(44, 14, 15, 'Olivia', 'Collins', 'Stewart', '1986-11-09', 'Estadounidense', 10),
+(45, 12, 15, 'Nathan', 'Sanchez', 'Morris', '1983-05-25', 'Estadounidense', 11),
+
+--------Spirit Airlines
+(46, 15, 16, 'Amanda', 'Rogers', 'Reed', '1988-02-13', 'Estadounidense', 9),
+(47, 12, 16, 'Joshua', 'Cook', 'Morgan', '1985-08-30', 'Estadounidense', 11),
+(48, 13, 16, 'Megan', 'Bell', 'Murphy', '1990-06-17', 'Estadounidense', 7),
+
+--------Frontier Airlines
+(49, 14, 17, 'Tyler', 'Bailey', 'Rivera', '1982-09-22', 'Estadounidense', 12),
+(50, 15, 17, 'Samantha', 'Cooper', 'Cook', '1987-12-10', 'Estadounidense', 9),
+(51, 12, 17, 'Brandon', 'Ward', 'Morgan', '1991-04-03', 'Estadounidense', 8),
+
+
+--------BRASIL--------
+--------LATAM Brasil
+(52, 16, 18, 'Lucas', 'Silva', 'Souza', '1980-03-11', 'Brasileña', 12),
+(53, 17, 18, 'Mariana', 'Costa', 'Lima', '1985-07-24', 'Brasileña', 10),
+(54, 18, 18, 'Pedro', 'Oliveira', 'Mendes', '1982-11-03', 'Brasileña', 8),
+
+--------Gol Linhas Aéreas
+(55, 16, 19, 'Fernanda', 'Almeida', 'Ribeiro', '1983-05-17', 'Brasileña', 11),
+(56, 19, 19, 'Rafael', 'Santos', 'Gomes', '1987-09-09', 'Brasileña', 9),
+(57, 18, 19, 'Juliana', 'Ferreira', 'Costa', '1990-02-25', 'Brasileña', 7),
+
+--------Azul Linhas Aéreas
+(58, 16, 20, 'Mateus', 'Rodrigues', 'Silva', '1984-04-12', 'Brasileña', 10),
+(59, 17, 20, 'Camila', 'Martins', 'Pereira', '1988-08-30', 'Brasileña', 8),
+(60, 19, 20, 'Gustavo', 'Lima', 'Santos', '1982-12-18', 'Brasileña', 9),
+
+--------ESPAÑA--------
+--------Iberia
+(61, 20, 21, 'Carlos', 'García', 'Fernández', '1978-05-14', 'Española', 14),
+(62, 21, 21, 'Laura', 'Martínez', 'López', '1985-11-22', 'Española', 10),
+(63, 22, 21, 'Javier', 'Sánchez', 'Gómez', '1983-03-03', 'Española', 9),
+
+--------Air Europa
+(64, 20, 22, 'Ana', 'Pérez', 'Hernández', '1984-07-10', 'Española', 11),
+(65, 21, 22, 'Miguel', 'Rodríguez', 'Torres', '1987-09-25', 'Española', 9),
+(66, 23, 22, 'Lucía', 'Gómez', 'Vargas', '1990-01-15', 'Española', 8),
+
+--------Vueling
+(67, 21, 23, 'David', 'Ramírez', 'Santos', '1982-02-12', 'Española', 12),
+(68, 22, 23, 'Elena', 'Torres', 'Jiménez', '1989-06-21', 'Española', 9),
+(69, 23, 23, 'Sergio', 'Castillo', 'Moreno', '1985-10-09', 'Española', 8),
+
+--------JAPÓN--------
+--------Japan Airlines
+(70, 24, 24, 'Takashi', 'Yamamoto', 'Sato', '1978-04-20', 'Japonesa', 14),
+(71, 25, 24, 'Yuki', 'Tanaka', 'Kobayashi', '1985-09-18', 'Japonesa', 10),
+(72, 26, 24, 'Hiroshi', 'Nakamura', 'Fujimoto', '1982-01-11', 'Japonesa', 11),
+(73, 27, 24, 'Miyuki', 'Ito', 'Kawasaki', '1990-06-25', 'Japonesa', 9);
 
 
 
@@ -424,35 +774,7 @@ INSERT INTO avion VALUES
 
 
 
--- Piloto
-INSERT INTO piloto (id_piloto,id_aeropuerto,id_aerolinea,licencia,nacionalidad,nombre,apellido_paterno,apellido_materno,fecha_de_nacimiento) VALUES
 
-
-(1,16,1,'ZV-1001','Mexicana','Ana','García','Martínez','1992-08-22'),
-(2,3,2,'AD-2002','Brasileña','Lucas','Silva',NULL,'1988-11-15'),
-(3,19,3,'BA-3003','Británica','Oliver','Jones','Smith','1979-04-18'),
-(4,5,4,'FO-4004','Argentina','Mateo','Fernández',NULL,'1986-09-03'),
-(5,5,5,'4C-5005','Colombiana','Sofia','Rodríguez','García','1990-01-25'),
-(6,5,6,'VH-6006','Colombiana','Santiago','González','Pérez','1991-07-12'),
-(7,20,7,'WN-7007','Estadounidense','Michael','Brown','Davis','1981-06-20'),
-(8,19,8,'B6-8008','Estadounidense','Jessica','Miller',NULL,'1989-03-30'),
-(9,19,9,'NK-9009','Estadounidense','Christopher','Wilson','Moore','1984-05-14'),
-(10,20,10,'F9-1010','Estadounidense','Amanda','Taylor',NULL,'1993-02-09'),
-(11,19,11,'HA-1111','Estadounidense','Daniel','Anderson','Thomas','1980-12-21'),
-(12,14,12,'CM-1212','Panameña','Isabella','Martínez','López','1987-10-01'),
-(13,13,13,'AMX-1001','Mexicana','Carlos','Ramírez','López','1980-05-10'),
-(14,14,14,'VOI-2002','Mexicana','Luis','Hernández','García','1985-07-20'),
-(15,NULL,15,'VIV-3003','Mexicana','María','Gómez',NULL,'1990-01-15'),
-(16,16,17,'ITJ-4004','Mexicana','José','Pérez','Sánchez','1978-09-25'),
-(17,19,17,'AAL-5005','Estadounidense','John','Smith','Johnson','1975-03-12'),
-(18,20,18,'DAL-6006','Estadounidense','Robert','Williams','Brown','1982-11-08'),
-(19,21,19,'ACA-7007','Canadiense','Anne','Taylor',NULL,'1987-04-05'),
-(20,13,20,'UAL-8008','Estadounidense','David','Anderson','Lee','1979-06-30'),
-(21,17,21,'AEM-9009','Mexicana','Fernando','Castillo','Hernández','1983-10-10'),
-(22,24,22,'CAF-1010','Mexicana','Jorge','Núñez','Santos','1991-02-28'),
-(23,23,23,'MAG-1111','Mexicana','Ricardo','Vega','Torres','1984-08-14'),
-(24,19,24,'ASA-1212','Estadounidense','Kevin','Moore','Davis','1977-12-01'),
-(25,21,24,'WJA-1313','Canadiense','Emily','Miller','Scott','1992-03-19');
 
 
 -- Vuelo
