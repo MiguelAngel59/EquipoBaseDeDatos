@@ -495,7 +495,7 @@ CREATE TABLE vuelo (
     destino INT,
     estado VARCHAR(20),
     etd TIMESTAMP,
-    eta TIMESTAMP,
+    eta TIMESTAMP
 );
 
 ALTER TABLE vuelo
@@ -507,7 +507,7 @@ ALTER TABLE vuelo
 
 ALTER TABLE vuelo
     ADD CONSTRAINT fk_piloto_vuelo FOREIGN KEY (piloto)
-    REFERENCES piloto(id_piloto);
+    REFERENCES piloto(id_empleado);
 
 ALTER TABLE vuelo
     ADD CONSTRAINT fk_origen_vuelo FOREIGN KEY (origen)
@@ -541,10 +541,6 @@ ALTER TABLE vuelo
 ALTER TABLE vuelo
     ADD CONSTRAINT chk_estado_vuelo
     CHECK (estado IN ('PROGRAMADO', 'EN_VUELO', 'CANCELADO', 'FINALIZADO'));
-
-ALTER TABLE vuelo
-    ADD CONSTRAINT chk_precio_vuelo
-    CHECK (precio >= 0);
 
 ALTER TABLE vuelo
     ADD CONSTRAINT chk_tiempo_vuelo
