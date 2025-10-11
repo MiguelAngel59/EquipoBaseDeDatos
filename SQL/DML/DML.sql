@@ -343,7 +343,7 @@ INSERT INTO avion (id_avion, id_aeropuerto, id_aerolinea, modelo, capacidad_pasa
 (137, 14, 20, 'ATR 72-600', 70),
 (138, 15, 20, 'Airbus A320', 174),
 (139, 16, 20, 'Airbus A320neo', 186),
-(140, 15, 20, 'Embraer 190', 114);
+(140, 15, 20, 'Embraer 190', 114),
 
 -------------ESPAÑA-------------
 -- Iberia
@@ -354,22 +354,30 @@ INSERT INTO avion (id_avion, id_aeropuerto, id_aerolinea, modelo, capacidad_pasa
 (159, 19, 23, 'Airbus A319', 144),
 (160, 20, 23, 'Airbus A321neo', 230),
 (161, 19, 23, 'Airbus A320', 174),
+-- Air Europa
+(162, 19, 25, 'Boeing 787-9 Dreamliner', 296),
+(163, 20, 25, 'Boeing 737-800', 189),
+(164, 19, 25, 'Airbus A330-200', 275),
+(165, 20, 25, 'Boeing 737 MAX 8', 186),
+(166, 19, 25, 'Embraer E195', 122),
+(167, 20, 25, 'Boeing 787-8 Dreamliner', 296),
+(168, 19, 25, 'Boeing 737-800', 189),
 -- Vueling Airlines
-(162, 19, 24, 'Airbus A320', 180),
-(163, 20, 24, 'Airbus A321', 220),
-(164, 19, 24, 'Airbus A320neo', 186),
-(165, 20, 24, 'Airbus A319', 144),
-(166, 19, 24, 'Airbus A320', 174),
-(167, 20, 24, 'Airbus A321neo', 230),
-(168, 19, 24, 'Airbus A320neo', 186);
+(169, 19, 24, 'Airbus A320', 180),
+(170, 20, 24, 'Airbus A321', 220),
+(171, 19, 24, 'Airbus A320neo', 186),
+(172, 20, 24, 'Airbus A319', 144),
+(173, 19, 24, 'Airbus A320', 174),
+(174, 20, 24, 'Airbus A321neo', 230),
+(175, 19, 24, 'Airbus A320neo', 186),
 
 -------------JAPÓN------------
 -- Japan Airlines
-(169, 24, 24, 'Boeing 787-9 Dreamliner', 296),
-(170, 25, 24, 'Boeing 777-300ER', 396),
-(171, 26, 24, 'Airbus A350-900', 325),
-(172, 27, 24, 'Boeing 737-800', 189),
-(173, 24, 24, 'Boeing 767-300ER', 218);
+(176, 24, 24, 'Boeing 787-9 Dreamliner', 296),
+(177, 25, 24, 'Boeing 777-300ER', 396),
+(178, 26, 24, 'Airbus A350-900', 325),
+(179, 27, 24, 'Boeing 737-800', 189),
+(180, 24, 24, 'Boeing 767-300ER', 218);
 
 
 
