@@ -526,7 +526,7 @@ INSERT INTO controlador (id_empleado, id_aeropuerto, id_aerolinea, nombre, apell
 (16, 8, 8, 'Paola', 'Hernández', 'Morales', '1983-12-12', 'Mexicana', 2, 'CTL016', 'Matutino'),
 -- Mexicana de Aviación
 (17, 1, 9, 'Juan', 'Ramírez', 'Torres', '1977-01-23', 'Mexicana', 1, 'CTL017', 'Vespertino'),
-(18, 3, 9, 'María', 'González', 'Hernández', '1982-09-30', 'Mexicana', 2, 'CTL018', 'Nocturno');
+(18, 3, 9, 'María', 'González', 'Hernández', '1982-09-30', 'Mexicana', 2, 'CTL018', 'Nocturno'),
 
 --------ESTADOS UNIDOS--------
 -- American Airlines
@@ -552,7 +552,7 @@ INSERT INTO controlador (id_empleado, id_aeropuerto, id_aerolinea, nombre, apell
 (32, 15, 16, 'Joshua', 'Cook', 'Morgan', '1986-08-30', 'Estadounidense', 2, 'CTL032', 'Vespertino'),
 -- Frontier Airlines
 (33, 14, 17, 'Tyler', 'Bailey', 'Rivera', '1980-09-22', 'Estadounidense', 1, 'CTL033', 'Nocturno'),
-(34, 15, 17, 'Samantha', 'Cooper', 'Cook', '1985-12-10', 'Estadounidense', 2, 'CTL034', 'Matutino');
+(34, 15, 17, 'Samantha', 'Cooper', 'Cook', '1985-12-10', 'Estadounidense', 2, 'CTL034', 'Matutino'),
 
 --------BRASIL--------
 -- LATAM Brasil
@@ -563,7 +563,7 @@ INSERT INTO controlador (id_empleado, id_aeropuerto, id_aerolinea, nombre, apell
 (38, 19, 19, 'Rafael', 'Santos', 'Gomes', '1983-09-09', 'Brasileña', 2, 'CTL038', 'Matutino'),
 -- Azul Linhas Aéreas
 (39, 16, 20, 'Mateus', 'Rodrigues', 'Silva', '1979-04-12', 'Brasileña', 1, 'CTL039', 'Vespertino'),
-(40, 17, 20, 'Camila', 'Martins', 'Pereira', '1985-08-30', 'Brasileña', 2, 'CTL040', 'Nocturno');
+(40, 17, 20, 'Camila', 'Martins', 'Pereira', '1985-08-30', 'Brasileña', 2, 'CTL040', 'Nocturno'),
 
 --------ESPAÑA--------
 -- Iberia
@@ -574,7 +574,7 @@ INSERT INTO controlador (id_empleado, id_aeropuerto, id_aerolinea, nombre, apell
 (44, 21, 22, 'Miguel', 'Rodríguez', 'Torres', '1985-09-25', 'Española', 2, 'CTL044', 'Matutino'),
 -- Vueling
 (45, 22, 23, 'David', 'Ramírez', 'Santos', '1982-02-12', 'Española', 1, 'CTL045', 'Vespertino'),
-(46, 23, 23, 'Elena', 'Torres', 'Jiménez', '1986-06-21', 'Española', 2, 'CTL046', 'Nocturno');
+(46, 23, 23, 'Elena', 'Torres', 'Jiménez', '1986-06-21', 'Española', 2, 'CTL046', 'Nocturno'),
 
 --------JAPÓN--------
 -- Japan Airlines
@@ -1248,78 +1248,106 @@ INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta
 (175, 121, 54, 17, 19, 'FINALIZADO', '2025-10-08 07:00:00', '2025-10-08 08:30:00'), -- Brasília → Belo Horizonte
 -- EN_VUELO
 (176, 122, 55, 16, 20, 'EN_VUELO', '2025-10-11 08:00:00', '2025-10-11 18:00:00'), -- São Paulo → Madrid
-(177, 123, 53, 17, 21, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 19:30:00'); -- Brasília → Barcelona
+(177, 123, 53, 17, 21, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 19:30:00'), -- Brasília → Barcelona
 -- PROGRAMADOS
 (178, 124, 54, 18, 16, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 15:30:00'), -- Río de Janeiro → São Paulo
-(179, 125, 55, 16, 24, 'PROGRAMADO', '2025-10-11 20:00:00', '2025-10-12 10:00:00'); -- São Paulo → Tokyo
+(179, 125, 55, 16, 24, 'PROGRAMADO', '2025-10-11 20:00:00', '2025-10-12 10:00:00'), -- São Paulo → Tokyo
 -- CANCELADOS
-(180, 120, 53, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'); -- São Paulo → Belo Horizonte
+(180, 120, 53, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'), -- São Paulo → Belo Horizonte
 
 ---- GOL LINHAS AÉREAS ----
 -- FINALIZADOS
 (181, 127, 56, 16, 19, 'FINALIZADO', '2025-10-08 06:30:00', '2025-10-08 08:00:00'), -- São Paulo → Belo Horizonte
-(182, 128, 57, 19, 17, 'FINALIZADO', '2025-10-08 07:30:00', '2025-10-08 09:00:00'); -- Belo Horizonte → Brasília
+(182, 128, 57, 19, 17, 'FINALIZADO', '2025-10-08 07:30:00', '2025-10-08 09:00:00'), -- Belo Horizonte → Brasília
 -- EN_VUELO
-(183, 129, 58, 17, 16, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 10:30:00'); -- Brasília → São Paulo
+(183, 129, 58, 17, 16, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 10:30:00'), -- Brasília → São Paulo
 -- PROGRAMADOS
 (184, 130, 56, 16, 20, 'PROGRAMADO', '2025-10-11 13:00:00', '2025-10-11 18:00:00'), -- São Paulo → Madrid
-(185, 131, 57, 19, 16, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 15:30:00'); -- Belo Horizonte → São Paulo
+(185, 131, 57, 19, 16, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 15:30:00'), -- Belo Horizonte → São Paulo
 -- CANCELADOS
-(186, 132, 58, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'); -- São Paulo → Belo Horizonte
+(186, 132, 58, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'), -- São Paulo → Belo Horizonte
 
 ---- AZUL LINHAS AÉREAS ----
 -- FINALIZADOS
 (187, 134, 59, 16, 18, 'FINALIZADO', '2025-10-08 07:00:00', '2025-10-08 08:30:00'), -- São Paulo → Río de Janeiro
-(188, 135, 60, 17, 16, 'FINALIZADO', '2025-10-08 08:00:00', '2025-10-08 09:30:00'); -- Brasília → São Paulo
+(188, 135, 60, 17, 16, 'FINALIZADO', '2025-10-08 08:00:00', '2025-10-08 09:30:00'), -- Brasília → São Paulo
 -- EN_VUELO
 (189, 136, 61, 16, 20, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 18:00:00'), -- São Paulo → Madrid
-(190, 137, 59, 16, 17, 'EN_VUELO', '2025-10-11 10:00:00', '2025-10-11 11:30:00'); -- São Paulo → Brasília
+(190, 137, 59, 16, 17, 'EN_VUELO', '2025-10-11 10:00:00', '2025-10-11 11:30:00'), -- São Paulo → Brasília
 -- PROGRAMADOS
 (191, 138, 60, 17, 18, 'PROGRAMADO', '2025-10-11 12:00:00', '2025-10-11 13:30:00'), -- Brasília → Río de Janeiro
-(192, 139, 61, 18, 16, 'PROGRAMADO', '2025-10-11 14:30:00', '2025-10-11 16:00:00'); -- Río de Janeiro → São Paulo
+(192, 139, 61, 18, 16, 'PROGRAMADO', '2025-10-11 14:30:00', '2025-10-11 16:00:00'), -- Río de Janeiro → São Paulo
 -- CANCELADOS
-(193, 140, 60, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'); -- São Paulo → Belo Horizonte
+(193, 140, 60, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'), -- São Paulo → Belo Horizonte
 
-
-
-
-
-
-
--- Vuelo
-INSERT INTO vuelo (id_vuelo,id_avion,id_piloto,id_origen,id_destino,estado,etd,eta,precio) VALUES
+--ESPAÑA-------------------------------------------------------------------------
+---- IBERIA ----
 -- FINALIZADOS
-(1,1,7,20,19,'FINALIZADO','2025-09-25 08:00:00','2025-09-25 12:00:00',3200.50),
-(7,2,17,20,14,'FINALIZADO','2025-09-20 14:30:00','2025-09-20 18:00:00',4800.00),
-(11,5,24,19,20,'FINALIZADO','2025-09-27 06:45:00','2025-09-27 11:15:00',2950.00),
-(17,17,17,19,20,'FINALIZADO','2025-10-05 09:00:00','2025-10-05 13:30:00',760.00),
-(19,18,18,13,20,'FINALIZADO','2025-10-07 15:00:00','2025-10-07 19:30:00',5400.75),
-
--- EN_VUELO (etd < now < eta)
-(3,9,3,3,21,'EN_VUELO','2025-10-10 15:00:00','2025-10-10 19:00:00',9800.00),
-(15,15,15,15,16,'EN_VUELO','2025-10-10 14:30:00','2025-10-10 20:00:00',1850.50),
-
+(194, 155, 62, 20, 11, 'FINALIZADO', '2025-10-08 07:00:00', '2025-10-08 11:00:00'), -- Madrid → JFK 
+(195, 156, 63, 21, 16, 'FINALIZADO', '2025-10-08 08:00:00', '2025-10-08 16:00:00'), -- Barcelona → São Paulo 
+(196, 157, 64, 22, 23, 'FINALIZADO', '2025-10-08 09:00:00', '2025-10-08 10:30:00'), -- Málaga → Valencia 
+-- EN_VUELO
+(197, 158, 62, 20, 1, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 17:00:00'), -- Madrid → Ciudad de México 
+(198, 159, 63, 21, 24, 'EN_VUELO', '2025-10-11 09:30:00', '2025-10-11 21:30:00'), -- Barcelona → Tokio 
+(199, 160, 64, 20, 22, 'EN_VUELO', '2025-10-11 10:00:00', '2025-10-11 11:30:00'), -- Madrid → Málaga
+-- PROGRAMADOS
+(200, 161, 62, 20, 14, 'PROGRAMADO', '2025-10-11 13:00:00', '2025-10-11 16:00:00'), -- Madrid → Denver 
+(201, 156, 63, 21, 12, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 22:00:00'), -- Barcelona → Dallas
+(202, 155, 64, 23, 21, 'PROGRAMADO', '2025-10-11 15:00:00', '2025-10-11 16:30:00'), -- Valencia → Barcelona 
 -- CANCELADOS
-(4,8,2,3,5,'CANCELADO','2025-10-09 07:00:00','2025-10-09 11:00:00',2500.00),
-(16,1,1,16,17,'CANCELADO','2025-10-10 10:00:00','2025-10-10 14:00:00',1300.00),
+(203, 157, 62, 20, 23, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00'), -- Madrid → Valencia 
 
--- PROGRAMADOS (futuros)
-(2,10,14,14,13,'PROGRAMADO','2025-10-11 08:00:00','2025-10-11 12:00:00',1950.00),
-(5,12,5,5,14,'PROGRAMADO','2025-10-15 09:30:00','2025-10-15 13:30:00',3100.00),
-(6,7,7,21,13,'PROGRAMADO','2025-11-01 07:00:00','2025-11-01 11:00:00',6550.70),
-(8,3,18,19,20,'PROGRAMADO','2025-10-22 06:00:00','2025-10-22 10:00:00',3900.00),
-(9,11,15,15,24,'PROGRAMADO','2025-10-12 13:00:00','2025-10-12 17:00:00',1550.25),
-(10,13,13,14,5,'PROGRAMADO','2025-10-18 08:30:00','2025-10-18 12:30:00',4100.00),
-(12,13,13,5,14,'PROGRAMADO','2025-10-20 09:00:00','2025-10-20 13:00:00',2800.00),
-(13,13,13,13,19,'PROGRAMADO','2025-10-13 07:00:00','2025-10-13 11:00:00',5200.00),
-(14,14,14,14,15,'PROGRAMADO','2025-10-14 06:30:00','2025-10-14 10:30:00',2100.00),
-(18,18,18,20,13,'PROGRAMADO','2025-10-16 08:00:00','2025-10-16 12:00:00',8800.00),
-(20,20,20,13,24,'PROGRAMADO','2025-10-17 07:45:00','2025-10-17 11:45:00',1850.00),
-(21,21,21,17,18,'PROGRAMADO','2025-10-18 09:00:00','2025-10-18 13:00:00',720.00),
-(22,21,21,18,19,'PROGRAMADO','2025-10-19 10:00:00','2025-10-19 14:00:00',450.00),
-(23,23,23,23,22,'PROGRAMADO','2025-10-20 11:00:00','2025-10-20 15:00:00',950.00),
-(24,24,24,19,13,'PROGRAMADO','2025-10-21 12:00:00','2025-10-21 16:00:00',7200.00),
-(25,25,25,21,13,'PROGRAMADO','2025-10-22 13:00:00','2025-10-22 17:00:00',6200.00);
+---- VUELOS AIR EUROPA ----
+-- FINALIZADOS
+(204, 162, 65, 20, 16, 'FINALIZADO', '2025-10-08 06:30:00', '2025-10-08 13:30:00'), -- Madrid → São Paulo 
+(205, 163, 66, 21, 1, 'FINALIZADO', '2025-10-08 07:00:00', '2025-10-08 15:00:00'), -- Barcelona → Ciudad de México 
+(206, 164, 67, 22, 23, 'FINALIZADO', '2025-10-08 08:00:00', '2025-10-08 09:30:00'), -- Málaga → Valencia 
+-- EN_VUELO
+(207, 165, 65, 20, 11, 'EN_VUELO', '2025-10-11 08:30:00', '2025-10-11 12:30:00'), -- Madrid → JFK 
+(208, 166, 66, 21, 16, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 17:00:00'), -- Barcelona → São Paulo 
+(209, 167, 67, 20, 22, 'EN_VUELO', '2025-10-11 10:00:00', '2025-10-11 11:30:00'), -- Madrid → Málaga 
+-- PROGRAMADOS
+(210, 168, 65, 21, 24, 'PROGRAMADO', '2025-10-11 12:30:00', '2025-10-11 22:30:00'), -- Barcelona → Tokio 
+(211, 163, 66, 20, 14, 'PROGRAMADO', '2025-10-11 13:30:00', '2025-10-11 16:30:00'), -- Madrid → Denver
+(212, 162, 67, 23, 21, 'PROGRAMADO', '2025-10-11 15:00:00', '2025-10-11 16:30:00'), -- Valencia → Barcelona 
+-- CANCELADOS
+(213, 164, 65, 20, 22, 'CANCELADO', '2025-10-12 08:30:00', '2025-10-12 10:00:00'), -- Madrid → Málaga
+
+---- VUELOS VUELING AIRLINES ----
+-- FINALIZADOS
+(214, 169, 68, 20, 11, 'FINALIZADO', '2025-10-08 06:00:00', '2025-10-08 10:00:00'), -- Madrid → JFK
+(215, 170, 69, 21, 16, 'FINALIZADO', '2025-10-08 07:00:00', '2025-10-08 15:00:00'), -- Barcelona → São Paulo 
+(216, 171, 70, 22, 23, 'FINALIZADO', '2025-10-08 08:00:00', '2025-10-08 09:30:00'), -- Málaga → Valencia 
+-- EN_VUELO
+(217, 172, 68, 20, 1, 'EN_VUELO', '2025-10-11 08:30:00', '2025-10-11 16:30:00'), -- Madrid → Ciudad de México 
+(218, 174, 69, 21, 24, 'EN_VUELO', '2025-10-11 09:30:00', '2025-10-11 21:30:00'), -- Barcelona → Tokio 
+(219, 175, 70, 20, 22, 'EN_VUELO', '2025-10-11 10:30:00', '2025-10-11 12:00:00'), -- Madrid → Málaga 
+-- PROGRAMADOS
+(220, 169, 68, 21, 20, 'PROGRAMADO', '2025-10-11 13:00:00', '2025-10-11 15:00:00'), -- Barcelona → Madrid 
+(221, 170, 69, 22, 14, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 17:00:00'), -- Málaga → Denver 
+(222, 171, 70, 20, 12, 'PROGRAMADO', '2025-10-11 15:00:00', '2025-10-11 23:00:00'), -- Madrid → Dallas 
+
+
+
+--JAPÓN-----------------------------------------------------------------------------
+---- JAPAN AIRLINES ----
+
+-- FINALIZADOS
+(224, 176, 71, 24, 25, 'FINALIZADO', '2025-10-08 06:00:00', '2025-10-08 07:15:00'), -- Tokio → Osaka (nacional)
+(225, 177, 72, 25, 26, 'FINALIZADO', '2025-10-08 07:45:00', '2025-10-08 08:45:00'), -- Osaka → Nagoya (nacional)
+(226, 178, 73, 24, 11, 'FINALIZADO', '2025-10-08 09:00:00', '2025-10-08 20:00:00'), -- Tokio → JFK (internacional)
+(227, 179, 74, 26, 20, 'FINALIZADO', '2025-10-08 10:00:00', '2025-10-08 18:30:00'), -- Nagoya → Madrid (internacional)
+-- EN_VUELO
+(228, 180, 71, 27, 24, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 10:40:00'), -- Sapporo → Tokio (nacional)
+(229, 176, 72, 24, 21, 'EN_VUELO', '2025-10-11 08:30:00', '2025-10-11 16:00:00'), -- Tokio → Barcelona (internacional)
+(230, 177, 73, 25, 14, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 16:30:00'), -- Osaka → Denver (internacional)
+-- PROGRAMADOS
+(231, 178, 74, 26, 27, 'PROGRAMADO', '2025-10-11 13:00:00', '2025-10-11 14:20:00'), -- Nagoya → Sapporo (nacional)
+(232, 179, 71, 24, 1, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 22:00:00'), -- Tokio → Ciudad de México (internacional)
+(233, 180, 72, 27, 16, 'PROGRAMADO', '2025-10-11 15:00:00', '2025-10-11 23:00:00'), -- Sapporo → São Paulo (internacional)
+-- CANCELADOS
+(234, 176, 73, 25, 26, 'CANCELADO', '2025-10-12 08:30:00', '2025-10-12 09:45:00'), -- Osaka → Nagoya (nacional)
+(235, 177, 74, 24, 12, 'CANCELADO', '2025-10-12 09:00:00', '2025-10-12 17:00:00'); -- Tokio → Dallas (internacional)
 
 
 --UPDATE
