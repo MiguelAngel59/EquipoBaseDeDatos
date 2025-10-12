@@ -628,9 +628,6 @@ ALTER TABLE boleto
     ALTER COLUMN numero_asiento SET NOT NULL;
 
 ALTER TABLE boleto
-    ADD CONSTRAINT uq_numero_asiento UNIQUE (numero_asiento);
-
-ALTER TABLE boleto
     ADD CONSTRAINT chk_numero_asiento CHECK (numero_asiento > 0);
 
 COMMENT ON TABLE boleto IS 'Boletos vendidos asociados a vuelos y tarifas';
