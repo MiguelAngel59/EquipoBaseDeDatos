@@ -556,6 +556,18 @@ COMMENT ON COLUMN vuelo.estado IS 'Estado actual del vuelo (PROGRAMADO, EN_VUELO
 COMMENT ON COLUMN vuelo.etd IS 'Horario estimado de salida (Estimated Time of Departure)';
 COMMENT ON COLUMN vuelo.eta IS 'Horario estimado de llegada (Estimated Time of Arrival)';
 
+-- Agregar la nueva columna tipo_vuelo
+ALTER TABLE vuelo
+    ADD COLUMN tipo_vuelo VARCHAR(20) NOT NULL;
+
+-- Restringir los valores permitidos
+ALTER TABLE vuelo
+    ADD CONSTRAINT chk_tipo_vuelo
+    CHECK (tipo_vuelo IN ('CARGA', 'COMERCIAL'));
+
+-- Documentación de la nueva columna
+COMMENT ON COLUMN vuelo.tipo_vuelo IS 'Tipo de vuelo: puede ser de CARGA o COMERCIAL';
+
 
 
 CREATE TABLE tarifa_vuelo (
@@ -586,6 +598,7 @@ COMMENT ON COLUMN tarifa_vuelo.id_tarifa IS 'Identificador único de la tarifa';
 COMMENT ON COLUMN tarifa_vuelo.id_vuelo IS 'Identificador del vuelo al que pertenece la tarifa';
 COMMENT ON COLUMN tarifa_vuelo.precio IS 'Costo correspondiente a la clase';
 COMMENT ON COLUMN tarifa_vuelo.clase IS 'Clase de vuelo';
+
 
 
 
