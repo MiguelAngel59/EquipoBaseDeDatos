@@ -959,7 +959,7 @@ INSERT INTO ingeniero (id_empleado, id_aeropuerto, id_aerolinea, nombre, apellid
 
 
 -- VUELOS
-INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta) VALUES
+INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta, tipo_vuelo) VALUES
 --MEXICO--------------------------------------------------------------------------------------------
 ---- AEROMÉXICO ----
 -- FINALIZADO
@@ -1081,7 +1081,7 @@ INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta
 (88, 51, 24, 3, 2, 'EN_VUELO', '2025-10-11 09:00:00', '2025-10-11 10:30:00', 'COMERCIAL'),
 -- PROGRAMADOS
 (89, 50, 23, 10, 1, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 18:00:00', 'COMERCIAL'),
-(90, 51, 24, 2, 4, 'PROGRAMADO', '2025-10-11 11:00:00', '2025-10-11 13:00:00', 'COMERCIAL');
+(90, 51, 24, 2, 4, 'PROGRAMADO', '2025-10-11 11:00:00', '2025-10-11 13:00:00', 'COMERCIAL'),
 
 ---- MEXICANA DE AVIACIÓN ----
 -- FINALIZADOS
@@ -1158,7 +1158,7 @@ INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta
 (134, 86, 39, 14, 13, 'PROGRAMADO', '2025-10-11 13:00:00', '2025-10-11 15:00:00', 'COMERCIAL'), -- Denver → Chicago
 (135, 87, 40, 15, 10, 'PROGRAMADO', '2025-10-11 14:00:00', '2025-10-11 17:00:00', 'COMERCIAL'), -- Orlando → LAX
 -- CANCELADOS
-(136, 85, 38, 10, 11, 'CANCELADO', '2025-10-12 09:00:00', '2025-10-12 12:00:00', 'COMERCIAL'); -- LAX → JFK
+(136, 85, 38, 10, 11, 'CANCELADO', '2025-10-12 09:00:00', '2025-10-12 12:00:00', 'COMERCIAL'), -- LAX → JFK
 
 ---- JETBLUE AIRWAYS ----
 -- FINALIZADOS
@@ -1240,7 +1240,7 @@ INSERT INTO vuelo (id_vuelo, id_avion, piloto, origen, destino, estado, etd, eta
 (177, 138, 60, 17, 18, 'PROGRAMADO', '2025-10-11 12:00:00', '2025-10-11 13:30:00', 'COMERCIAL'), -- Brasília → Río de Janeiro
 (178, 139, 61, 18, 16, 'PROGRAMADO', '2025-10-11 14:30:00', '2025-10-11 16:00:00', 'COMERCIAL'), -- Río de Janeiro → São Paulo
 -- CANCELADOS
-(179, 140, 60, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00', 'COMERCIAL'); -- São Paulo → Belo Horizonte
+(179, 140, 60, 16, 19, 'CANCELADO', '2025-10-12 08:00:00', '2025-10-12 09:30:00', 'COMERCIAL'), -- São Paulo → Belo Horizonte
 
 --ESPAÑA------------------------------------------------------------------------------------------------------------------
 ---- IBERIA ----
@@ -2301,393 +2301,7 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 (73, 184, '2025-10-06', 13),
 (73, 184, '2025-10-07', 14),
 (73, 185, '2025-10-07', 15);
- 
--- VUELO 74 (Guadalajara → Monterrey)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(187, 74, 2000, 'ECONOMICA'),
-(188, 74, 4000, 'EJECUTIVA'),
-(189, 74, 6000, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(74, 187, '2025-10-01', 1),
-(74, 187, '2025-10-01', 2),
-(74, 187, '2025-10-02', 3),
-(74, 187, '2025-10-02', 4),
-(74, 188, '2025-10-03', 5),
-(74, 187, '2025-10-03', 6),
-(74, 187, '2025-10-04', 7),
-(74, 187, '2025-10-04', 8),
-(74, 188, '2025-10-05', 9),
-(74, 187, '2025-10-05', 10),
-(74, 187, '2025-10-06', 11),
-(74, 187, '2025-10-06', 12),
-(74, 187, '2025-10-06', 13),
-(74, 187, '2025-10-07', 14),
-(74, 188, '2025-10-07', 15);
 
--- VUELO 75 (CANCELADO)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(190, 75, 2200, 'ECONOMICA'),
-(191, 75, 4400, 'EJECUTIVA'),
-(192, 75, 6600, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(75, 190, '2025-10-01', 1),
-(75, 190, '2025-10-01', 2),
-(75, 190, '2025-10-02', 3),
-(75, 190, '2025-10-02', 4),
-(75, 191, '2025-10-03', 5),
-(75, 190, '2025-10-03', 6),
-(75, 190, '2025-10-04', 7),
-(75, 190, '2025-10-04', 8),
-(75, 191, '2025-10-05', 9),
-(75, 190, '2025-10-05', 10),
-(75, 190, '2025-10-06', 11),
-(75, 190, '2025-10-06', 12),
-(75, 190, '2025-10-06', 13),
-(75, 190, '2025-10-07', 14),
-(75, 191, '2025-10-07', 15);
-
-
----- AERUS ----
--- VUELO 76 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(193, 76, 2500, 'ECONOMICA'),
-(194, 76, 5000, 'EJECUTIVA'),
-(195, 76, 7500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(76, 193, '2025-10-01', 1),
-(76, 193, '2025-10-01', 2),
-(76, 193, '2025-10-02', 3),
-
--- VUELO 78
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(196, 78, 2700, 'ECONOMICA'),
-(197, 78, 5400, 'EJECUTIVA'),
-(198, 78, 8100, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(78, 196, '2025-10-01', 1),
-(78, 196, '2025-10-01', 2),
-(78, 196, '2025-10-02', 3),
-(78, 197, '2025-10-02', 4),
-(78, 196, '2025-10-03', 5),
-(78, 196, '2025-10-03', 6),
-
--- VUELO 79 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(199, 79, 9500, 'ECONOMICA'),
-(200, 79, 19000, 'EJECUTIVA'),
-(201, 79, 28500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(79, 199, '2025-10-06', 1),
-(79, 199, '2025-10-06', 2),
-(79, 199, '2025-10-07', 3),
-(79, 199, '2025-10-07', 4),
-(79, 200, '2025-10-08', 5),
-(79, 199, '2025-10-08', 6),
-
--- VUELO 80
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(202, 80, 9600, 'ECONOMICA'),
-(203, 80, 19200, 'EJECUTIVA'),
-(204, 80, 28800, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(80, 202, '2025-10-06', 1),
-(80, 202, '2025-10-06', 2),
-(80, 202, '2025-10-07', 3),
-(80, 202, '2025-10-07', 4),
-(80, 203, '2025-10-08', 5),
-(80, 202, '2025-10-08', 6),
-(80, 202, '2025-10-09', 7),
-
--- VUELO 81
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(205, 81, 9700, 'ECONOMICA'),
-(206, 81, 19400, 'EJECUTIVA'),
-(207, 81, 29100, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(81, 205, '2025-10-07', 1),
-(81, 205, '2025-10-07', 2),
-(81, 205, '2025-10-08', 3),
-(81, 205, '2025-10-08', 4),
-(81, 206, '2025-10-09', 5),
-(81, 205, '2025-10-09', 6),
-(81, 205, '2025-10-10', 7),
-(81, 205, '2025-10-10', 8),
-
--- VUELO 82 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(208, 82, 9800, 'ECONOMICA'),
-(209, 82, 19600, 'EJECUTIVA'),
-(210, 82, 29400, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(82, 208, '2025-10-07', 1),
-(82, 208, '2025-10-07', 2),
-(82, 208, '2025-10-08', 3),
-(82, 208, '2025-10-08', 4),
-(82, 209, '2025-10-09', 5),
-(82, 208, '2025-10-09', 6),
-(82, 208, '2025-10-10', 7),
-
--- VUELO 83 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(211, 83, 9900, 'ECONOMICA'),
-(212, 83, 19800, 'EJECUTIVA'),
-(213, 83, 29700, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(83, 211, '2025-10-07', 1),
-(83, 211, '2025-10-07', 2),
-(83, 211, '2025-10-08', 3),
-(83, 211, '2025-10-08', 4),
-(83, 212, '2025-10-09', 5),
-(83, 211, '2025-10-09', 6),
-(83, 211, '2025-10-10', 7),
-(83, 211, '2025-10-10', 8),
-(83, 212, '2025-10-11', 9),
-
-
----- MAGNICHARTERS ----
--- VUELO 84 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(214, 84, 2500, 'ECONOMICA'),
-(215, 84, 5000, 'EJECUTIVA'),
-(216, 84, 7500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(84, 214, '2025-10-01', 1),
-(84, 214, '2025-10-01', 2),
-(84, 214, '2025-10-02', 3),
-(84, 214, '2025-10-02', 4),
-(84, 215, '2025-10-03', 5),
-(84, 214, '2025-10-03', 6),
-(84, 214, '2025-10-04', 7),
-(84, 214, '2025-10-04', 8),
-(84, 215, '2025-10-05', 9),
-(84, 214, '2025-10-05', 10),
-(84, 214, '2025-10-06', 11);
-
--- VUELO 85 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(217, 85, 2600, 'ECONOMICA'),
-(218, 85, 5200, 'EJECUTIVA'),
-(219, 85, 7800, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(85, 217, '2025-10-01', 1),
-(85, 217, '2025-10-01', 2),
-(85, 217, '2025-10-02', 3),
-(85, 218, '2025-10-02', 4),
-(85, 217, '2025-10-03', 5),
-(85, 217, '2025-10-03', 6),
-(85, 217, '2025-10-04', 7),
-(85, 218, '2025-10-04', 8),
-(85, 217, '2025-10-05', 9),
-(85, 217, '2025-10-05', 10);
-
--- VUELO 87 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(220, 87, 9000, 'ECONOMICA'),
-(221, 87, 18000, 'EJECUTIVA'),
-(222, 87, 27000, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(87, 220, '2025-10-06', 1),
-(87, 220, '2025-10-06', 2),
-(87, 220, '2025-10-07', 3),
-(87, 220, '2025-10-07', 4),
-(87, 221, '2025-10-08', 5),
-(87, 220, '2025-10-08', 6),
-(87, 220, '2025-10-09', 7),
-(87, 220, '2025-10-09', 8),
-(87, 221, '2025-10-10', 9),
-(87, 220, '2025-10-10', 10),
-(87, 220, '2025-10-11', 11);
-
--- VUELO 88 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(223, 88, 8700, 'ECONOMICA'),
-(224, 88, 17400, 'EJECUTIVA'),
-(225, 88, 26100, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(88, 223, '2025-10-06', 1),
-(88, 223, '2025-10-06', 2),
-(88, 223, '2025-10-07', 3),
-(88, 223, '2025-10-07', 4),
-(88, 224, '2025-10-08', 5),
-(88, 223, '2025-10-08', 6),
-(88, 223, '2025-10-09', 7),
-(88, 223, '2025-10-09', 8),
-(88, 224, '2025-10-10', 9),
-(88, 223, '2025-10-10', 10),
-(88, 223, '2025-10-11', 11);
-
--- VUELO 89 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(226, 89, 9500, 'ECONOMICA'),
-(227, 89, 19000, 'EJECUTIVA'),
-(228, 89, 28500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(89, 226, '2025-10-07', 1),
-(89, 226, '2025-10-07', 2),
-(89, 226, '2025-10-08', 3),
-(89, 226, '2025-10-08', 4),
-(89, 227, '2025-10-09', 5),
-(89, 226, '2025-10-09', 6),
-(89, 226, '2025-10-10', 7),
-(89, 226, '2025-10-10', 8),
-(89, 227, '2025-10-11', 9),
-(89, 226, '2025-10-11', 10);
-
--- VUELO 90 
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(229, 90, 9400, 'ECONOMICA'),
-(230, 90, 18800, 'EJECUTIVA'),
-(231, 90, 28200, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(90, 229, '2025-10-07', 1),
-(90, 229, '2025-10-07', 2),
-(90, 229, '2025-10-08', 3),
-(90, 229, '2025-10-08', 4),
-(90, 230, '2025-10-09', 5),
-(90, 229, '2025-10-09', 6),
-(90, 229, '2025-10-10', 7),
-(90, 229, '2025-10-10', 8),
-(90, 230, '2025-10-11', 9),
-(90, 229, '2025-10-11', 10);
-
-
----- MEXICANA DE AVIACIÓN ----
--- VUELO 91 (CDMX → Cancún)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(301, 91, 2500, 'ECONOMICA'),
-(302, 91, 5000, 'EJECUTIVA'),
-(303, 91, 7500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(91, 301, '2025-10-01', 1),
-(91, 301, '2025-10-01', 2),
-(91, 301, '2025-10-02', 3),
-(91, 302, '2025-10-02', 4),
-(91, 301, '2025-10-03', 5),
-(91, 301, '2025-10-03', 6),
-(91, 301, '2025-10-04', 7),
-(91, 302, '2025-10-04', 8),
-(91, 301, '2025-10-05', 9),
-(91, 301, '2025-10-05', 10),
-(91, 301, '2025-10-06', 11),
-(91, 301, '2025-10-06', 12),
-(91, 303, '2025-10-07', 13),
-(91, 301, '2025-10-07', 14);
-
--- VUELO 92 (Guadalajara → Monterrey)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(304, 92, 2200, 'ECONOMICA'),
-(305, 92, 4400, 'EJECUTIVA'),
-(306, 92, 6600, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(92, 304, '2025-10-01', 1),
-(92, 304, '2025-10-01', 2),
-(92, 305, '2025-10-02', 3),
-(92, 304, '2025-10-02', 4),
-(92, 304, '2025-10-03', 5),
-(92, 304, '2025-10-03', 6),
-(92, 305, '2025-10-04', 7),
-(92, 304, '2025-10-04', 8),
-(92, 304, '2025-10-05', 9),
-(92, 304, '2025-10-05', 10),
-(92, 304, '2025-10-06', 11),
-(92, 305, '2025-10-06', 12);
-
--- VUELO 93 (Monterrey → CDMX)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(307, 93, 2000, 'ECONOMICA'),
-(308, 93, 4000, 'EJECUTIVA'),
-(309, 93, 6000, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(93, 307, '2025-10-01', 1),
-(93, 307, '2025-10-01', 2),
-(93, 308, '2025-10-02', 3),
-(93, 307, '2025-10-02', 4),
-(93, 307, '2025-10-03', 5),
-(93, 307, '2025-10-03', 6),
-(93, 307, '2025-10-04', 7),
-(93, 307, '2025-10-04', 8),
-(93, 308, '2025-10-05', 9),
-(93, 307, '2025-10-05', 10);
-
--- VUELO 94 (Cancún → Los Ángeles)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(310, 94, 7000, 'ECONOMICA'),
-(311, 94, 14000, 'EJECUTIVA'),
-(312, 94, 21000, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(94, 310, '2025-10-01', 1),
-(94, 310, '2025-10-01', 2),
-(94, 311, '2025-10-02', 3),
-(94, 310, '2025-10-02', 4),
-(94, 310, '2025-10-03', 5),
-(94, 310, '2025-10-03', 6),
-(94, 310, '2025-10-04', 7),
-(94, 311, '2025-10-04', 8),
-(94, 310, '2025-10-05', 9),
-(94, 310, '2025-10-05', 10),
-(94, 312, '2025-10-06', 11),
-(94, 310, '2025-10-06', 12),
-(94, 310, '2025-10-07', 13),
-(94, 310, '2025-10-07', 14),
-(94, 311, '2025-10-07', 15);
-
--- VUELO 95 (Monterrey → Guadalajara)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(313, 95, 2200, 'ECONOMICA'),
-(314, 95, 4400, 'EJECUTIVA'),
-(315, 95, 6600, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(95, 313, '2025-10-01', 1),
-(95, 313, '2025-10-01', 2),
-(95, 314, '2025-10-02', 3),
-(95, 313, '2025-10-02', 4),
-(95, 313, '2025-10-03', 5),
-(95, 313, '2025-10-03', 6),
-(95, 313, '2025-10-04', 7),
-(95, 314, '2025-10-04', 8),
-(95, 313, '2025-10-05', 9),
-(95, 313, '2025-10-05', 10),
-(95, 313, '2025-10-06', 11),
-(95, 314, '2025-10-06', 12);
-
--- VUELO 96 (CDMX → JFK)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(316, 96, 12000, 'ECONOMICA'),
-(317, 96, 24000, 'EJECUTIVA'),
-(318, 96, 36000, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(96, 316, '2025-10-01', 1),
-(96, 316, '2025-10-01', 2),
-(96, 317, '2025-10-02', 3),
-(96, 316, '2025-10-02', 4),
-(96, 316, '2025-10-03', 5),
-(96, 316, '2025-10-03', 6),
-(96, 316, '2025-10-04', 7),
-(96, 317, '2025-10-04', 8),
-(96, 316, '2025-10-05', 9),
-(96, 316, '2025-10-05', 10),
-(96, 316, '2025-10-06', 11),
-(96, 317, '2025-10-06', 12),
-(96, 316, '2025-10-07', 13),
-(96, 316, '2025-10-07', 14),
-(96, 317, '2025-10-07', 15);
-
--- VUELO 97 (LAX → CDMX)
-INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
-(319, 97, 12500, 'ECONOMICA'),
-(320, 97, 25000, 'EJECUTIVA'),
-(321, 97, 37500, 'PREMIUM');
-INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
-(97, 319, '2025-10-01', 1),
-(97, 319, '2025-10-01', 2),
-(97, 320, '2025-10-02', 3),
-(97, 319, '2025-10-02', 4),
-(97, 319, '2025-10-03', 5),
-(97, 319, '2025-10-03', 6),
-(97, 319, '2025-10-04', 7),
-(97, 320, '2025-10-04', 8),
-(97, 319, '2025-10-05', 9),
-(97, 319, '2025-10-05', 10),
 
 -- VUELO 98 (Guadalajara → Cancún)
 INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
@@ -2705,7 +2319,7 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 (98, 187, '2025-10-04', 8),
 (98, 188, '2025-10-05', 9),
 (98, 187, '2025-10-05', 10),
-(98, 187, '2025-10-06', 11),
+(98, 187, '2025-10-06', 11);
 
 -- VUELO 100 (CDMX → Monterrey)
 INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
@@ -2743,12 +2357,12 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 (101, 194, '2025-10-05', 9),
 (101, 193, '2025-10-05', 10),
 (101, 193, '2025-10-06', 11),
-(101, 193, '2025-10-06', 12);
-(101, 193, '2025-10-06', 13);
+(101, 193, '2025-10-06', 12),
+(101, 193, '2025-10-06', 13),
 (101, 193, '2025-10-06', 14);
 
 
-
+ 
 ---- AMERICAN AIRLINES ----
 -- VUELO 102 (LAX → DFW)
 INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
@@ -4580,6 +4194,388 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 (220, 504, '2025-10-03', 5),
 (220, 502, '2025-10-03', 6),
 (220, 502, '2025-10-04', 7);
+
+-- VUELO 74 (Guadalajara → Monterrey)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(505, 74, 2000, 'ECONOMICA'),
+(506, 74, 4000, 'EJECUTIVA'),
+(507, 74, 6000, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(74, 505, '2025-10-01', 1),
+(74, 505, '2025-10-01', 2),
+(74, 505, '2025-10-02', 3),
+(74, 505, '2025-10-02', 4),
+(74, 506, '2025-10-03', 5),
+(74, 505, '2025-10-03', 6),
+(74, 505, '2025-10-04', 7),
+(74, 505, '2025-10-04', 8),
+(74, 506, '2025-10-05', 9),
+(74, 505, '2025-10-05', 10),
+(74, 505, '2025-10-06', 11),
+(74, 505, '2025-10-06', 12),
+(74, 505, '2025-10-06', 13),
+(74, 505, '2025-10-07', 14),
+(74, 506, '2025-10-07', 15);
+
+-- VUELO 75 (CANCELADO)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(508, 75, 2200, 'ECONOMICA'),
+(509, 75, 4400, 'EJECUTIVA'),
+(510, 75, 6600, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(75, 508, '2025-10-01', 1),
+(75, 508, '2025-10-01', 2),
+(75, 508, '2025-10-02', 3),
+(75, 508, '2025-10-02', 4),
+(75, 509, '2025-10-03', 5),
+(75, 508, '2025-10-03', 6),
+(75, 508, '2025-10-04', 7),
+(75, 508, '2025-10-04', 8),
+(75, 509, '2025-10-05', 9),
+(75, 508, '2025-10-05', 10),
+(75, 508, '2025-10-06', 11),
+(75, 508, '2025-10-06', 12),
+(75, 508, '2025-10-06', 13),
+(75, 508, '2025-10-07', 14),
+(75, 509, '2025-10-07', 15);
+
+-- VUELO 76
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(511, 76, 2500, 'ECONOMICA'),
+(512, 76, 5000, 'EJECUTIVA'),
+(513, 76, 7500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(76, 511, '2025-10-01', 1),
+(76, 511, '2025-10-01', 2),
+(76, 511, '2025-10-02', 3);
+
+-- VUELO 78
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(514, 78, 2700, 'ECONOMICA'),
+(515, 78, 5400, 'EJECUTIVA'),
+(516, 78, 8100, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(78, 514, '2025-10-01', 1),
+(78, 514, '2025-10-01', 2),
+(78, 514, '2025-10-02', 3),
+(78, 515, '2025-10-02', 4),
+(78, 514, '2025-10-03', 5),
+(78, 514, '2025-10-03', 6);
+
+-- VUELO 79
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(517, 79, 9500, 'ECONOMICA'),
+(518, 79, 19000, 'EJECUTIVA'),
+(519, 79, 28500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(79, 517, '2025-10-06', 1),
+(79, 517, '2025-10-06', 2),
+(79, 517, '2025-10-07', 3),
+(79, 517, '2025-10-07', 4),
+(79, 518, '2025-10-08', 5),
+(79, 517, '2025-10-08', 6);
+
+-- VUELO 80
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(520, 80, 9600, 'ECONOMICA'),
+(521, 80, 19200, 'EJECUTIVA'),
+(522, 80, 28800, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(80, 520, '2025-10-06', 1),
+(80, 520, '2025-10-06', 2),
+(80, 520, '2025-10-07', 3),
+(80, 520, '2025-10-07', 4),
+(80, 521, '2025-10-08', 5),
+(80, 520, '2025-10-08', 6),
+(80, 520, '2025-10-09', 7);
+
+-- VUELO 81
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(523, 81, 9700, 'ECONOMICA'),
+(524, 81, 19400, 'EJECUTIVA'),
+(525, 81, 29100, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(81, 523, '2025-10-07', 1),
+(81, 523, '2025-10-07', 2),
+(81, 523, '2025-10-08', 3),
+(81, 523, '2025-10-08', 4),
+(81, 524, '2025-10-09', 5),
+(81, 523, '2025-10-09', 6),
+(81, 523, '2025-10-10', 7),
+(81, 523, '2025-10-10', 8);
+
+-- VUELO 82
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(526, 82, 9800, 'ECONOMICA'),
+(527, 82, 19600, 'EJECUTIVA'),
+(528, 82, 29400, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(82, 526, '2025-10-07', 1),
+(82, 526, '2025-10-07', 2),
+(82, 526, '2025-10-08', 3),
+(82, 526, '2025-10-08', 4),
+(82, 527, '2025-10-09', 5),
+(82, 526, '2025-10-09', 6),
+(82, 526, '2025-10-10', 7);
+
+-- VUELO 83
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(529, 83, 9900, 'ECONOMICA'),
+(530, 83, 19800, 'EJECUTIVA'),
+(531, 83, 29700, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(83, 529, '2025-10-07', 1),
+(83, 529, '2025-10-07', 2),
+(83, 529, '2025-10-08', 3),
+(83, 529, '2025-10-08', 4),
+(83, 530, '2025-10-09', 5),
+(83, 529, '2025-10-09', 6),
+(83, 529, '2025-10-10', 7),
+(83, 529, '2025-10-10', 8),
+(83, 530, '2025-10-11', 9);
+
+-- VUELO 84
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(532, 84, 2500, 'ECONOMICA'),
+(533, 84, 5000, 'EJECUTIVA'),
+(534, 84, 7500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(84, 532, '2025-10-01', 1),
+(84, 532, '2025-10-01', 2),
+(84, 532, '2025-10-02', 3),
+(84, 532, '2025-10-02', 4),
+(84, 533, '2025-10-03', 5),
+(84, 532, '2025-10-03', 6),
+(84, 532, '2025-10-04', 7),
+(84, 532, '2025-10-04', 8),
+(84, 533, '2025-10-05', 9),
+(84, 532, '2025-10-05', 10),
+(84, 532, '2025-10-06', 11);
+
+-- VUELO 85
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(535, 85, 2600, 'ECONOMICA'),
+(536, 85, 5200, 'EJECUTIVA'),
+(537, 85, 7800, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(85, 535, '2025-10-01', 1),
+(85, 535, '2025-10-01', 2),
+(85, 535, '2025-10-02', 3),
+(85, 536, '2025-10-02', 4),
+(85, 535, '2025-10-03', 5),
+(85, 535, '2025-10-03', 6),
+(85, 535, '2025-10-04', 7),
+(85, 536, '2025-10-04', 8),
+(85, 535, '2025-10-05', 9),
+(85, 535, '2025-10-05', 10);
+
+-- VUELO 87
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(538, 87, 9000, 'ECONOMICA'),
+(539, 87, 18000, 'EJECUTIVA'),
+(540, 87, 27000, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(87, 538, '2025-10-06', 1),
+(87, 538, '2025-10-06', 2),
+(87, 538, '2025-10-07', 3),
+(87, 538, '2025-10-07', 4),
+(87, 539, '2025-10-08', 5),
+(87, 538, '2025-10-08', 6),
+(87, 538, '2025-10-09', 7),
+(87, 538, '2025-10-09', 8),
+(87, 539, '2025-10-10', 9),
+(87, 538, '2025-10-10', 10),
+(87, 538, '2025-10-11', 11);
+
+-- VUELO 88
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(541, 88, 8700, 'ECONOMICA'),
+(542, 88, 17400, 'EJECUTIVA'),
+(543, 88, 26100, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(88, 541, '2025-10-06', 1),
+(88, 541, '2025-10-06', 2),
+(88, 541, '2025-10-07', 3),
+(88, 541, '2025-10-07', 4),
+(88, 542, '2025-10-08', 5),
+(88, 541, '2025-10-08', 6),
+(88, 541, '2025-10-09', 7),
+(88, 541, '2025-10-09', 8),
+(88, 542, '2025-10-10', 9),
+(88, 541, '2025-10-10', 10),
+(88, 541, '2025-10-11', 11);
+
+-- VUELO 89
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(544, 89, 9500, 'ECONOMICA'),
+(545, 89, 19000, 'EJECUTIVA'),
+(546, 89, 28500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(89, 544, '2025-10-07', 1),
+(89, 544, '2025-10-07', 2),
+(89, 544, '2025-10-08', 3),
+(89, 544, '2025-10-08', 4),
+(89, 545, '2025-10-09', 5),
+(89, 544, '2025-10-09', 6),
+(89, 544, '2025-10-10', 7),
+(89, 544, '2025-10-10', 8),
+(89, 545, '2025-10-11', 9),
+(89, 544, '2025-10-11', 10);
+
+-- VUELO 90
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(547, 90, 9400, 'ECONOMICA'),
+(548, 90, 18800, 'EJECUTIVA'),
+(549, 90, 28200, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(90, 547, '2025-10-07', 1),
+(90, 547, '2025-10-07', 2),
+(90, 547, '2025-10-08', 3),
+(90, 547, '2025-10-08', 4),
+(90, 548, '2025-10-09', 5),
+(90, 547, '2025-10-09', 6),
+(90, 547, '2025-10-10', 7),
+(90, 547, '2025-10-10', 8),
+(90, 548, '2025-10-11', 9),
+(90, 547, '2025-10-11', 10);
+
+---- MEXICANA DE AVIACIÓN ----
+-- VUELO 91 (CDMX → Cancún)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(550, 91, 2500, 'ECONOMICA'),
+(551, 91, 5000, 'EJECUTIVA'),
+(552, 91, 7500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(91, 550, '2025-10-01', 1),
+(91, 550, '2025-10-01', 2),
+(91, 550, '2025-10-02', 3),
+(91, 551, '2025-10-02', 4),
+(91, 550, '2025-10-03', 5),
+(91, 550, '2025-10-03', 6),
+(91, 550, '2025-10-04', 7),
+(91, 551, '2025-10-04', 8),
+(91, 550, '2025-10-05', 9),
+(91, 550, '2025-10-05', 10),
+(91, 550, '2025-10-06', 11),
+(91, 550, '2025-10-06', 12),
+(91, 552, '2025-10-07', 13),
+(91, 550, '2025-10-07', 14);
+
+-- VUELO 92 (Guadalajara → Monterrey)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(553, 92, 2200, 'ECONOMICA'),
+(554, 92, 4400, 'EJECUTIVA'),
+(555, 92, 6600, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(92, 553, '2025-10-01', 1),
+(92, 553, '2025-10-01', 2),
+(92, 554, '2025-10-02', 3),
+(92, 553, '2025-10-02', 4),
+(92, 553, '2025-10-03', 5),
+(92, 553, '2025-10-03', 6),
+(92, 554, '2025-10-04', 7),
+(92, 553, '2025-10-04', 8),
+(92, 553, '2025-10-05', 9),
+(92, 553, '2025-10-05', 10),
+(92, 553, '2025-10-06', 11),
+(92, 554, '2025-10-06', 12);
+
+-- VUELO 93 (Monterrey → CDMX)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(556, 93, 2000, 'ECONOMICA'),
+(557, 93, 4000, 'EJECUTIVA'),
+(558, 93, 6000, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(93, 556, '2025-10-01', 1),
+(93, 556, '2025-10-01', 2),
+(93, 557, '2025-10-02', 3),
+(93, 556, '2025-10-02', 4),
+(93, 556, '2025-10-03', 5),
+(93, 556, '2025-10-03', 6),
+(93, 556, '2025-10-04', 7),
+(93, 556, '2025-10-04', 8),
+(93, 557, '2025-10-05', 9),
+(93, 556, '2025-10-05', 10);
+
+-- VUELO 94 (Cancún → Los Ángeles)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(559, 94, 7000, 'ECONOMICA'),
+(560, 94, 14000, 'EJECUTIVA'),
+(561, 94, 21000, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(94, 559, '2025-10-01', 1),
+(94, 559, '2025-10-01', 2),
+(94, 560, '2025-10-02', 3),
+(94, 559, '2025-10-02', 4),
+(94, 559, '2025-10-03', 5),
+(94, 559, '2025-10-03', 6),
+(94, 559, '2025-10-04', 7),
+(94, 560, '2025-10-04', 8),
+(94, 559, '2025-10-05', 9),
+(94, 559, '2025-10-05', 10),
+(94, 561, '2025-10-06', 11),
+(94, 559, '2025-10-06', 12),
+(94, 559, '2025-10-07', 13),
+(94, 559, '2025-10-07', 14),
+(94, 560, '2025-10-07', 15);
+
+-- VUELO 95 (Monterrey → Guadalajara)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(562, 95, 2200, 'ECONOMICA'),
+(563, 95, 4400, 'EJECUTIVA'),
+(564, 95, 6600, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(95, 562, '2025-10-01', 1),
+(95, 562, '2025-10-01', 2),
+(95, 563, '2025-10-02', 3),
+(95, 562, '2025-10-02', 4),
+(95, 562, '2025-10-03', 5),
+(95, 562, '2025-10-03', 6),
+(95, 562, '2025-10-04', 7),
+(95, 563, '2025-10-04', 8),
+(95, 562, '2025-10-05', 9),
+(95, 562, '2025-10-05', 10),
+(95, 562, '2025-10-06', 11),
+(95, 563, '2025-10-06', 12);
+
+-- VUELO 96 (CDMX → JFK)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(565, 96, 12000, 'ECONOMICA'),
+(566, 96, 24000, 'EJECUTIVA'),
+(567, 96, 36000, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(96, 565, '2025-10-01', 1),
+(96, 565, '2025-10-01', 2),
+(96, 566, '2025-10-02', 3),
+(96, 565, '2025-10-02', 4),
+(96, 565, '2025-10-03', 5),
+(96, 565, '2025-10-03', 6),
+(96, 565, '2025-10-04', 7),
+(96, 566, '2025-10-04', 8),
+(96, 565, '2025-10-05', 9),
+(96, 565, '2025-10-05', 10),
+(96, 565, '2025-10-06', 11),
+(96, 566, '2025-10-06', 12),
+(96, 565, '2025-10-07', 13),
+(96, 565, '2025-10-07', 14),
+(96, 566, '2025-10-07', 15);
+
+-- VUELO 97 (LAX → CDMX)
+INSERT INTO tarifa_vuelo (id_tarifa, id_vuelo, precio, clase) VALUES
+(568, 97, 12500, 'ECONOMICA'),
+(569, 97, 25000, 'EJECUTIVA'),
+(570, 97, 37500, 'PREMIUM');
+INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(97, 568, '2025-10-01', 1),
+(97, 568, '2025-10-01', 2),
+(97, 569, '2025-10-02', 3),
+(97, 568, '2025-10-02', 4),
+(97, 568, '2025-10-03', 5),
+(97, 568, '2025-10-03', 6),
+(97, 568, '2025-10-04', 7),
+(97, 569, '2025-10-04', 8),
+(97, 568, '2025-10-05', 9),
+(97, 568, '2025-10-05', 10);
 
 
 
