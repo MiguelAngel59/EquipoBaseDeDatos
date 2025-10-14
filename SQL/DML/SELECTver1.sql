@@ -363,3 +363,81 @@ HAVING COUNT(vuelo.id_vuelo) > 0
 ORDER BY total_vuelos_carga DESC
 LIMIT 5;
 
+
+
+
+
+
+
+
+
+-----------------CONSULTAS PROPIAS-----------------------------
+
+-- 1
+-- Muestra cuántos vuelos ha realizado cada avión registrado en el sistema, ordenados de mayor número de vuelos a menor.
+-- Se utilizan las tablas avion y vuelo, vinculando vuelo.id_avion con avion.id_avion.
+-- Se aplica COUNT sobre vuelo.id_vuelo, agrupando por avión.
+SELECT avion.id_avion,
+       avion.modelo,
+       COUNT(vuelo.id_vuelo) AS total_vuelos
+FROM avion
+JOIN vuelo ON avion.id_avion = vuelo.id_avion
+GROUP BY avion.id_avion, avion.modelo
+ORDER BY total_vuelos DESC;
+
+
+-- 2
+-- Muestra el tiempo total en vuelo acumulado por cada avión, considerando solo vuelos finalizados.
+-- Se utiliza la tabla vuelo, agrupando por id_avion.
+-- Se calcula la duración como la diferencia entre eta y etd.
+-- Se aplica SUM para acumular el tiempo total por avión.
+SELECT avion.id_avion,
+       SUM(vuelo.eta - vuelo.etd) AS tiempo_total_en_vuelo
+FROM vuelo
+JOIN avion ON vuelo.id_avion = avion.id_avion
+WHERE vuelo.estado = 'FINALIZADO'
+GROUP BY avion.id_avion
+ORDER BY tiempo_total_en_vuelo DESC;
+
+
+-- 3
+-- Muestra cuántos modelos distintos de avión tiene registrada cada aerolínea.
+-- Se utiliza la tabla avion, agrupando por id_aerolinea.
+-- Se aplica COUNT(DISTINCT modelo) para contar la variedad de modelos por aerolínea.
+SELECT aerolinea.nombre AS aerolinea,
+       COUNT(DISTINCT avion.modelo) AS modelos_distintos
+FROM avion
+JOIN aerolinea ON avion.id_aerolinea = aerolinea.id_aerolinea
+GROUP BY aerolinea.nombre
+ORDER BY modelos_distintos DESC;
+
+
+-- 4
+-- Muestra la capacidad máxima y mínima de los aviones registrados por cada aerolínea.
+-- Se utiliza la tabla avion, agrupando por id_aerolinea.
+-- Se aplican MAX y MIN sobre capacidad_pasajeros.
+SELECT aerolinea.nombre AS aerolinea,
+       MAX(avion.capacidad_pasajeros) AS capacidad_maxima,
+       MIN(avion.capacidad_pasajeros) AS capacidad_minima
+FROM avion
+JOIN aerolinea ON avion.id_aerolinea = aerolinea.id_aerolinea
+GROUP BY aerolinea.nombre
+ORDER BY capacidad_maxima DESC;
+
+
+-- 5
+-- Muestra los aviones que han estado en 5 o más ciudades distintas, considerando origen y destino de sus vuelos.
+-- Se utilizan las tablas vuelo, avion y aeropuerto.
+-- Se construye una unión de ciudades visitadas por cada avión (origen y destino), eliminando duplicados.
+-- Se agrupa por avión y se filtra con HAVING para mostrar solo aquellos con 5 o más ciudades distintas.
+SELECT avion.id_avion,
+       avion.modelo,
+       COUNT(DISTINCT aeropuerto.ciudad) AS ciudades_visitadas
+FROM vuelo
+JOIN avion ON vuelo.id_avion = avion.id_avion
+JOIN aeropuerto ON aeropuerto.id_aeropuerto IN (vuelo.origen, vuelo.destino)
+GROUP BY avion.id_avion, avion.modelo
+HAVING COUNT(DISTINCT aeropuerto.ciudad) >= 5
+ORDER BY ciudades_visitadas DESC;
+
+
