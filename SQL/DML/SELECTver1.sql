@@ -56,11 +56,11 @@ ORDER BY ciudad_origen;
 -- Muestra cuántos vuelos no cancelados hay por mes, agrupando por año y mes de salida.
 -- Se utiliza la tabla vuelo y se extrae el mes con TO_CHAR sobre etd.
 -- Se aplica COUNT para obtener la cantidad de vuelos por mes.
-SELECT TO_CHAR(vuelo.etd, 'YYYY-MM') AS mes, COUNT(*) AS cantidad_vuelos
+SELECT TO_CHAR(vuelo.etd, 'YYYY-MM') AS año_mes, COUNT(*) AS cantidad_vuelos
 FROM vuelo
 WHERE vuelo.estado != 'CANCELADO'
 GROUP BY TO_CHAR(vuelo.etd, 'YYYY-MM')
-ORDER BY mes;
+ORDER BY año_mes;
 
 
 -- 5
