@@ -278,7 +278,8 @@ UNION
   )
   ORDER BY vuelo.id_vuelo
   LIMIT 1
-);
+)
+ORDER BY precio DESC;
 
 
 -- 15
