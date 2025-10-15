@@ -248,6 +248,7 @@ ORDER BY aerolinea.nombre;
 
 -- 14
 -- Muestra el vuelo con el boleto más caro y el vuelo con el boleto más barato registrados en el sistema.
+-- Si hay varios con boletos con el mayor o menor precio, se toma el de menor id.
 -- Se utilizan las tablas boleto, tarifa_vuelo y vuelo para rastrear el precio de cada boleto y el vuelo al que pertenece.
 -- Se aplica MAX y MIN sobre tarifa_vuelo.precio para identificar los extremos de precio entre todos los boletos vendidos.
 -- Se encapsulan los SELECT con LIMIT dentro de subconsultas para después usar UNION sobre cada consulta.
