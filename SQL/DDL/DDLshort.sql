@@ -1,6 +1,5 @@
--- ===========================================
+
 -- TABLA: AEROPUERTO
--- ===========================================
 CREATE TABLE aeropuerto (
     id_aeropuerto INT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -11,9 +10,8 @@ CREATE TABLE aeropuerto (
 );
 COMMENT ON TABLE aeropuerto IS 'Tabla que almacena la información de los aeropuertos';
 
--- ===========================================
+
 -- TABLA: TERMINAL
--- ===========================================
 CREATE TABLE terminal (
     id_aeropuerto INT REFERENCES aeropuerto(id_aeropuerto),
     numero_terminal INT,
@@ -23,9 +21,8 @@ CREATE TABLE terminal (
 );
 COMMENT ON TABLE terminal IS 'Terminales pertenecientes a los aeropuertos';
 
--- ===========================================
+
 -- TABLA: AEROLÍNEA
--- ===========================================
 CREATE TABLE aerolinea (
     id_aerolinea INT PRIMARY KEY,
     nombre VARCHAR(70) NOT NULL,
@@ -35,9 +32,8 @@ CREATE TABLE aerolinea (
 );
 COMMENT ON TABLE aerolinea IS 'Información de las aerolíneas';
 
--- ===========================================
+
 -- TABLA: AVIÓN
--- ===========================================
 CREATE TABLE avion (
     id_avion INT PRIMARY KEY,
     id_aeropuerto INT REFERENCES aeropuerto(id_aeropuerto),
@@ -47,9 +43,8 @@ CREATE TABLE avion (
 );
 COMMENT ON TABLE avion IS 'Información de los aviones';
 
--- ===========================================
--- TABLAS DE EMPLEADOS (estructura similar)
--- ===========================================
+
+-- TABLAS DE EMPLEADOS
 CREATE TABLE piloto (
     id_empleado INT PRIMARY KEY,
     id_aeropuerto INT REFERENCES aeropuerto(id_aeropuerto),
@@ -128,9 +123,8 @@ CREATE TABLE ingeniero (
     grado_estudio VARCHAR(20)
 );
 
--- ===========================================
+
 -- TABLA: VUELO
--- ===========================================
 CREATE TABLE vuelo (
     id_vuelo INT PRIMARY KEY,
     id_avion INT NOT NULL REFERENCES avion(id_avion),
@@ -144,9 +138,8 @@ CREATE TABLE vuelo (
 );
 COMMENT ON TABLE vuelo IS 'Registros de vuelos en el sistema';
 
--- ===========================================
+
 -- TABLA: TARIFA_VUELO
--- ===========================================
 CREATE TABLE tarifa_vuelo (
     id_tarifa INT PRIMARY KEY,
     id_vuelo INT REFERENCES vuelo(id_vuelo),
@@ -155,9 +148,8 @@ CREATE TABLE tarifa_vuelo (
 );
 COMMENT ON TABLE tarifa_vuelo IS 'Tarifas asociadas a los vuelos';
 
--- ===========================================
+
 -- TABLA: BOLETO
--- ===========================================
 CREATE TABLE boleto (
     id_boleto SERIAL PRIMARY KEY,
     id_vuelo INT REFERENCES vuelo(id_vuelo),
