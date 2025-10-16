@@ -4581,109 +4581,83 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --UPDATE
 
--- Cambiar capacidad de un aeropuerto
--- Aeropuerto Nacional de León ahora tiene 3 terminales.
-UPDATE aeropuerto
-SET capacidad_terminales = 3
-WHERE id_aeropuerto = 25; 
+-- Cambiar capacidad de publico de una terminal
+-- La terminal 1 del Aeropuerto Internacional de la Ciudad de México
+-- ahora tiene una capacidadd_publico de 22000
+UPDATE terminal
+SET capacidadd_publico = 22000
+WHERE id_aeropuerto = 1 AND numero_terminal = 1; 
 
 -- Actualizar última ubicación de avión
--- Avión de VivaAerobus ahora está en el Aeropuerto Internacional de Los Ángeles. 
+-- Avión de Mexicana de Aviación ahora está en el Aeropuerto Internacional de la Ciudad de México.
 UPDATE avion
-SET id_aeropuerto = 19
-WHERE id_avion = 15; 
+SET id_aeropuerto = 1
+WHERE id_avion = 63; 
 
--- Cambiar nacionalidad del piloto 20
--- Piloto de United ahora con nacionalidad canadiense.
+-- Certificar piloto
+-- El piloto Miguel Castillo Ríos ahora esta_certificado
 UPDATE piloto
-SET nacionalidad = 'Canadiense'
-WHERE id_piloto = 20;
+SET esta_certificado = TRUE
+WHERE id_empleado = 7;
 
--- Cambiar precio y horario a vuelo 18
--- Vuelo Delta DFW->CDMX ahora con precio = 9200 y nuevo horario.
+-- Cambiar horario del vuelo 97 LAX -> CDMX de Mexicana de Aviación.
 UPDATE vuelo 
-SET etd = '2025-10-16 07:00:00', eta = '2025-10-16 11:00:00', precio = 9200
-WHERE id_vuelo = 18;
+SET etd = '2025-10-16 07:00:00', eta = '2025-10-16 11:00:00'
+WHERE id_vuelo = 97;
 
 -- Actualizar estado de vuelo
--- El vuelo 9 de VivaAerobus ha despegado.
+-- El vuelo 94 Cancún -> Los Ángeles de Mexicana de Aviación.
 UPDATE vuelo
-SET estado = 'EN_VUELO'
-WHERE id_vuelo = 9;
+SET estado = 'FINALIZADO'
+WHERE id_vuelo = 94;
 
--- Reasignar aeropuerto base de un piloto
--- La piloto Ana García de Aerus ahora tiene base en Cancún.
+-- Reasignar aeropuerto donde se encuentra un piloto
+-- La piloto Ana Sanchez Morales de Aeroméxico ahora se encuentra en el Aeropuerto Internacional de Cancún.
 UPDATE piloto
-SET id_aeropuerto = 14
-WHERE id_piloto = 1;
+SET id_aeropuerto = 4
+WHERE id_empleado = 4;
 
--- Corregir la capacidad de avión 
--- El avión 22 es muy grande y se debe cambiar su capacidad.
+-- Coambiar capacidad de un avión
+-- Avión de Mexicana de Aviación ahora tiene capacidad de pasajeros de 210.
 UPDATE avion
-SET capacidad = 290
-WHERE id_avion = 22;
+SET capacidad_pasajeros = 210
+WHERE id_avion = 63;
 
--- Incrementar precio de vuelo 
--- Aumentar el precio del vuelo 6 de Air Canada.
-UPDATE vuelo
-SET precio = 7150.00
-WHERE id_vuelo = 6;
+-- Incrementar precio de tarifa_vuelo de la clase ECONOMICA del vuelo 2
+UPDATE tarifa_vuelo
+SET precio = 1250
+WHERE id_tarifa = 2;
 
 
 
 --DELETE
 
 -- Eliminar un aeropuerto, no tiene elementos dependietes
--- Eliminado Aeropuerto Nacional de León.
+-- Eliminamos el NAIM por cancelación.
 DELETE FROM aeropuerto
-WHERE id_aeropuerto = 25;
+WHERE id_aeropuerto = 5;
 
 -- Eliminar una aerolínea
+-- Se eliminó All Nippon Airways
 DELETE FROM aerolinea
 WHERE id_aerolinea = 25;
 
 -- Eliminar un avión
--- Eliminado avión De Havilland Dash 8 Q400 de Calafia.
+-- Eliminado avión 175 Airbus A320neo de Frontier Airlines
 DELETE FROM avion
-WHERE id_avion = 22;
+WHERE id_avion = 119;
 
--- Eliminar un piloto
--- Eliminado piloto Anne Taylor de Air Canada.
-DELETE FROM piloto
-WHERE id_piloto = 19;
+-- Eliminar un empleado sobrecargo de una aerolínea
+-- Eliminado sobrecargo Valentina López Santos de Aeroméxico
+DELETE FROM sobrecargo
+WHERE id_empleado = 3;
 
--- Eliminar un piloto de una aerolínea que será borrada
--- Eliminado piloto José Pérez de Interjet.
-DELETE FROM piloto
-WHERE id_piloto = 16;
-
--- Eliminar un avión de la aerolínea que será borrada
--- Eliminado avión Superjet 100 de Interjet.
-DELETE FROM avion
-WHERE id_avion = 16;
-
--- Eliminar una aerolínea 
--- Eliminada aerolínea Interjet.
-DELETE FROM aerolinea
-WHERE id_aerolinea = 16;
+-- Eliminar un boleto
+-- Eliminado boleto del vuelo 17 y asiento 15
+DELETE FROM boleto
+WHERE id_vuelo = 17 AND numero_asiento = 15;
 
 
 
@@ -4695,7 +4669,7 @@ FROM aeropuerto
 WHERE tipo = 'INTERNACIONAL' AND pais = 'México';
 
 -- Ver pilotos y su aerolínea
-SELECT p.id_piloto, p.nombre, p.apellido_paterno, a.nombre AS aerolinea
+SELECT p.id_empleado, p.nombre, p.apellido_paterno, a.nombre AS aerolinea
 FROM piloto p
 JOIN aerolinea a ON p.id_aerolinea = a.id_aerolinea
 ORDER BY a.nombre;
@@ -4706,35 +4680,46 @@ FROM vuelo
 GROUP BY estado;
 
 -- Listar aviones con capacidad mayor a 150 asientos
-SELECT id_avion, modelo, capacidad
+SELECT id_avion, modelo, capacidad_pasajeros
 FROM avion
-WHERE capacidad > 150;
+WHERE capacidad_pasajeros > 150;
 
--- Listar vuelos (origen y destino) que salen desde LAX
+-- Listar vuelos (origen y destino) que salen desde el aeropuerto 19 Aeroporto Internacional Tancredo Neves
 SELECT v.id_vuelo, a_origen.nombre AS origen, a_destino.nombre AS destino, v.estado
 FROM vuelo v
-JOIN aeropuerto a_origen ON v.id_origen = a_origen.id_aeropuerto
-JOIN aeropuerto a_destino ON v.id_destino = a_destino.id_aeropuerto
+JOIN aeropuerto a_origen ON v.origen = a_origen.id_aeropuerto
+JOIN aeropuerto a_destino ON v.destino = a_destino.id_aeropuerto
 WHERE a_origen.id_aeropuerto = 19;
 
 -- Calcular el precio promedio de los vuelos por aerolínea
-SELECT ae.nombre AS aerolinea, AVG(v.precio) AS precio_promedio
-FROM vuelo v
-JOIN avion av ON v.id_avion = av.id_avion
-JOIN aerolinea ae ON av.id_aerolinea = ae.id_aerolinea
-GROUP BY ae.nombre
-ORDER BY precio_promedio DESC;
+SELECT aerolinea.nombre AS aerolinea,
+       AVG(tarifa_vuelo.precio) AS costo_promedio
+FROM boleto
+JOIN tarifa_vuelo ON boleto.id_tarifa = tarifa_vuelo.id_tarifa
+JOIN vuelo ON boleto.id_vuelo = vuelo.id_vuelo
+JOIN avion ON vuelo.id_avion = avion.id_avion
+JOIN aerolinea ON avion.id_aerolinea = aerolinea.id_aerolinea
+GROUP BY aerolinea.nombre
+ORDER BY aerolinea.nombre;
 
 -- Encontrar qué pilotos vuelan el modelo 'Boeing 737-800'
-SELECT DISTINCT p.nombre, p.apellido_paterno, a.modelo
+SELECT DISTINCT p.nombre, p.apellido_paterno, p.apellido_materno, a.modelo
 FROM piloto p
-JOIN vuelo v ON p.id_piloto = v.id_piloto
+JOIN vuelo v ON p.id_empleado = v.piloto
 JOIN avion a ON v.id_avion = a.id_avion
 WHERE a.modelo = 'Boeing 737-800';
 
 -- Encontrar el vuelo programado más caro
-SELECT id_vuelo, precio
-FROM vuelo
-WHERE estado = 'PROGRAMADO'
-ORDER BY precio DESC
+SELECT vuelo.id_vuelo,
+       tarifa_vuelo.precio AS precio
+FROM boleto
+JOIN tarifa_vuelo ON boleto.id_tarifa = tarifa_vuelo.id_tarifa
+JOIN vuelo ON boleto.id_vuelo = vuelo.id_vuelo
+WHERE tarifa_vuelo.precio = (
+    SELECT MAX(precio)
+    FROM tarifa_vuelo
+)
+AND vuelo.estado = 'PROGRAMADO'
+ORDER BY vuelo.id_vuelo
 LIMIT 1;
+
