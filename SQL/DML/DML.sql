@@ -4579,6 +4579,7 @@ INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 
 
 
+/* COMENTADO, pero se comprobó su funcionalidad con los cambios
 
 
 --UPDATE
@@ -4723,3 +4724,5 @@ AND vuelo.estado = 'PROGRAMADO'
 ORDER BY vuelo.id_vuelo
 LIMIT 1;
 
+
+*/
