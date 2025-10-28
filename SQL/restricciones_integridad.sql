@@ -230,7 +230,7 @@ ALTER TABLE vuelo
 ALTER TABLE vuelo
     ADD CONSTRAINT fk_destino_vuelo
     FOREIGN KEY (destino) REFERENCES aeropuerto(id_aeropuerto)
-    ON DELETE CASCADEL
+    ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 
@@ -277,91 +277,6 @@ ALTER TABLE boleto
 -- un nuevo atributo multivaluado para los sobrecargos y personal de atención al pasajero, dicho atributo
 -- hace referencia al idioma que dominan.
 
--- Haremos unas modificaciones para hacer más especificos los nombres de las PK de cada elemento de tipo empleado
--- Haremos drop de las Constraint de la antigua PK
-
--- PILOTO
-ALTER TABLE piloto
-    RENAME COLUMN id_empleado TO id_piloto;
-
--- Quitamos la anterior CONSTRAINT que definia la anterior pk, pues a pesar de que en teoría es el mismo atributo,
--- en la constraint se señala a id_empleado, pero ese atributo ya no se encuentra en la tabla.
-ALTER TABLE piloto
-    DROP CONSTRAINT pk_piloto;
-
--- Agregar nueva PK
-ALTER TABLE piloto
-    ADD CONSTRAINT pk_piloto PRIMARY KEY (id_piloto);
-
-COMMENT ON COLUMN piloto.id_piloto IS 'Identificador único del piloto';
-
-
--- CONTROLADOR
-ALTER TABLE controlador
-    RENAME COLUMN id_empleado TO id_controlador;
-
-ALTER TABLE controlador
-    DROP CONSTRAINT pk_controlador;
-
-ALTER TABLE controlador
-    ADD CONSTRAINT pk_controlador PRIMARY KEY (id_controlador);
-
-COMMENT ON COLUMN controlador.id_controlador IS 'Identificador único del controlador de tráfico aéreo';
-
-
--- SOBRECARGO
-ALTER TABLE sobrecargo
-    RENAME COLUMN id_empleado TO id_sobrecargo;
-
-ALTER TABLE sobrecargo
-    DROP CONSTRAINT pk_sobrecargo;
-
-ALTER TABLE sobrecargo
-    ADD CONSTRAINT pk_sobrecargo PRIMARY KEY (id_sobrecargo);
-
-COMMENT ON COLUMN sobrecargo.id_sobrecargo IS 'Identificador único del sobrecargo o auxiliar de vuelo';
-
-
--- TECNICO
-ALTER TABLE tecnico
-    RENAME COLUMN id_empleado TO id_tecnico;
-
-ALTER TABLE tecnico
-    DROP CONSTRAINT pk_tecnico;
-
-ALTER TABLE tecnico
-    ADD CONSTRAINT pk_tecnico PRIMARY KEY (id_tecnico);
-
-COMMENT ON COLUMN tecnico.id_tecnico IS 'Identificador único del técnico aeronáutico';
-
-
--- INGENIERO
-ALTER TABLE ingeniero
-    RENAME COLUMN id_empleado TO id_ingeniero;
-
-ALTER TABLE ingeniero
-    DROP CONSTRAINT pk_ingeniero;
-
-ALTER TABLE ingeniero
-    ADD CONSTRAINT pk_ingeniero PRIMARY KEY (id_ingeniero);
-
-COMMENT ON COLUMN ingeniero.id_ingeniero IS 'Identificador único del ingeniero aeronáutico';
-
-
--- ATENCIÓN AL PASAJERO
-ALTER TABLE atencionalpasajero
-    RENAME COLUMN id_empleado TO id_atencion;
-
-ALTER TABLE atencionalpasajero
-    DROP CONSTRAINT pk_atencionpasajero;
-
-ALTER TABLE atencionalpasajero
-    ADD CONSTRAINT pk_atencion PRIMARY KEY (id_atencion);
-
-COMMENT ON COLUMN atencionalpasajero.id_atencion IS 'Identificador único del empleado de atención al pasajero';
-
-
---------------------------------------------------------------------------------------------------------------------
 -- AGREGADO DE LAS RELACIONES PARA IDIOMAS DEL PERSONAL
 -- TABLA DE IDIOMAS
 CREATE TABLE idioma (
@@ -384,46 +299,46 @@ COMMENT ON COLUMN idioma.nombre IS 'Nombre del idioma (Español, Inglés, Franc�
 
 -- Tabla de la relacipn SOBRECARGO – IDIOMA
 CREATE TABLE sobrecargo_idioma (
-    id_sobrecargo INT,
+    id_empleado INT,
     id_idioma INT
 );
 
 ALTER TABLE sobrecargo_idioma
-    ADD CONSTRAINT pk_sobrecargo_idioma PRIMARY KEY (id_sobrecargo, id_idioma);
+    ADD CONSTRAINT pk_sobrecargo_idioma PRIMARY KEY (id_empleado, id_idioma);
 
 ALTER TABLE sobrecargo_idioma
-    ADD CONSTRAINT fk_sobrecargo_idioma_sobrecargo FOREIGN KEY (id_sobrecargo)
-    REFERENCES sobrecargo(id_sobrecargo);
+    ADD CONSTRAINT fk_sobrecargo_idioma_sobrecargo FOREIGN KEY (id_empleado)
+    REFERENCES sobrecargo(id_empleado);
 
 ALTER TABLE sobrecargo_idioma
     ADD CONSTRAINT fk_sobrecargo_idioma_idioma FOREIGN KEY (id_idioma)
     REFERENCES idioma(id_idioma);
 
 COMMENT ON TABLE sobrecargo_idioma IS 'Relación entre sobrecargos y los idiomas que dominan';
-COMMENT ON COLUMN sobrecargo_idioma.id_sobrecargo IS 'Identificador del sobrecargo que domina el idioma';
+COMMENT ON COLUMN sobrecargo_idioma.id_empleado IS 'Identificador del sobrecargo que domina el idioma';
 COMMENT ON COLUMN sobrecargo_idioma.id_idioma IS 'Identificador del idioma que domina el sobrecargo';
 
 
 -- Tabla de la relación ATENCIÓN AL PASAJERO – IDIOMA
-CREATE TABLE atencion_idioma (
-    id_atencion INT,
+CREATE TABLE atencionpasajero_idioma (
+    id_empleado INT,
     id_idioma INT
 );
 
-ALTER TABLE atencion_idioma
-    ADD CONSTRAINT pk_atencion_idioma PRIMARY KEY (id_atencion, id_idioma);
+ALTER TABLE atencionpasajero_idioma
+    ADD CONSTRAINT pk_atencionpasajero_idioma PRIMARY KEY (id_empleado, id_idioma);
 
-ALTER TABLE atencion_idioma
-    ADD CONSTRAINT fk_atencion_idioma_atencion FOREIGN KEY (id_atencion)
-    REFERENCES atencionalpasajero(id_atencion);
+ALTER TABLE atencionpasajero_idioma
+    ADD CONSTRAINT fk_atencionpasajero_idioma_atencion FOREIGN KEY (id_empleado)
+    REFERENCES atencionalpasajero(id_empleado);
 
-ALTER TABLE atencion_idioma
-    ADD CONSTRAINT fk_atencion_idioma_idioma FOREIGN KEY (id_idioma)
+ALTER TABLE atencionpasajero_idioma
+    ADD CONSTRAINT fk_atencionpasajero_idioma_idioma FOREIGN KEY (id_idioma)
     REFERENCES idioma(id_idioma);
 
-COMMENT ON TABLE atencion_idioma IS 'Relación entre empleados de atención al pasajero y los idiomas que manejan';
-COMMENT ON COLUMN atencion_idioma.id_atencion IS 'Identificador del empleado de atención al pasajero que domina el idioma';
-COMMENT ON COLUMN atencion_idioma.id_idioma IS 'Identificador del idioma que domina el empleado';
+COMMENT ON TABLE atencionpasajero_idioma IS 'Relación entre empleados de atención al pasajero y los idiomas que manejan';
+COMMENT ON COLUMN atencionpasajero_idioma.id_empleado IS 'Identificador del empleado de atención al pasajero que domina el idioma';
+COMMENT ON COLUMN atencionpasajero_idioma.id_idioma IS 'Identificador del idioma que domina el empleado';
 
 --------------------------------------------------------------------------------------------------------------------
 -- 3. Modificar al menos una tabla agregando y eliminando columnas, y cambiando tipos de datos.
@@ -490,7 +405,3 @@ ALTER TABLE sobrecargo_idioma
 
 ALTER TABLE atencionpasajero_idioma
     DROP COLUMN clave_certificado;
-
-
-
-
