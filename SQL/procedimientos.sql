@@ -92,9 +92,9 @@ CREATE OR REPLACE PROCEDURE actualizar_ubicacion_aviones()
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    aviones_afectados INT := 0;
+    tmp INT;
 BEGIN
-    -- 1. Aviones en vuelo → ya no están disponibles en su aeropuerto
+    -- Aviones actualmente en vuelo → quitar ubicación
     UPDATE avion
     SET id_aeropuerto = NULL
     WHERE id_avion IN (
@@ -102,25 +102,18 @@ BEGIN
         FROM vuelo v
         WHERE CURRENT_TIMESTAMP BETWEEN v.etd AND v.eta
     );
+    GET DIAGNOSTICS tmp = ROW_COUNT;
 
-    GET DIAGNOSTICS aviones_afectados = aviones_afectados + ROW_COUNT;
-
-    -- 2. Aviones con vuelo finalizado → deben estar en el destino
+    -- Aviones con vuelo finalizado → asignar aeropuerto destino
     UPDATE avion
     SET id_aeropuerto = v.destino
     FROM vuelo v
     WHERE avion.id_avion = v.id_avion
       AND CURRENT_TIMESTAMP >= v.eta;
-
-    GET DIAGNOSTICS aviones_afectados = aviones_afectados + ROW_COUNT;
-
-    IF aviones_afectados = 0 THEN
-        RAISE NOTICE 'No hubo cambios: ningún avión con vuelos en curso o finalizados.';
-    ELSE
-        RAISE NOTICE 'Ubicación de aviones actualizada. Total de registros afectados: %', aviones_afectados;
-    END IF;
+    GET DIAGNOSTICS tmp = ROW_COUNT;
 END;
 $$;
+
 
 
 -- Procedimiento: Actualiza el aeropuerto actual de los pilotos en función de los vuelos
@@ -137,9 +130,9 @@ CREATE OR REPLACE PROCEDURE actualizar_ubicacion_pilotos()
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    pilotos_afectados INT := 0;
+    tmp INT;
 BEGIN
-    -- 1. Pilotos actualmente en vuelo → no disponibles
+    -- Pilotos actualmente en vuelo → quitar ubicación
     UPDATE piloto
     SET id_aeropuerto = NULL
     WHERE id_empleado IN (
@@ -147,23 +140,16 @@ BEGIN
         FROM vuelo v
         WHERE CURRENT_TIMESTAMP BETWEEN v.etd AND v.eta
     );
+    GET DIAGNOSTICS tmp = ROW_COUNT;
 
-    GET DIAGNOSTICS pilotos_afectados = pilotos_afectados + ROW_COUNT;
-
-    -- 2. Pilotos con vuelos finalizados → ya en aeropuerto destino
+    -- Pilotos con vuelo finalizado → asignar aeropuerto destino
     UPDATE piloto
     SET id_aeropuerto = v.destino
     FROM vuelo v
     WHERE piloto.id_empleado = v.piloto
       AND CURRENT_TIMESTAMP >= v.eta;
-
-    GET DIAGNOSTICS pilotos_afectados = pilotos_afectados + ROW_COUNT;
-
-    IF pilotos_afectados = 0 THEN
-        RAISE NOTICE 'No hubo cambios: ningún piloto con vuelos en curso o finalizados.';
-    ELSE
-        RAISE NOTICE 'Ubicación de pilotos actualizada. Total de registros afectados: %', pilotos_afectados;
-    END IF;
+    GET DIAGNOSTICS tmp = ROW_COUNT;
 END;
 $$;
+
 
