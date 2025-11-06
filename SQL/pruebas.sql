@@ -58,7 +58,7 @@ WHERE id_vuelo = 10 AND clase ILIKE 'EJECUTIVA';
 -- Ejemplo: actualiza la ubicación de los aviones según los vuelos activos.
 CALL actualizar_ubicacion_aviones();
 -- Consulta para verificar resultado
-SELECT id_avion, id_aeropuerto
+SELECT id_avion, modelo, id_aeropuerto
 FROM avion
 ORDER BY id_avion;
 
