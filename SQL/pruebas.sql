@@ -47,11 +47,11 @@ WHERE estado LIKE 'PROGRAMADO';
 
 
 -- ajustar_importe_clase_vuelo(p_id_vuelo, p_clase, p_incremento)
--- Ejemplo: aumenta el precio de la clase EJECUTIVA del vuelo 1.
-CALL ajustar_importe_clase_vuelo(104, 'EJECUTIVA', 250.00);
+-- Ejemplo: aumenta el precio de la clase EJECUTIVA del vuelo 10.
+CALL ajustar_importe_clase_vuelo(10, 'EJECUTIVA', 250.00);
 SELECT id_tarifa, clase, precio
 FROM tarifa_vuelo
-WHERE id_vuelo = 104 AND clase ILIKE 'EJECUTIVA';
+WHERE id_vuelo = 10 AND clase ILIKE 'EJECUTIVA';
 
 
 -- actualizar_ubicacion_aviones()
