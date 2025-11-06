@@ -17,9 +17,9 @@ ORDER BY porcentaje_ocupacion DESC;
 -- Ejemplo: lista cuántos vuelos activos tiene cada aerolínea.
 SELECT 
     al.nombre AS aerolinea,
-    vuelos_activos_aerolinea(al.id_aerolinea) AS vuelos_en_curso
+    vuelos_activos_aerolinea(al.id_aerolinea) AS vuelos_activos
 FROM aerolinea al
-ORDER BY vuelos_en_curso DESC;
+ORDER BY vuelos_activos DESC;
 
 
 -- total_ingresos_aeropuerto(p_id_aeropuerto INT)
@@ -38,12 +38,16 @@ ORDER BY ingresos_totales DESC;
 ---------------------------Procedimiento--------------------------------------
 
 -- actualizar_estado_por_hora()
--- Ejemplo: actualiza los estados de los vuelos según la hora actual.
+-- Ejemplo: actualiza los estados de los vuelos según la hora actual, posterior
+-- se consulta los vuelos PRORAMADOS, los cuales deberían ser pocos.
 CALL actualizar_estado_por_hora();
+SELECT id_vuelo, estado
+FROM vuelo
+WHERE estado LIKE 'PROGRAMADO';
 
 
 -- ajustar_importe_clase_vuelo(p_id_vuelo, p_clase, p_incremento)
--- Ejemplo: aumenta el precio de la clase EJECUTIVA del vuelo 104.
+-- Ejemplo: aumenta el precio de la clase EJECUTIVA del vuelo 1.
 CALL ajustar_importe_clase_vuelo(104, 'EJECUTIVA', 250.00);
 SELECT id_tarifa, clase, precio
 FROM tarifa_vuelo
