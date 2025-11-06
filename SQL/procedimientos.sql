@@ -79,15 +79,12 @@ END;
 $$;
 
 
-
-
 -- Procedimiento: Actualiza la ubicación de los aviones con base en el estado temporal
 -- de los vuelos. Si un vuelo ya inició, el avión se marca como no disponible
 -- (id_aeropuerto = NULL). Si el vuelo ya finalizó, se actualiza con el
 -- aeropuerto de destino. Si no hay vuelos asociados o aún no comienzan,
 -- el valor actual no se modifica.
 -- Tablas involucradas: vuelo, avion
--- ==========================================================
 CREATE OR REPLACE PROCEDURE actualizar_ubicacion_aviones()
 LANGUAGE plpgsql
 AS $$
@@ -115,17 +112,12 @@ END;
 $$;
 
 
-
 -- Procedimiento: Actualiza el aeropuerto actual de los pilotos en función de los vuelos
 -- registrados. Si el vuelo ya inició, el piloto se marca como no disponible
 -- (id_aeropuerto = NULL). Si el vuelo ya finalizó, se actualiza su ubicación
 -- con el aeropuerto de destino. Si el piloto no tiene vuelos recientes,
 -- su ubicación permanece sin cambios.
---
--- Parámetros: (ninguno)
---
 -- Tablas involucradas: vuelo, piloto
--- ==========================================================
 CREATE OR REPLACE PROCEDURE actualizar_ubicacion_pilotos()
 LANGUAGE plpgsql
 AS $$
