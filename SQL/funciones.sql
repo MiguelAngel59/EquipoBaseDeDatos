@@ -32,7 +32,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Función: Devuelve el número de vuelos actualmente en estado 'PROGRAMADO' o 'EN_VUELO' de una aerolínea.
--- Útil para ver cuántos vuelos están activos por aerolínea.
+-- Útil para ver cuántos vuelos están activos o representan una actividad operacional por aerolínea.
 -- Tablas involucradas: vuelo, avion, aerolinea
 CREATE OR REPLACE FUNCTION vuelos_activos_aerolinea(p_id_aerolinea INT)
 RETURNS INT AS $$
