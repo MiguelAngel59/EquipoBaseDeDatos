@@ -1,3 +1,7 @@
+-- DDL_inicial
+-- Versión del DDL inicial con las restricciones de integridad
+
+-- TABLA: AEROPUERTO
 CREATE TABLE aeropuerto (
     id_aeropuerto INT,
     nombre VARCHAR(100),
@@ -25,9 +29,15 @@ ALTER TABLE aeropuerto
 ALTER TABLE aeropuerto
     ADD CONSTRAINT uq_codigo_iata UNIQUE (codigo_iata);
 
+-- CHECK: tipo válido (INTERNACIONAL, NACIONAL)
 ALTER TABLE aeropuerto
     ADD CONSTRAINT chk_tipo_aeropuerto
     CHECK (tipo IN ('INTERNACIONAL', 'NACIONAL'));
+
+-- CHECK: longitud del código IATA = 3
+ALTER TABLE aeropuerto
+    ADD CONSTRAINT ck_codigo_iata_length
+    CHECK (LENGTH(codigo_iata) = 3);
 
 COMMENT ON TABLE aeropuerto IS 'Tabla que almacena la información de los aeropuertos';
 COMMENT ON COLUMN aeropuerto.id_aeropuerto IS 'Identificador único del aeropuerto';
@@ -38,7 +48,7 @@ COMMENT ON COLUMN aeropuerto.ciudad IS 'Ciudad donde se ubica el aeropuerto';
 COMMENT ON COLUMN aeropuerto.codigo_iata IS 'Código IATA de 3 letras que identifica al aeropuerto';
 
 
-
+-- TABLA: TERMINAL
 CREATE TABLE terminal (
     id_aeropuerto INT,
     numero_terminal INT,
@@ -66,7 +76,7 @@ COMMENT ON COLUMN terminal.capacidadd_aviones IS 'Capacidad máxima de aviones q
 COMMENT ON COLUMN terminal.capacidadd_publico IS 'Capacidad máxima de público que puede recibir la terminal';
 
 
-
+-- TABLA: AEROLINEA
 CREATE TABLE aerolinea (
     id_aerolinea INT,
     nombre VARCHAR(70),
@@ -101,7 +111,7 @@ COMMENT ON COLUMN aerolinea.codigo_internacional IS 'Código internacional de la
 COMMENT ON COLUMN aerolinea.fecha_fundacion IS 'Fecha de fundación de la aerolínea';
 
 
-
+-- TABLA: AVION
 CREATE TABLE avion (
     id_avion INT,
     id_aeropuerto INT,
@@ -113,6 +123,7 @@ CREATE TABLE avion (
 ALTER TABLE avion
     ADD CONSTRAINT pk_avion PRIMARY KEY (id_avion);
 
+-- FKs iniciales
 ALTER TABLE avion
     ADD CONSTRAINT fk_avion_aeropuerto FOREIGN KEY (id_aeropuerto)
     REFERENCES aeropuerto(id_aeropuerto);
@@ -138,7 +149,7 @@ COMMENT ON COLUMN avion.modelo IS 'Modelo del avión';
 COMMENT ON COLUMN avion.capacidad_pasajeros IS 'Capacidad máxima de pasajeros';
 
 
-
+-- TABLA: PILOTO
 CREATE TABLE piloto (
     id_empleado INT,
     id_aeropuerto INT,
@@ -192,6 +203,9 @@ ALTER TABLE piloto
 ALTER TABLE piloto
     ADD CONSTRAINT chk_horas_vuelo CHECK (horas_de_vuelo >= 0);
 
+ALTER TABLE piloto
+    ADD CONSTRAINT ck_piloto_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
 COMMENT ON TABLE piloto IS 'Tabla de información de los pilotos';
 COMMENT ON COLUMN piloto.id_empleado IS 'Identificador único del piloto';
 COMMENT ON COLUMN piloto.id_aeropuerto IS 'Aeropuerto base del piloto';
@@ -207,7 +221,7 @@ COMMENT ON COLUMN piloto.esta_certificado IS 'Indica si el piloto está certific
 COMMENT ON COLUMN piloto.horas_de_vuelo IS 'Total de horas de vuelo acumuladas';
 
 
-
+-- TABLA: CONTROLADOR
 CREATE TABLE controlador (
     id_empleado INT,
     id_aeropuerto INT,
@@ -254,6 +268,13 @@ ALTER TABLE controlador
 ALTER TABLE controlador
     ADD CONSTRAINT chk_numero_torre CHECK (numero_torre_asignada >= 0);
 
+ALTER TABLE controlador
+    ADD CONSTRAINT ck_controlador_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
+ALTER TABLE controlador
+    ADD CONSTRAINT ck_turno_controlador
+    CHECK (turno IN ('Matutino','Vespertino','Nocturno'));
+
 COMMENT ON TABLE controlador IS 'Tabla de información de los controladores de tráfico aéreo';
 COMMENT ON COLUMN controlador.id_empleado IS 'Identificador único del controlador';
 COMMENT ON COLUMN controlador.id_aeropuerto IS 'Aeropuerto donde labora el controlador';
@@ -268,7 +289,7 @@ COMMENT ON COLUMN controlador.licencia_controlador IS 'Número de licencia del c
 COMMENT ON COLUMN controlador.turno IS 'Turno de trabajo del controlador (matutino, vespertino, nocturno)';
 
 
-
+-- TABLA: SOBRECARGO
 CREATE TABLE sobrecargo (
     id_empleado INT,
     id_aeropuerto INT,
@@ -310,6 +331,9 @@ ALTER TABLE sobrecargo
 ALTER TABLE sobrecargo
     ADD CONSTRAINT chk_anios_experiencia CHECK (años_experiencia >= 0);
 
+ALTER TABLE sobrecargo
+    ADD CONSTRAINT ck_sobrecargo_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
 COMMENT ON TABLE sobrecargo IS 'Tabla de información de los sobrecargos o auxiliares de vuelo';
 COMMENT ON COLUMN sobrecargo.id_empleado IS 'Identificador único del sobrecargo';
 COMMENT ON COLUMN sobrecargo.id_aeropuerto IS 'Aeropuerto donde está asignado el sobrecargo';
@@ -322,7 +346,7 @@ COMMENT ON COLUMN sobrecargo.nacionalidad IS 'Nacionalidad del sobrecargo';
 COMMENT ON COLUMN sobrecargo.años_experiencia IS 'Años de experiencia acumulados como sobrecargo';
 
 
-
+-- TABLA: TECNICO
 CREATE TABLE tecnico (
     id_empleado INT,
     id_aeropuerto INT,
@@ -364,6 +388,9 @@ ALTER TABLE tecnico
 ALTER TABLE tecnico
     ALTER COLUMN especialidad SET NOT NULL;
 
+ALTER TABLE tecnico
+    ADD CONSTRAINT ck_tecnico_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
 COMMENT ON TABLE tecnico IS 'Tabla de información de los técnicos de mantenimiento aeronáutico';
 COMMENT ON COLUMN tecnico.id_empleado IS 'Identificador único del técnico';
 COMMENT ON COLUMN tecnico.id_aeropuerto IS 'Aeropuerto donde labora el técnico';
@@ -376,7 +403,7 @@ COMMENT ON COLUMN tecnico.nacionalidad IS 'Nacionalidad del técnico';
 COMMENT ON COLUMN tecnico.especialidad IS 'Área o especialidad técnica del empleado';
 
 
-
+-- TABLA: ATENCIONALPASAJERO
 CREATE TABLE atencionalpasajero (
     id_empleado INT,
     id_aeropuerto INT,
@@ -418,6 +445,9 @@ ALTER TABLE atencionalpasajero
 ALTER TABLE atencionalpasajero
     ALTER COLUMN puesto SET NOT NULL;
 
+ALTER TABLE atencionalpasajero
+    ADD CONSTRAINT ck_atencionalpasajero_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
 COMMENT ON TABLE atencionalpasajero IS 'Tabla de información de los empleados de atención al pasajero';
 COMMENT ON COLUMN atencionalpasajero.id_empleado IS 'Identificador único del empleado de atención al pasajero';
 COMMENT ON COLUMN atencionalpasajero.id_aeropuerto IS 'Aeropuerto donde trabaja el empleado de atención al pasajero';
@@ -430,7 +460,7 @@ COMMENT ON COLUMN atencionalpasajero.nacionalidad IS 'Nacionalidad del empleado 
 COMMENT ON COLUMN atencionalpasajero.puesto IS 'Puesto o cargo desempeñado por el empleado';
 
 
-
+-- TABLA: INGENIERO
 CREATE TABLE ingeniero (
     id_empleado INT,
     id_aeropuerto INT,
@@ -473,6 +503,9 @@ ALTER TABLE ingeniero
 ALTER TABLE ingeniero
     ALTER COLUMN rama SET NOT NULL;
 
+ALTER TABLE ingeniero
+    ADD CONSTRAINT ck_ingeniero_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+
 COMMENT ON TABLE ingeniero IS 'Tabla de información de los ingenieros aeronáuticos';
 COMMENT ON COLUMN ingeniero.id_empleado IS 'Identificador único del ingeniero';
 COMMENT ON COLUMN ingeniero.id_aeropuerto IS 'Aeropuerto donde labora el ingeniero';
@@ -486,7 +519,7 @@ COMMENT ON COLUMN ingeniero.rama IS 'Rama de la ingeniería (mecánica, electró
 COMMENT ON COLUMN ingeniero.grado_estudio IS 'Grado académico del ingeniero';
 
 
-
+-- TABLA: VUELO
 CREATE TABLE vuelo (
     id_vuelo INT,
     id_avion INT,
@@ -546,6 +579,13 @@ ALTER TABLE vuelo
     ADD CONSTRAINT chk_tiempo_vuelo
     CHECK (eta > etd);
 
+ALTER TABLE vuelo
+    ADD COLUMN tipo_vuelo VARCHAR(20) NOT NULL;
+
+ALTER TABLE vuelo
+    ADD CONSTRAINT chk_tipo_vuelo
+    CHECK (tipo_vuelo IN ('CARGA', 'COMERCIAL'));
+
 COMMENT ON TABLE vuelo IS 'Tabla que almacena los registros de los vuelos registrados en el sistema';
 COMMENT ON COLUMN vuelo.id_vuelo IS 'Identificador único del vuelo';
 COMMENT ON COLUMN vuelo.id_avion IS 'Referencia al avión asignado al vuelo';
@@ -555,21 +595,10 @@ COMMENT ON COLUMN vuelo.destino IS 'Aeropuerto de destino del vuelo';
 COMMENT ON COLUMN vuelo.estado IS 'Estado actual del vuelo (PROGRAMADO, EN_VUELO, CANCELADO, FINALIZADO)';
 COMMENT ON COLUMN vuelo.etd IS 'Horario estimado de salida (Estimated Time of Departure)';
 COMMENT ON COLUMN vuelo.eta IS 'Horario estimado de llegada (Estimated Time of Arrival)';
-
--- Agregar la nueva columna tipo_vuelo
-ALTER TABLE vuelo
-    ADD COLUMN tipo_vuelo VARCHAR(20) NOT NULL;
-
--- Restringir los valores permitidos
-ALTER TABLE vuelo
-    ADD CONSTRAINT chk_tipo_vuelo
-    CHECK (tipo_vuelo IN ('CARGA', 'COMERCIAL'));
-
--- Documentación de la nueva columna
 COMMENT ON COLUMN vuelo.tipo_vuelo IS 'Tipo de vuelo: puede ser de CARGA o COMERCIAL';
 
 
-
+-- TABLA: TARIFA_VUELO
 CREATE TABLE tarifa_vuelo (
     id_tarifa INT,
     id_vuelo INT,
@@ -591,6 +620,13 @@ ALTER TABLE tarifa_vuelo
     ALTER COLUMN clase SET NOT NULL;
 
 ALTER TABLE tarifa_vuelo
+    ADD CONSTRAINT ck_tarifa_clase
+    CHECK (clase IN ('ECONOMICA','EJECUTIVA','PREMIUM'));
+
+ALTER TABLE tarifa_vuelo
+    ALTER COLUMN id_vuelo SET NOT NULL;
+
+ALTER TABLE tarifa_vuelo
     ADD CONSTRAINT chk_precio_tarifa CHECK (precio >= 0);
 
 COMMENT ON TABLE tarifa_vuelo IS 'Tarifas asociadas a los vuelos';
@@ -600,8 +636,7 @@ COMMENT ON COLUMN tarifa_vuelo.precio IS 'Costo correspondiente a la clase';
 COMMENT ON COLUMN tarifa_vuelo.clase IS 'Clase de vuelo';
 
 
-
-
+-- TABLA: BOLETO
 CREATE TABLE boleto (
     id_boleto SERIAL,
     id_vuelo INT,
@@ -628,6 +663,12 @@ ALTER TABLE boleto
     ALTER COLUMN numero_asiento SET NOT NULL;
 
 ALTER TABLE boleto
+    ALTER COLUMN id_vuelo SET NOT NULL;
+
+ALTER TABLE boleto
+    ALTER COLUMN id_tarifa SET NOT NULL;
+
+ALTER TABLE boleto
     ADD CONSTRAINT chk_numero_asiento CHECK (numero_asiento > 0);
 
 COMMENT ON TABLE boleto IS 'Boletos vendidos asociados a vuelos y tarifas';
@@ -636,3 +677,195 @@ COMMENT ON COLUMN boleto.id_vuelo IS 'Vuelo correspondiente al boleto';
 COMMENT ON COLUMN boleto.id_tarifa IS 'Tarifa con la que fue adquirido el boleto';
 COMMENT ON COLUMN boleto.fecha_compra IS 'Fecha en la que se realizó la compra';
 COMMENT ON COLUMN boleto.numero_asiento IS 'Número de asiento asignado al boleto';
+
+
+-- ------------------------------------------------------------
+-- ACTUALIZACIÓN DE RELACIONES: reemplazar FKs por versiones con
+-- acciones ON DELETE / ON UPDATE según el archivo de restricciones
+-- (hacemos DROP CONSTRAINT y ADD CONSTRAINT con ON DELETE / ON UPDATE)
+-- ------------------------------------------------------------
+
+-- TERMINAL: si se borra el aeropuerto, borrar las terminales; si se actualiza id, propagar
+ALTER TABLE terminal
+    DROP CONSTRAINT IF EXISTS fk_terminal_aeropuerto;
+ALTER TABLE terminal
+    ADD CONSTRAINT fk_terminal_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- AVION: cambios en comportamiento al borrar/actualizar aeropuertos y aerolíneas
+ALTER TABLE avion
+    DROP CONSTRAINT IF EXISTS fk_avion_aeropuerto;
+ALTER TABLE avion
+    ADD CONSTRAINT fk_avion_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE avion
+    DROP CONSTRAINT IF EXISTS fk_avion_aerolinea;
+ALTER TABLE avion
+    ADD CONSTRAINT fk_avion_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- EMPLEADOS: ubicación aeropuerto -> si se borra aeropuerto, mantener empleado (SET NULL)
+ALTER TABLE piloto
+    DROP CONSTRAINT IF EXISTS fk_piloto_aeropuerto;
+ALTER TABLE piloto
+    ADD CONSTRAINT fk_piloto_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE controlador
+    DROP CONSTRAINT IF EXISTS fk_controlador_aeropuerto;
+ALTER TABLE controlador
+    ADD CONSTRAINT fk_controlador_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE sobrecargo
+    DROP CONSTRAINT IF EXISTS fk_sobrecargo_aeropuerto;
+ALTER TABLE sobrecargo
+    ADD CONSTRAINT fk_sobrecargo_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE tecnico
+    DROP CONSTRAINT IF EXISTS fk_tecnico_aeropuerto;
+ALTER TABLE tecnico
+    ADD CONSTRAINT fk_tecnico_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE atencionalpasajero
+    DROP CONSTRAINT IF EXISTS fk_atencionpasajero_aeropuerto;
+ALTER TABLE atencionalpasajero
+    ADD CONSTRAINT fk_atencionpasajero_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+ALTER TABLE ingeniero
+    DROP CONSTRAINT IF EXISTS fk_ingeniero_aeropuerto;
+ALTER TABLE ingeniero
+    ADD CONSTRAINT fk_ingeniero_aeropuerto
+    FOREIGN KEY (id_aeropuerto) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
+
+-- EMPLEADOS: al cambiar aerolínea -> borrar empleados si se borra aerolínea (CASCADE)
+ALTER TABLE piloto
+    DROP CONSTRAINT IF EXISTS fk_piloto_aerolinea;
+ALTER TABLE piloto
+    ADD CONSTRAINT fk_piloto_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE controlador
+    DROP CONSTRAINT IF EXISTS fk_controlador_aerolinea;
+ALTER TABLE controlador
+    ADD CONSTRAINT fk_controlador_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE sobrecargo
+    DROP CONSTRAINT IF EXISTS fk_sobrecargo_aerolinea;
+ALTER TABLE sobrecargo
+    ADD CONSTRAINT fk_sobrecargo_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE tecnico
+    DROP CONSTRAINT IF EXISTS fk_tecnico_aerolinea;
+ALTER TABLE tecnico
+    ADD CONSTRAINT fk_tecnico_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE atencionalpasajero
+    DROP CONSTRAINT IF EXISTS fk_atencionpasajero_aerolinea;
+ALTER TABLE atencionalpasajero
+    ADD CONSTRAINT fk_atencionpasajero_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE ingeniero
+    DROP CONSTRAINT IF EXISTS fk_ingeniero_aerolinea;
+ALTER TABLE ingeniero
+    ADD CONSTRAINT fk_ingeniero_aerolinea
+    FOREIGN KEY (id_aerolinea) REFERENCES aerolinea(id_aerolinea)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- VUELO: actualizar FKs de vuelo para ON DELETE CASCADE / ON UPDATE CASCADE
+ALTER TABLE vuelo
+    DROP CONSTRAINT IF EXISTS fk_avion_vuelo;
+ALTER TABLE vuelo
+    ADD CONSTRAINT fk_avion_vuelo
+    FOREIGN KEY (id_avion) REFERENCES avion(id_avion)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE vuelo
+    DROP CONSTRAINT IF EXISTS fk_piloto_vuelo;
+ALTER TABLE vuelo
+    ADD CONSTRAINT fk_piloto_vuelo
+    FOREIGN KEY (piloto) REFERENCES piloto(id_empleado)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE vuelo
+    DROP CONSTRAINT IF EXISTS fk_origen_vuelo;
+ALTER TABLE vuelo
+    ADD CONSTRAINT fk_origen_vuelo
+    FOREIGN KEY (origen) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE vuelo
+    DROP CONSTRAINT IF EXISTS fk_destino_vuelo;
+ALTER TABLE vuelo
+    ADD CONSTRAINT fk_destino_vuelo
+    FOREIGN KEY (destino) REFERENCES aeropuerto(id_aeropuerto)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- TARIFA_VUELO: FK -> ON DELETE CASCADE / ON UPDATE CASCADE
+ALTER TABLE tarifa_vuelo
+    DROP CONSTRAINT IF EXISTS fk_tarifa_vuelo;
+ALTER TABLE tarifa_vuelo
+    ADD CONSTRAINT fk_tarifa_vuelo
+    FOREIGN KEY (id_vuelo) REFERENCES vuelo(id_vuelo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- BOLETO: FKs -> ON DELETE CASCADE / ON UPDATE CASCADE
+ALTER TABLE boleto
+    DROP CONSTRAINT IF EXISTS fk_boleto_vuelo;
+ALTER TABLE boleto
+    ADD CONSTRAINT fk_boleto_vuelo
+    FOREIGN KEY (id_vuelo) REFERENCES vuelo(id_vuelo)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE boleto
+    DROP CONSTRAINT IF EXISTS fk_boleto_tarifa;
+ALTER TABLE boleto
+    ADD CONSTRAINT fk_boleto_tarifa
+    FOREIGN KEY (id_tarifa) REFERENCES tarifa_vuelo(id_tarifa)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+
