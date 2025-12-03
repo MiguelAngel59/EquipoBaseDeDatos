@@ -584,7 +584,7 @@ ALTER TABLE vuelo
 
 ALTER TABLE vuelo
     ADD CONSTRAINT chk_tipo_vuelo
-    CHECK (tipo_vuelo IN ('CARGA', 'COMERCIAL'));
+    CHECK (tipo_vuelo IN ('CARGA', 'COMERCIAL', 'PRIVADO'));
 
 COMMENT ON TABLE vuelo IS 'Tabla que almacena los registros de los vuelos registrados en el sistema';
 COMMENT ON COLUMN vuelo.id_vuelo IS 'Identificador único del vuelo';
