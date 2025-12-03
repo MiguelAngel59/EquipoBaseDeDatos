@@ -178,8 +178,9 @@ CREATE TABLE tarifa_vuelo (
 -- TABLA: BOLETO
 CREATE TABLE boleto (
     id_boleto SERIAL PRIMARY KEY,
+    id_programacion_vuelo INT NOT NULL REFERENCES programacion_vuelo(id_programacion),
     id_tarifa INT NOT NULL REFERENCES tarifa_vuelo(id_tarifa),
     fecha_compra DATE NOT NULL,
     numero_asiento INT NOT NULL CHECK (numero_asiento > 0),
-    UNIQUE (id_tarifa, numero_asiento)
+    UNIQUE (id_programacion_vuelo, numero_asiento)
 );
