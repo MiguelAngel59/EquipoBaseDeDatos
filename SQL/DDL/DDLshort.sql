@@ -19,10 +19,9 @@ CREATE TABLE terminal (
     numero_terminal INT NOT NULL,
     nombre VARCHAR(50),
     capacidad_aviones INT CHECK (capacidad_aviones >= 0),
-
     UNIQUE (id_aeropuerto, numero_terminal)
 );
-OMMENT ON TABLE terminal IS 'Terminales pertenecientes a los aeropuertos';
+COMMENT ON TABLE terminal IS 'Terminales pertenecientes a los aeropuertos';
 
 
 
@@ -32,7 +31,6 @@ CREATE TABLE puerta (
     numero_puerta INT NOT NULL,
     codigo VARCHAR(10) NOT NULL,
     capacidad_publico INT CHECK (capacidad_publico >= 0),
-
     UNIQUE (id_terminal, numero_puerta)
 );
 COMMENT ON TABLE puerta IS 'Puertas/gates pertenecientes a una terminal de un aeropuerto';
@@ -150,8 +148,8 @@ CREATE TABLE vuelo (
     destino INT NOT NULL REFERENCES aeropuerto(id_aeropuerto),
     tipo VARCHAR(20) NOT NULL,  -- comercial, internacional, privado, etc.
     estado VARCHAR(20) NOT NULL, -- programado, en vuelo, completado, cancelado
-    salida TIMESTAMP,
-    llegada TIMESTAMP
+    tiempo_salida TIMESTAMP,
+    tiempo_llegada TIMESTAMP
 );
 
 
@@ -170,10 +168,10 @@ COMMENT ON TABLE programacion_vuelo IS 'Programación planificada de un vuelo (E
 -- TABLA: TARIFA_VUELO
 CREATE TABLE tarifa_vuelo (
     id_tarifa SERIAL PRIMARY KEY,
-    id_vuelo INT NOT NULL REFERENCES vuelo(id_vuelo),
+    id_programacion_vuelo INT NOT NULL REFERENCES programacion_vuelo(id_programacion),
     clase VARCHAR(20) NOT NULL,
     precio NUMERIC(12,2) NOT NULL CHECK (precio >= 0),
-    UNIQUE (id_vuelo, clase)
+    UNIQUE (id_programacion, clase)
 );
 
 
