@@ -86,7 +86,7 @@ CREATE TABLE empleado (
     apellido_materno VARCHAR(60),
     fecha_nacimiento DATE NOT NULL,
     nacionalidad VARCHAR(60) NOT NULL,
-    tipo_empleado VARCHAR(30) NOT NULL -- 'PILOTO','SOBRECARGO','CONTROLADOR','TECNICO','ATENCION','INGENIERO'
+    -- tipo_empleado VARCHAR(30) NOT NULL -- 'PILOTO','SOBRECARGO','CONTROLADOR','TECNICO','ATENCION','INGENIERO'
 );
 COMMENT ON TABLE empleado IS 'Supertipo para empleados';
 
@@ -146,7 +146,6 @@ CREATE TABLE licencia_piloto (
 CREATE TABLE vuelo (
     id_vuelo SERIAL PRIMARY KEY,
     codigo_vuelo VARCHAR(10) NOT NULL UNIQUE,
-    id_aerolinea INT NOT NULL REFERENCES aerolinea(id_aerolinea),
     origen INT NOT NULL REFERENCES aeropuerto(id_aeropuerto),
     destino INT NOT NULL REFERENCES aeropuerto(id_aeropuerto),
     tipo VARCHAR(20) NOT NULL,  -- comercial, internacional, privado, etc.
@@ -155,35 +154,34 @@ CREATE TABLE vuelo (
     llegada TIMESTAMP
 );
 
+
 CREATE TABLE programacion_vuelo (
     id_programacion SERIAL PRIMARY KEY,
     id_vuelo INT NOT NULL REFERENCES vuelo(id_vuelo),
     id_avion INT NOT NULL REFERENCES avion(id_avion),
     id_piloto INT NOT NULL REFERENCES piloto(id_empleado),
-    id_puerta INT NOT NULL REFERENCES puerta(id_puerta),
+    id_puerta INT REFERENCES puerta(id_puerta),
     etd TIMESTAMP NOT NULL,
     eta TIMESTAMP NOT NULL,
     CHECK (eta > etd)
-    FOREIGN KEY (numero_terminal, numero_puerta)
-        REFERENCES puerta(numero_terminal, numero_puerta)
 );
+COMMENT ON TABLE programacion_vuelo IS 'Programación planificada de un vuelo (ETD, ETA, avión, piloto)';
 
 -- TABLA: TARIFA_VUELO
 CREATE TABLE tarifa_vuelo (
-    id_tarifa INT PRIMARY KEY,
-    id_vuelo INT REFERENCES vuelo(id_vuelo),
+    id_tarifa SERIAL PRIMARY KEY,
+    id_vuelo INT NOT NULL REFERENCES vuelo(id_vuelo),
+    clase VARCHAR(20) NOT NULL,
     precio NUMERIC(12,2) NOT NULL CHECK (precio >= 0),
-    clase VARCHAR(20) NOT NULL
+    UNIQUE (id_vuelo, clase)
 );
-COMMENT ON TABLE tarifa_vuelo IS 'Tarifas asociadas a los vuelos';
 
 
 -- TABLA: BOLETO
 CREATE TABLE boleto (
     id_boleto SERIAL PRIMARY KEY,
-    id_vuelo INT REFERENCES vuelo(id_vuelo),
-    id_tarifa INT REFERENCES tarifa_vuelo(id_tarifa),
+    id_tarifa INT NOT NULL REFERENCES tarifa_vuelo(id_tarifa),
     fecha_compra DATE NOT NULL,
-    numero_asiento INT NOT NULL CHECK (numero_asiento > 0)
+    numero_asiento INT NOT NULL CHECK (numero_asiento > 0),
+    UNIQUE (id_tarifa, numero_asiento)
 );
-COMMENT ON TABLE boleto IS 'Boletos vendidos asociados a vuelos y tarifas';
