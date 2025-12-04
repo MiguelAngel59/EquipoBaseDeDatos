@@ -161,6 +161,9 @@ CREATE TABLE IF NOT EXISTS empleado (
 );
 
 ALTER TABLE empleado
+    ALTER COLUMN id_aerolinea SET NOT NULL;
+
+ALTER TABLE empleado
     ADD CONSTRAINT ck_empleado_edad CHECK (fecha_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
 
 COMMENT ON TABLE empleado IS 'Tabla de información de los empleados';
