@@ -103,6 +103,9 @@ CREATE TABLE IF NOT EXISTS pista (
 );
 
 COMMENT ON TABLE pista IS 'Pistas del aeropuerto';
+COMMENT ON COLUMN pista.id_pista IS 'Identificador de la pista';
+COMMENT ON COLUMN pista.id_aeropuerto IS 'Referencia al aeropuerto que contiene a la pista';
+COMMENT ON COLUMN pista.codigo IS 'Códio de nombramiento de la pista, preferiblemente usar OACI';
 COMMENT ON COLUMN pista.longitud_m IS 'Longitud de la pista en metros';
 COMMENT ON COLUMN pista.estado IS 'Estado de la pista (OPERATIVA, CERRADA, MANTENIMIENTO)';
 
@@ -315,6 +318,10 @@ ALTER TABLE vuelo
     ALTER COLUMN codigo_vuelo SET NOT NULL;
 ALTER TABLE vuelo
     ADD CONSTRAINT uq_codigo_vuelo UNIQUE (codigo_vuelo);
+
+COMMENT ON COLUMN vuelo.codigo_vuelo IS 'Codigo de clave de nombramiento de vuelo';
+COMMENT ON COLUMN vuelo.tiempo_salida IS 'Tiempo exacto en el que se regitra la salida del avion del aeropuerto de origen';
+COMMENT ON COLUMN vuelo.tiempo_llegada IS 'Tiempo exacto en el que se regitra la lleada del avion del aeropuerto de destino';
 
 -- TABLA: PROGRAMACION_VUELO 
 CREATE TABLE IF NOT EXISTS programacion_vuelo (
