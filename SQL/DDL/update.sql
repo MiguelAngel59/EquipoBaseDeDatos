@@ -34,11 +34,11 @@ ALTER TABLE terminal
 
 -- renombrar columnas con nombre erróneo
 ALTER TABLE terminal
-    RENAME COLUMN IF EXISTS capacidadd_publico TO capacidad_publico;
+    RENAME COLUMN capacidadd_aviones TO capacidad_aviones;
 
 -- quitar columna capacidadd_aviones columna nombre
 ALTER TABLE terminal
-DROP COLUMN capacidadd_aviones;
+	DROP COLUMN IF EXISTS capacidadd_publico;
 
 ALTER TABLE terminal
     ALTER COLUMN id_aeropuerto SET NOT NULL,
@@ -134,7 +134,7 @@ ALTER TABLE avion
 
 ALTER TABLE avion
     ADD CONSTRAINT chk_estado_avion
-    CHECK (tipo IN ('OPERATIVO', 'MANTENIMIENTO', 'RETIRADO'));
+    CHECK (estado_avion IN ('OPERATIVO', 'MANTENIMIENTO', 'RETIRADO'));
 
 COMMENT ON COLUMN avion.matricula IS 'Matrícula única del avión';
 COMMENT ON COLUMN avion.estado_avion IS 'Estado del avión (OPERATIVO, MANTENIMIENTO, RETIRADO.)';
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS empleado (
 );
 
 ALTER TABLE empleado
-    ADD CONSTRAINT ck_empleado_edad CHECK (fecha_de_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
+    ADD CONSTRAINT ck_empleado_edad CHECK (fecha_nacimiento <= CURRENT_DATE - INTERVAL '18 years');
 
 COMMENT ON TABLE empleado IS 'Tabla de información de los empleados';
 COMMENT ON COLUMN empleado.id_empleado IS 'Identificador único del empleado';
@@ -167,7 +167,7 @@ COMMENT ON COLUMN empleado.id_aerolinea IS 'Aerolínea a la que pertenece el emp
 COMMENT ON COLUMN empleado.nombre IS 'Nombre del empleado';
 COMMENT ON COLUMN empleado.apellido_paterno IS 'Apellido paterno del empleado';
 COMMENT ON COLUMN empleado.apellido_materno IS 'Apellido materno del empleado';
-COMMENT ON COLUMN empleado.fecha_de_nacimiento IS 'Fecha de nacimiento del empleado';
+COMMENT ON COLUMN empleado.fecha_nacimiento IS 'Fecha de nacimiento del empleado';
 COMMENT ON COLUMN empleado.nacionalidad IS 'Nacionalidad del empleado';
 
 -- Ajustar las tablas especializadas
@@ -201,7 +201,7 @@ ALTER TABLE controlador
     DROP COLUMN IF EXISTS apellido_paterno,
     DROP COLUMN IF EXISTS apellido_materno,
     DROP COLUMN IF EXISTS fecha_de_nacimiento,
-    DROP COLUMN IF EXISTS nacionalidad,
+    DROP COLUMN IF EXISTS nacionalidad;
 
 ALTER TABLE controlador
     ADD CONSTRAINT fk_controlador_empleado FOREIGN KEY (id_empleado)
@@ -216,7 +216,7 @@ ALTER TABLE sobrecargo
     DROP COLUMN IF EXISTS apellido_paterno,
     DROP COLUMN IF EXISTS apellido_materno,
     DROP COLUMN IF EXISTS fecha_de_nacimiento,
-    DROP COLUMN IF EXISTS nacionalidad,
+    DROP COLUMN IF EXISTS nacionalidad;
 
 ALTER TABLE sobrecargo
     ADD CONSTRAINT fk_sobrecargo_empleado FOREIGN KEY (id_empleado)
@@ -231,7 +231,7 @@ ALTER TABLE tecnico
     DROP COLUMN IF EXISTS apellido_paterno,
     DROP COLUMN IF EXISTS apellido_materno,
     DROP COLUMN IF EXISTS fecha_de_nacimiento,
-    DROP COLUMN IF EXISTS nacionalidad,
+    DROP COLUMN IF EXISTS nacionalidad;
 
 ALTER TABLE tecnico
     ADD CONSTRAINT fk_tecnico_empleado FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
@@ -245,7 +245,7 @@ ALTER TABLE ingeniero
     DROP COLUMN IF EXISTS apellido_paterno,
     DROP COLUMN IF EXISTS apellido_materno,
     DROP COLUMN IF EXISTS fecha_de_nacimiento,
-    DROP COLUMN IF EXISTS nacionalidad,
+    DROP COLUMN IF EXISTS nacionalidad;
 
 ALTER TABLE ingeniero
     ADD CONSTRAINT fk_ingeniero_empleado FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
@@ -259,7 +259,7 @@ ALTER TABLE atencionalpasajero
     DROP COLUMN IF EXISTS apellido_paterno,
     DROP COLUMN IF EXISTS apellido_materno,
     DROP COLUMN IF EXISTS fecha_de_nacimiento,
-    DROP COLUMN IF EXISTS nacionalidad,
+    DROP COLUMN IF EXISTS nacionalidad;
 
 ALTER TABLE atencionalpasajero 
     ADD CONSTRAINT fk_atencionalpasajero_empleado FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
@@ -324,7 +324,7 @@ CREATE TABLE IF NOT EXISTS programacion_vuelo (
     id_piloto INT NOT NULL,
     id_puerta INT,
     etd TIMESTAMP NOT NULL,
-    eta TIMESTAMP NOT NULL,
+    eta TIMESTAMP NOT NULL
 );
 
 ALTER TABLE programacion_vuelo
@@ -401,4 +401,3 @@ ALTER TABLE boleto
     ADD CONSTRAINT uq_boleto_prog_asiento UNIQUE (id_programacion_vuelo, numero_asiento);
 
 COMMENT ON COLUMN boleto.id_programacion_vuelo IS 'Programación del vuelo a la que pertenece este boleto';
-
