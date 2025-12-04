@@ -139,6 +139,9 @@ ALTER TABLE avion
     ALTER COLUMN modelo SET NOT NULL;
 
 ALTER TABLE avion
+    ALTER COLUMN capacidad_pasajeros SET NOT NULL;
+
+ALTER TABLE avion
     ADD CONSTRAINT chk_capacidad_pasajeros CHECK (capacidad_pasajeros >= 0);
 
 COMMENT ON TABLE avion IS 'Tabla que almacena información de los aviones';
