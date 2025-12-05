@@ -144,4 +144,79 @@ BEGIN
 END;
 $$;
 
+-- Procedimiento: Crea una nueva reserva generando automáticamente un boleto para un vuelo y asiento específicos.
+-- Valida que la tarifa corresponda al vuelo, que haya asientos disponibles y que el asiento solicitado no esté ocupado.
+-- Si todo es correcto, inserta el boleto y devuelve su ID generado.
+-- Tablas involucradas: vuelo, avion, boleto, tarifa_vuelo.
+
+
+CREATE OR REPLACE PROCEDURE crear_reserva_con_boleto(
+    p_id_vuelo INT,
+    p_id_tarifa INT,
+    p_numero_asiento INT,
+    OUT p_id_boleto_generado INT
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    capacidad INT;
+    vendidos INT;
+BEGIN
+    -- valida tarifa
+    IF NOT EXISTS (SELECT 1 FROM tarifa_vuelo WHERE id_tarifa = p_id_tarifa AND id_vuelo = p_id_vuelo) THEN
+        RAISE EXCEPTION 'La tarifa % no existe para el vuelo %', p_id_tarifa, p_id_vuelo;
+    END IF;
+
+    SELECT a.capacidad_pasajeros INTO capacidad
+    FROM vuelo v JOIN avion a ON v.id_avion = a.id_avion
+    WHERE v.id_vuelo = p_id_vuelo
+    FOR UPDATE; -- bloquea el avión/vuelo
+
+    IF capacidad IS NULL THEN
+        RAISE EXCEPTION 'Vuelo % o avión asociado no existe', p_id_vuelo;
+    END IF;
+
+    SELECT COUNT(*) INTO vendidos FROM boleto WHERE id_vuelo = p_id_vuelo;
+
+    IF vendidos >= capacidad THEN
+        RAISE EXCEPTION 'No hay asientos disponibles en el vuelo %', p_id_vuelo;
+    END IF;
+
+    BEGIN
+        INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento)
+        VALUES (p_id_vuelo, p_id_tarifa, CURRENT_DATE, p_numero_asiento)
+        RETURNING id_boleto INTO p_id_boleto_generado;
+    EXCEPTION WHEN unique_violation THEN
+        RAISE EXCEPTION 'Asiento % ya ocupado en el vuelo %', p_numero_asiento, p_id_vuelo;
+    END;
+
+END;
+$$;
+
+
+-- Procedimiento: Elimina (reembolsa) todos los boletos asociados a un vuelo específico.
+-- Devuelve el número total de boletos eliminados mediante un parámetro de salida.
+-- Si no hay boletos para ese vuelo, devuelve 0.
+-- Si existen boletos, los elimina y devuelve la cantidad reembolsada.
+-- Tablas involucradas: boleto
+
+
+CREATE OR REPLACE PROCEDURE reembolsar_boletos_por_vuelo(p_id_vuelo INT, OUT reembolsados INT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    cnt INT;
+BEGIN
+    SELECT COUNT(*) INTO cnt FROM boleto WHERE id_vuelo = p_id_vuelo;
+
+    IF cnt = 0 THEN
+        reembolsados := 0;
+        RETURN;
+    END IF;
+
+    DELETE FROM boleto WHERE id_vuelo = p_id_vuelo;
+    reembolsados := cnt;
+END;
+$$;
+
 
