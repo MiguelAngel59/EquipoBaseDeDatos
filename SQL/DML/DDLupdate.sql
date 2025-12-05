@@ -5721,7 +5721,7 @@ INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asien
 -- La terminal 1 del Aeropuerto Internacional de la Ciudad de México
 -- ahora tiene una capacidadd_aviones de 51(un avion más)
 UPDATE terminal
-SET capacidadd_aviones = 51
+SET capacidad_aviones = 51
 WHERE id_aeropuerto = 1 AND numero_terminal = 1; 
 
 -- Actualizar última ubicación de avión
