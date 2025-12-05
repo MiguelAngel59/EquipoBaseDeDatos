@@ -31,6 +31,45 @@ FROM aeropuerto ap
 ORDER BY ingresos_totales DESC;
 
 
+-- contar_vuelos_por_aeropuerto(p_id_aeropuerto, p_fecha)
+-- Ejemplo: Cuenta cuántos vuelos salen de cada aeropuerto en una fecha determinada (en este caso, hoy, puede pasar que no haya ningún vuelo el día que se pruebe).
+
+SELECT 
+    ap.id_aeropuerto,
+    ap.nombre AS aeropuerto,
+    contar_vuelos_por_aeropuerto(ap.id_aeropuerto, CURRENT_DATE) AS vuelos_salida_hoy
+FROM aeropuerto ap
+ORDER BY vuelos_salida_hoy DESC;
+
+--duracion_vuelo_minutos(p_id_vuelo INT)
+--Calcula la duración de cada vuelo (en minutos) a partir de las horas de salida (etd) y llegada (eta).
+
+SELECT 
+    v.id_vuelo,
+    v.origen,
+    v.destino,
+    v.etd,
+    v.eta,
+    duracion_vuelo_minutos(v.id_vuelo) AS duracion_minutos
+FROM vuelo v
+ORDER BY duracion_minutos DESC NULLS LAST;
+
+--tarifa_minima_por_vuelo(p_id_vuelo INT)
+--Devuelve la tarifa mínima disponible para cada vuelo.
+
+SELECT 
+    v.id_vuelo,
+    a.modelo AS avion,
+    tarifa_minima_por_vuelo(v.id_vuelo) AS tarifa_minima_general
+FROM vuelo v
+JOIN avion a ON v.id_avion = a.id_avion
+ORDER BY tarifa_minima_general ASC;
+
+
+
+
+
+
 
 
 
@@ -70,3 +109,17 @@ CALL actualizar_ubicacion_pilotos();
 SELECT id_empleado AS id_piloto, nombre, id_aeropuerto
 FROM piloto
 ORDER BY id_empleado;
+
+
+--crear_reserva_con_boleto(p_id_vuelo, p_id_tarifa, p_numero_asiento, OUT p_id_boleto_generado)
+--Ejemplo: crea una reserva/boleto para el vuelo 10, tarifa 1000 y asiento 5.
+CALL crear_reserva_con_boleto(10, 25, 5, NULL);
+SELECT id_boleto, id_vuelo, id_tarifa, fecha_compra, numero_asiento
+FROM boleto
+WHERE id_vuelo = 10 AND numero_asiento = 5;
+
+--reembolsar_boletos_por_vuelo(p_id_vuelo INT, OUT reembolsados INT)
+--Ejemplo: Elimina todos los boletos asociados al vuelo 11 (simula un reembolso masivo).
+
+CALL reembolsar_boletos_por_vuelo(11, NULL);
+SELECT COUNT(*) AS boletos_restantes_v11 FROM boleto WHERE id_vuelo = 11;
