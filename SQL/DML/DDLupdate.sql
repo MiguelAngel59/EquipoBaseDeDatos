@@ -1570,6 +1570,236 @@ INSERT INTO ingeniero (id_empleado, rama, grado_estudio) VALUES
 -- Japan Airlines
 (339, 'Mecánica', 'Maestría');
 
+
+INSERT INTO licencia_piloto (id_licencia, id_piloto, tipo_licencia, numero_licencia, fecha_emision, fecha_vencimiento, autoridad_emisora) VALUES
+-- Aeroméxico Piloto 1
+(1, 1, 'CPL', 'MX-CPL-1', '2016-05-10', '2030-05-10', 'DGAC México'),
+(2, 1, 'ATPL', 'MX-ATPL-1', '2018-07-15', '2032-07-15', 'DGAC México'),
+-- Aeroméxico Piloto 2
+(3, 2, 'CPL', 'MX-CPL-2', '2017-03-12', '2031-03-12', 'DGAC México'),
+(4, 2, 'ATPL', 'MX-ATPL-2', '2019-09-20', '2033-09-20', 'DGAC México'),
+-- Aeroméxico Piloto 3
+(5, 3, 'CPL', 'MX-CPL-3', '2015-11-01', '2030-11-01', 'DGAC México'),
+(6, 3, 'ATPL', 'MX-ATPL-3', '2018-02-14', '2032-02-14', 'DGAC México'),
+-- Aeroméxico Piloto 4
+(7, 4, 'CPL', 'MX-CPL-4', '2014-06-01', '2020-06-01', 'DGAC México'),
+
+-- Volaris Piloto 5
+(8, 5, 'CPL', 'MX-CPL-5', '2016-08-10', '2030-08-10', 'DGAC México'),
+(9, 5, 'ATPL', 'MX-ATPL-5', '2019-01-05', '2033-01-05', 'DGAC México'),
+-- Volaris Piloto 6
+(10, 6, 'CPL', 'MX-CPL-6', '2017-04-12', '2031-04-12', 'DGAC México'),
+(11, 6, 'ATPL', 'MX-ATPL-6', '2019-10-20', '2033-10-20', 'DGAC México'),
+-- Volaris Piloto 7
+(12, 7, 'CPL', 'MX-CPL-7', '2013-09-01', '2021-09-01', 'DGAC México'),
+
+-- Viva Aerobus Piloto 8
+(13, 8, 'CPL', 'MX-CPL-8', '2016-07-10', '2030-07-10', 'DGAC México'),
+(14, 8, 'ATPL', 'MX-ATPL-8', '2018-11-05', '2032-11-05', 'DGAC México'),
+-- Viva Aerobus Piloto 9
+(15, 9, 'CPL', 'MX-CPL-9', '2017-05-12', '2031-05-12', 'DGAC México'),
+(16, 9, 'ATPL', 'MX-ATPL-9', '2019-08-20', '2033-08-20', 'DGAC México'),
+-- Viva Aerobus Piloto 10
+(17, 10, 'CPL', 'MX-CPL-10', '2014-04-01', '2020-04-01', 'DGAC México'),
+
+-- Interjet Piloto 11
+(18, 11, 'CPL', 'MX-CPL-11', '2016-06-10', '2030-06-10', 'DGAC México'),
+(19, 11, 'ATPL', 'MX-ATPL-11', '2018-09-05', '2032-09-05', 'DGAC México'),
+-- Interjet Piloto 12
+(20, 12, 'CPL', 'MX-CPL-12', '2017-02-12', '2031-02-12', 'DGAC México'),
+(21, 12, 'ATPL', 'MX-ATPL-12', '2019-07-20', '2033-07-20', 'DGAC México'),
+-- Interjet Piloto 13
+(22, 13, 'CPL', 'MX-CPL-13', '2013-05-01', '2021-05-01', 'DGAC México'),
+
+-- Calafia Airlines Piloto 14
+(23, 14, 'CPL', 'MX-CPL-14', '2016-03-10', '2030-03-10', 'DGAC México'),
+(24, 14, 'ATPL', 'MX-ATPL-14', '2018-06-05', '2032-06-05', 'DGAC México'),
+-- Calafia Airlines Piloto 15
+(25, 15, 'CPL', 'MX-CPL-15', '2017-01-12', '2031-01-12', 'DGAC México'),
+(26, 15, 'ATPL', 'MX-ATPL-15', '2019-05-20', '2033-05-20', 'DGAC México'),
+-- Calafia Airlines Piloto 16
+(27, 16, 'CPL', 'MX-CPL-16', '2014-02-01', '2020-02-01', 'DGAC México'),
+
+-- Aeromar Piloto 17
+(28, 17, 'CPL', 'MX-CPL-17', '2016-09-10', '2030-09-10', 'DGAC México'),
+(29, 17, 'ATPL', 'MX-ATPL-17', '2018-12-05', '2032-12-05', 'DGAC México'),
+-- Aeromar Piloto 18
+(30, 18, 'CPL', 'MX-CPL-18', '2017-08-12', '2031-08-12', 'DGAC México'),
+(31, 18, 'ATPL', 'MX-ATPL-18', '2019-11-20', '2033-11-20', 'DGAC México'),
+-- Aeromar Piloto 19 
+(32, 19, 'CPL', 'MX-CPL-19', '2014-01-01', '2020-01-01', 'DGAC México'),
+
+-- Aerus Piloto 20
+(33, 20, 'CPL', 'MX-CPL-20', '2016-05-10', '2030-05-10', 'DGAC México'),
+(34, 20, 'ATPL', 'MX-ATPL-20', '2018-07-15', '2032-07-15', 'DGAC México'),
+-- Aerus Piloto 21
+(35, 21, 'CPL', 'MX-CPL-21', '2017-03-12', '2031-03-12', 'DGAC México'),
+(36, 21, 'ATPL', 'MX-ATPL-21', '2019-09-20', '2033-09-20', 'DGAC México'),
+-- Aerus Piloto 22 
+(37, 22, 'CPL', 'MX-CPL-22', '2014-06-01', '2020-06-01', 'DGAC México'),
+
+-- Magnicharters Piloto 23
+(38, 23, 'CPL', 'MX-CPL-23', '2016-08-10', '2030-08-10', 'DGAC México'),
+(39, 23, 'ATPL', 'MX-ATPL-23', '2019-01-05', '2033-01-05', 'DGAC México'),
+-- Magnicharters Piloto 24
+(40, 24, 'CPL', 'MX-CPL-24', '2017-04-12', '2031-04-12', 'DGAC México'),
+(41, 24, 'ATPL', 'MX-ATPL-24', '2019-10-20', '2033-10-20', 'DGAC México'),
+-- Magnicharters Piloto 25 (último → vencida)
+(42, 25, 'CPL', 'MX-CPL-25', '2013-09-01', '2021-09-01', 'DGAC México'),
+
+-- Mexicana de Aviación Piloto 26
+(43, 26, 'CPL', 'MX-CPL-26', '2016-07-10', '2030-07-10', 'DGAC México'),
+(44, 26, 'ATPL', 'MX-ATPL-26', '2018-11-05', '2032-11-05', 'DGAC México'),
+-- Mexicana de Aviación Piloto 27
+(45, 27, 'CPL', 'MX-CPL-27', '2017-05-12', '2031-05-12', 'DGAC México'),
+(46, 27, 'ATPL', 'MX-ATPL-27', '2019-08-20', '2033-08-20', 'DGAC México'),
+-- Mexicana de Aviación Piloto 28 (último → vencida)
+(47, 28, 'CPL', 'MX-CPL-28', '2014-04-01', '2020-04-01', 'DGAC México'),
+
+
+-- American Airlines Piloto 29
+(100, 29, 'CPL', 'US-CPL-29', '2016-05-10', '2030-05-10', 'FAA USA'),
+(101, 29, 'ATPL', 'US-ATPL-29', '2018-07-15', '2032-07-15', 'FAA USA'),
+-- American Airlines Piloto 30
+(102, 30, 'CPL', 'US-CPL-30', '2017-03-12', '2031-03-12', 'FAA USA'),
+(103, 30, 'ATPL', 'US-ATPL-30', '2019-09-20', '2033-09-20', 'FAA USA'),
+-- American Airlines Piloto 31 
+(104, 31, 'CPL', 'US-CPL-31', '2014-06-01', '2020-06-01', 'FAA USA'),
+
+-- Delta Air Lines Piloto 32
+(105, 32, 'CPL', 'US-CPL-32', '2016-08-10', '2030-08-10', 'FAA USA'),
+(106, 32, 'ATPL', 'US-ATPL-32', '2019-01-05', '2033-01-05', 'FAA USA'),
+-- Delta Air Lines Piloto 33
+(107, 33, 'CPL', 'US-CPL-33', '2017-04-12', '2031-04-12', 'FAA USA'),
+(108, 33, 'ATPL', 'US-ATPL-33', '2019-10-20', '2033-10-20', 'FAA USA'),
+-- Delta Air Lines Piloto 34
+(109, 34, 'CPL', 'US-CPL-34', '2013-09-01', '2021-09-01', 'FAA USA'),
+
+-- United Airlines Piloto 35
+(110, 35, 'CPL', 'US-CPL-35', '2016-07-10', '2030-07-10', 'FAA USA'),
+(111, 35, 'ATPL', 'US-ATPL-35', '2018-11-05', '2032-11-05', 'FAA USA'),
+-- United Airlines Piloto 36
+(112, 36, 'CPL', 'US-CPL-36', '2017-05-12', '2031-05-12', 'FAA USA'),
+(113, 36, 'ATPL', 'US-ATPL-36', '2019-08-20', '2033-08-20', 'FAA USA'),
+-- United Airlines Piloto 37 
+(114, 37, 'CPL', 'US-CPL-37', '2014-04-01', '2020-04-01', 'FAA USA'),
+
+-- Southwest Airlines Piloto 38
+(115, 38, 'CPL', 'US-CPL-38', '2016-06-10', '2030-06-10', 'FAA USA'),
+(116, 38, 'ATPL', 'US-ATPL-38', '2018-09-05', '2032-09-05', 'FAA USA'),
+-- Southwest Airlines Piloto 39
+(117, 39, 'CPL', 'US-CPL-39', '2017-02-12', '2031-02-12', 'FAA USA'),
+(118, 39, 'ATPL', 'US-ATPL-39', '2019-07-20', '2033-07-20', 'FAA USA'),
+-- Southwest Airlines Piloto 40 
+(119, 40, 'CPL', 'US-CPL-40', '2013-05-01', '2021-05-01', 'FAA USA'),
+
+-- JetBlue Airways Piloto 41
+(120, 41, 'CPL', 'US-CPL-41', '2016-03-10', '2030-03-10', 'FAA USA'),
+(121, 41, 'ATPL', 'US-ATPL-41', '2018-06-05', '2032-06-05', 'FAA USA'),
+-- JetBlue Airways Piloto 42
+(122, 42, 'CPL', 'US-CPL-42', '2017-01-12', '2031-01-12', 'FAA USA'),
+(123, 42, 'ATPL', 'US-ATPL-42', '2019-05-20', '2033-05-20', 'FAA USA'),
+-- JetBlue Airways Piloto 43 
+(124, 43, 'CPL', 'US-CPL-43', '2014-02-01', '2020-02-01', 'FAA USA'),
+
+-- Alaska Airlines Piloto 44
+(125, 44, 'CPL', 'US-CPL-44', '2016-09-10', '2030-09-10', 'FAA USA'),
+(126, 44, 'ATPL', 'US-ATPL-44', '2018-12-05', '2032-12-05', 'FAA USA'),
+-- Alaska Airlines Piloto 45
+(127, 45, 'CPL', 'US-CPL-45', '2017-08-12', '2031-08-12', 'FAA USA'),
+(128, 45, 'ATPL', 'US-ATPL-45', '2019-11-20', '2033-11-20', 'FAA USA'),
+-- Alaska Airlines Piloto 46 
+(129, 46, 'CPL', 'US-CPL-46', '2014-01-01', '2020-01-01', 'FAA USA'),
+
+-- Spirit Airlines Piloto 47
+(130, 47, 'CPL', 'US-CPL-47', '2016-05-10', '2030-05-10', 'FAA USA'),
+(131, 47, 'ATPL', 'US-ATPL-47', '2018-07-15', '2032-07-15', 'FAA USA'),
+-- Spirit Airlines Piloto 48
+(132, 48, 'CPL', 'US-CPL-48', '2017-03-12', '2031-03-12', 'FAA USA'),
+(133, 48, 'ATPL', 'US-ATPL-48', '2019-09-20', '2033-09-20', 'FAA USA'),
+-- Spirit Airlines Piloto 49 
+(134, 49, 'CPL', 'US-CPL-49', '2014-06-01', '2020-06-01', 'FAA USA'),
+
+-- Frontier Airlines Piloto 50
+(135, 50, 'CPL', 'US-CPL-50', '2016-08-10', '2030-08-10', 'FAA USA'),
+(136, 50, 'ATPL', 'US-ATPL-50', '2019-01-05', '2033-01-05', 'FAA USA'),
+-- Frontier Airlines Piloto 51
+(137, 51, 'CPL', 'US-CPL-51', '2017-04-12', '2031-04-12', 'FAA USA'),
+(138, 51, 'ATPL', 'US-ATPL-51', '2019-10-20', '2033-10-20', 'FAA USA'),
+-- Frontier Airlines Piloto 52 
+(139, 52, 'CPL', 'US-CPL-52', '2013-09-01', '2021-09-01', 'FAA USA'),
+
+
+-- LATAM Brasil Piloto 53
+(140, 53, 'CPL', 'BR-CPL-53', '2016-05-10', '2030-05-10', 'ANAC Brasil'),
+(141, 53, 'ATPL', 'BR-ATPL-53', '2018-07-15', '2032-07-15', 'ANAC Brasil'),
+-- LATAM Brasil Piloto 54
+(142, 54, 'CPL', 'BR-CPL-54', '2017-03-12', '2031-03-12', 'ANAC Brasil'),
+(143, 54, 'ATPL', 'BR-ATPL-54', '2019-09-20', '2033-09-20', 'ANAC Brasil'),
+-- LATAM Brasil Piloto 55 
+(144, 55, 'CPL', 'BR-CPL-55', '2014-06-01', '2020-06-01', 'ANAC Brasil'),
+
+-- Gol Linhas Aéreas Piloto 56
+(145, 56, 'CPL', 'BR-CPL-56', '2016-08-10', '2030-08-10', 'ANAC Brasil'),
+(146, 56, 'ATPL', 'BR-ATPL-56', '2019-01-05', '2033-01-05', 'ANAC Brasil'),
+-- Gol Linhas Aéreas Piloto 57
+(147, 57, 'CPL', 'BR-CPL-57', '2017-04-12', '2031-04-12', 'ANAC Brasil'),
+(148, 57, 'ATPL', 'BR-ATPL-57', '2019-10-20', '2033-10-20', 'ANAC Brasil'),
+-- Gol Linhas Aéreas Piloto 58 (último → vencida)
+(149, 58, 'CPL', 'BR-CPL-58', '2013-09-01', '2021-09-01', 'ANAC Brasil'),
+
+-- Azul Linhas Aéreas Piloto 59
+(150, 59, 'CPL', 'BR-CPL-59', '2016-07-10', '2030-07-10', 'ANAC Brasil'),
+(151, 59, 'ATPL', 'BR-ATPL-59', '2018-11-05', '2032-11-05', 'ANAC Brasil'),
+-- Azul Linhas Aéreas Piloto 60
+(152, 60, 'CPL', 'BR-CPL-60', '2017-05-12', '2031-05-12', 'ANAC Brasil'),
+(153, 60, 'ATPL', 'BR-ATPL-60', '2019-08-20', '2033-08-20', 'ANAC Brasil'),
+-- Azul Linhas Aéreas Piloto 61
+(154, 61, 'CPL', 'BR-CPL-61', '2014-04-01', '2020-04-01', 'ANAC Brasil'),
+
+
+-- Iberia Piloto 62
+(155, 62, 'CPL', 'ES-CPL-62', '2016-05-10', '2030-05-10', 'AESA España'),
+(156, 62, 'ATPL', 'ES-ATPL-62', '2018-07-15', '2032-07-15', 'AESA España'),
+-- Iberia Piloto 63
+(157, 63, 'CPL', 'ES-CPL-63', '2017-03-12', '2031-03-12', 'AESA España'),
+(158, 63, 'ATPL', 'ES-ATPL-63', '2019-09-20', '2033-09-20', 'AESA España'),
+-- Iberia Piloto 64 (último → vencida)
+(159, 64, 'CPL', 'ES-CPL-64', '2014-06-01', '2020-06-01', 'AESA España'),
+
+-- Air Europa Piloto 65
+(160, 65, 'CPL', 'ES-CPL-65', '2016-08-10', '2030-08-10', 'AESA España'),
+(161, 65, 'ATPL', 'ES-ATPL-65', '2019-01-05', '2033-01-05', 'AESA España'),
+-- Air Europa Piloto 66
+(162, 66, 'CPL', 'ES-CPL-66', '2017-04-12', '2031-04-12', 'AESA España'),
+(163, 66, 'ATPL', 'ES-ATPL-66', '2019-10-20', '2033-10-20', 'AESA España'),
+-- Air Europa Piloto 67 (último → vencida)
+(164, 67, 'CPL', 'ES-CPL-67', '2013-09-01', '2021-09-01', 'AESA España'),
+
+-- Vueling Piloto 68
+(165, 68, 'CPL', 'ES-CPL-68', '2016-07-10', '2030-07-10', 'AESA España'),
+(166, 68, 'ATPL', 'ES-ATPL-68', '2018-11-05', '2032-11-05', 'AESA España'),
+-- Vueling Piloto 69
+(167, 69, 'CPL', 'ES-CPL-69', '2017-05-12', '2031-05-12', 'AESA España'),
+(168, 69, 'ATPL', 'ES-ATPL-69', '2019-08-20', '2033-08-20', 'AESA España'),
+-- Vueling Piloto 70 (último → vencida)
+(169, 70, 'CPL', 'ES-CPL-70', '2014-04-01', '2020-04-01', 'AESA España'),
+
+
+-- Japan Airlines Piloto 71
+(170, 71, 'CPL', 'JP-CPL-71', '2016-05-10', '2030-05-10', 'JCAB Japón'),
+(171, 71, 'ATPL', 'JP-ATPL-71', '2018-07-15', '2032-07-15', 'JCAB Japón'),
+-- Japan Airlines Piloto 72
+(172, 72, 'CPL', 'JP-CPL-72', '2017-03-12', '2031-03-12', 'JCAB Japón'),
+(173, 72, 'ATPL', 'JP-ATPL-72', '2019-09-20', '2033-09-20', 'JCAB Japón'),
+-- Japan Airlines Piloto 73
+(174, 73, 'CPL', 'JP-CPL-73', '2015-11-01', '2030-11-01', 'JCAB Japón'),
+(175, 73, 'ATPL', 'JP-ATPL-73', '2018-02-14', '2032-02-14', 'JCAB Japón'),
+-- Japan Airlines Piloto 74 (último → vencida)
+(176, 74, 'CPL', 'JP-CPL-74', '2014-06-01', '2020-06-01', 'JCAB Japón');
+
+
+
   
 -- VUELOS
 INSERT INTO vuelo (id_vuelo, origen, destino, estado, tipo_vuelo, codigo_vuelo, tiempo_salida, tiempo_llegada) VALUES
@@ -5482,16 +5712,16 @@ INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asien
 (97, 568, '2025-10-05', 10);
 
 
-/* COMENTADO, pero se comprobó su funcionalidad con los cambios
+-- /* COMENTADO, pero se comprobó su funcionalidad con los cambios
 
 
 --UPDATE
 
 -- Cambiar capacidad de publico de una terminal
 -- La terminal 1 del Aeropuerto Internacional de la Ciudad de México
--- ahora tiene una capacidadd_publico de 22000
+-- ahora tiene una capacidadd_aviones de 51(un avion más)
 UPDATE terminal
-SET capacidadd_publico = 22000
+SET capacidadd_aviones = 51
 WHERE id_aeropuerto = 1 AND numero_terminal = 1; 
 
 -- Actualizar última ubicación de avión
@@ -5500,14 +5730,14 @@ UPDATE avion
 SET id_aeropuerto = 1
 WHERE id_avion = 63; 
 
--- Certificar piloto
--- El piloto Miguel Castillo Ríos ahora esta_certificado
-UPDATE piloto
-SET esta_certificado = TRUE
-WHERE id_empleado = 7;
+-- Aumentar vigencia
+-- El piloto Miguel Castillo Ríos ahora cuenta con licencia vigente
+UPDATE licencia_piloto
+SET fecha_vencimiento = '2025-09-20'
+WHERE id_piloto = 7;
 
 -- Cambiar horario del vuelo 97 LAX -> CDMX de Mexicana de Aviación.
-UPDATE vuelo 
+UPDATE programacion_vuelo 
 SET etd = '2025-10-16 07:00:00', eta = '2025-10-16 11:00:00'
 WHERE id_vuelo = 97;
 
@@ -5519,7 +5749,7 @@ WHERE id_vuelo = 94;
 
 -- Reasignar aeropuerto donde se encuentra un piloto
 -- La piloto Ana Sanchez Morales de Aeroméxico ahora se encuentra en el Aeropuerto Internacional de Cancún.
-UPDATE piloto
+UPDATE empleado
 SET id_aeropuerto = 4
 WHERE id_empleado = 4;
 
@@ -5548,7 +5778,7 @@ WHERE id_aeropuerto = 5;
 DELETE FROM aerolinea
 WHERE id_aerolinea = 25;
 
--- Eliminar un avión
+-- Eliminar un avión retirado
 -- Eliminado avión 175 Airbus A320neo de Frontier Airlines
 DELETE FROM avion
 WHERE id_avion = 119;
@@ -5556,12 +5786,12 @@ WHERE id_avion = 119;
 -- Eliminar un empleado sobrecargo de una aerolínea
 -- Eliminado sobrecargo Valentina López Santos de Aeroméxico
 DELETE FROM sobrecargo
-WHERE id_empleado = 3;
+WHERE id_empleado = 125;
 
 -- Eliminar un boleto
 -- Eliminado boleto del vuelo 17 y asiento 15
 DELETE FROM boleto
-WHERE id_vuelo = 17 AND numero_asiento = 15;
+WHERE id_programacion_vuelo = 17 AND numero_asiento = 15;
 
 
 
@@ -5573,9 +5803,13 @@ FROM aeropuerto
 WHERE tipo = 'INTERNACIONAL' AND pais = 'México';
 
 -- Ver pilotos y su aerolínea
-SELECT p.id_empleado, p.nombre, p.apellido_paterno, a.nombre AS aerolinea
+SELECT p.id_empleado,
+       e.nombre,
+       e.apellido_paterno,
+       a.nombre AS aerolinea
 FROM piloto p
-JOIN aerolinea a ON p.id_aerolinea = a.id_aerolinea
+JOIN empleado e ON p.id_empleado = e.id_empleado
+JOIN aerolinea a ON e.id_aerolinea = a.id_aerolinea
 ORDER BY a.nombre;
 
 -- Contar vuelos por estado de vuelo
@@ -5599,33 +5833,38 @@ WHERE a_origen.id_aeropuerto = 19;
 SELECT aerolinea.nombre AS aerolinea,
        AVG(tarifa_vuelo.precio) AS costo_promedio
 FROM boleto
-JOIN tarifa_vuelo ON boleto.id_tarifa = tarifa_vuelo.id_tarifa
-JOIN vuelo ON boleto.id_vuelo = vuelo.id_vuelo
-JOIN avion ON vuelo.id_avion = avion.id_avion
+JOIN programacion_vuelo pv ON boleto.id_programacion_vuelo = pv.id_programacion
+JOIN tarifa_vuelo ON pv.id_programacion = tarifa_vuelo.id_programacion_vuelo
+JOIN avion ON pv.id_avion = avion.id_avion
 JOIN aerolinea ON avion.id_aerolinea = aerolinea.id_aerolinea
 GROUP BY aerolinea.nombre
 ORDER BY aerolinea.nombre;
 
 -- Encontrar qué pilotos vuelan el modelo 'Boeing 737-800'
-SELECT DISTINCT p.nombre, p.apellido_paterno, p.apellido_materno, a.modelo
+SELECT DISTINCT e.nombre,
+       e.apellido_paterno,
+       e.apellido_materno,
+       a.modelo
 FROM piloto p
-JOIN vuelo v ON p.id_empleado = v.piloto
-JOIN avion a ON v.id_avion = a.id_avion
+JOIN empleado e ON p.id_empleado = e.id_empleado
+JOIN programacion_vuelo pv ON p.id_empleado = pv.id_piloto
+JOIN avion a ON pv.id_avion = a.id_avion
 WHERE a.modelo = 'Boeing 737-800';
 
 -- Encontrar el vuelo programado más caro
-SELECT vuelo.id_vuelo,
-       tarifa_vuelo.precio AS precio
-FROM boleto
-JOIN tarifa_vuelo ON boleto.id_tarifa = tarifa_vuelo.id_tarifa
-JOIN vuelo ON boleto.id_vuelo = vuelo.id_vuelo
-WHERE tarifa_vuelo.precio = (
+SELECT v.id_vuelo,
+       tv.precio AS precio
+FROM boleto b
+JOIN programacion_vuelo pv ON b.id_programacion_vuelo = pv.id_programacion
+JOIN tarifa_vuelo tv ON pv.id_programacion = tv.id_programacion_vuelo
+JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+WHERE tv.precio = (
     SELECT MAX(precio)
     FROM tarifa_vuelo
 )
-AND vuelo.estado = 'PROGRAMADO'
-ORDER BY vuelo.id_vuelo
+AND v.estado = 'PROGRAMADO'
+ORDER BY v.id_vuelo
 LIMIT 1;
 
 
-*/
+-- */
