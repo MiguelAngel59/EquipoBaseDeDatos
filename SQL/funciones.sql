@@ -68,3 +68,63 @@ BEGIN
     RETURN COALESCE(ingresos, 0);
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Función: Cuenta cuántos vuelos salen de un aeropuerto en una fecha específica.
+-- Útil para generar reportes de tráfico aéreo o medir la actividad diaria por aeropuerto.
+-- Tablas involucradas: vuelo
+CREATE OR REPLACE FUNCTION contar_vuelos_por_aeropuerto(p_id_aeropuerto INT, p_fecha DATE)
+RETURNS INT AS $$
+DECLARE
+    total INT;
+BEGIN
+    SELECT COUNT(*) INTO total
+    FROM vuelo
+    WHERE origen = p_id_aeropuerto
+      AND DATE(etd) = p_fecha;
+
+    RETURN COALESCE(total, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- Función: Calcula la duración estimada de un vuelo en minutos.
+-- Útil para mostrar tiempos de vuelo en reportes.
+-- Tablas involucradas: vuelo
+CREATE OR REPLACE FUNCTION duracion_vuelo_minutos(p_id_vuelo INT)
+RETURNS INT AS $$
+DECLARE
+    duracion INTERVAL;
+BEGIN
+    SELECT eta - etd INTO duracion FROM vuelo WHERE id_vuelo = p_id_vuelo;
+    IF duracion IS NULL THEN
+        RETURN NULL;
+    END IF;
+    RETURN (EXTRACT(EPOCH FROM duracion)::INT / 60);
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
+-- Función: Devuelve la tarifa mínima disponible para un vuelo, de forma general o filtrada por clase.
+-- Útil para mostrar precios más bajos disponibles.
+-- Tablas involucradas: tarifa_vuelo
+CREATE OR REPLACE FUNCTION tarifa_minima_por_vuelo(p_id_vuelo INT, p_clase VARCHAR DEFAULT NULL)
+RETURNS NUMERIC AS $$
+DECLARE
+    min_precio NUMERIC;
+BEGIN
+    IF p_clase IS NULL THEN
+        SELECT MIN(precio) INTO min_precio FROM tarifa_vuelo WHERE id_vuelo = p_id_vuelo;
+    ELSE
+        SELECT MIN(precio) INTO min_precio FROM tarifa_vuelo WHERE id_vuelo = p_id_vuelo AND UPPER(clase) = UPPER(p_clase);
+    END IF;
+    RETURN COALESCE(min_precio, 0);
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
