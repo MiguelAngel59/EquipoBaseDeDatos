@@ -467,16 +467,6 @@ CREATE OR REPLACE FUNCTION registro_vuelo_completo(
 )
 RETURNS TABLE (id_vuelo_insertado INT, id_programacion_insertado INT) AS $$
 BEGIN
-    -- Validaciones mínimas y existencia de aeropuertos
-    PERFORM 1 FROM aeropuerto WHERE id_aeropuerto = p_origen;
-    IF NOT FOUND THEN
-        RAISE EXCEPTION 'Registro abortado: origen id_aeropuerto=% no existe.', p_origen;
-    END IF;
-    PERFORM 1 FROM aeropuerto WHERE id_aeropuerto = p_destino;
-    IF NOT FOUND THEN
-        RAISE EXCEPTION 'Registro abortado: destino id_aeropuerto=% no existe.', p_destino;
-    END IF;
-
     -- Insert del vuelo
     INSERT INTO vuelo (id_vuelo, origen, destino, estado, tipo_vuelo, codigo_vuelo, tiempo_salida, tiempo_llegada)
     VALUES (p_id_vuelo, p_origen, p_destino, "PROGRAMADO", p_tipo_vuelo, p_codigo_vuelo, NULL, NULL);
@@ -496,5 +486,124 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql;
 
-COMMENT ON FUNCTION registro_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
+COMMENT ON FUNCTION registro_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
 IS 'Inserta vuelo y su programacion en una sola operación transaccional. Las validaciones completas se ejecutan en el trigger de programacion_vuelo; si el trigger falla, la transacción revierte.';
+
+
+
+
+-- TRIGGER: Validar que solo se generen boletos para vuelos COMERCIALES
+CREATE OR REPLACE FUNCTION trg_boleto_solo_comercial()
+RETURNS TRIGGER AS $$
+DECLARE
+    tipo VARCHAR(20);
+BEGIN
+    SELECT v.tipo_vuelo INTO tipo
+    FROM programacion_vuelo pv
+    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+    WHERE pv.id_programacion = NEW.id_programacion_vuelo;
+
+    IF tipo <> 'COMERCIAL' THEN
+        RAISE EXCEPTION
+            'No se pueden emitir boletos para vuelos de tipo %, solo COMERCIAL',
+            tipo;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER tg_boleto_solo_comercial
+BEFORE INSERT ON boleto
+FOR EACH ROW
+EXECUTE FUNCTION trg_boleto_solo_comercial();
+
+
+
+-- Actualizar tiempos al cambiar estado del vuelo
+CREATE OR REPLACE FUNCTION trg_update_tiempos_vuelo()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Cambio PROGRAMADO -> EN_VUELO
+    IF OLD.estado = 'PROGRAMADO' AND NEW.estado = 'EN_VUELO' THEN
+        NEW.tiempo_salida := NOW();
+    END IF;
+
+    -- Cambio EN_VUELO -> FINALIZADO
+    IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'FINALIZADO' THEN
+        NEW.tiempo_llegada := NOW();
+    END IF;
+
+    -- Prohibición FINALIZADO -> otro estado
+    IF OLD.estado = 'FINALIZADO' AND NEW.estado <> 'FINALIZADO' THEN
+        RAISE EXCEPTION
+            'No se puede cambiar un vuelo FINALIZADO a otro estado (%).',
+            NEW.estado;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER tg_update_tiempos_vuelo
+BEFORE UPDATE ON vuelo
+FOR EACH ROW
+EXECUTE FUNCTION trg_update_tiempos_vuelo();
+
+
+
+
+-- ==========================================================
+-- FUNC: Obtener avión disponible para aeropuerto/intervalo
+-- ==========================================================
+CREATE OR REPLACE FUNCTION obtener_avion_disponible(
+    aeropuerto_id INT,
+    inicio TIMESTAMP,
+    fin TIMESTAMP
+)
+RETURNS INT AS $$
+DECLARE
+    result INT;
+BEGIN
+    SELECT a.id_avion INTO result
+    FROM avion a
+    WHERE chk_avion_disponible_en_ubicacion = 1
+      AND chk_avion_estado_operativo(a.id_avion) = 1
+      AND chk_avion_disponibilidad_temporal(a.id_avion, inicio, fin) = 1
+    LIMIT 1;
+
+    RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- ==========================================================
+-- FUNC: Obtener piloto disponible para aeropuerto/intervalo
+-- ==========================================================
+CREATE OR REPLACE FUNCTION obtener_piloto_disponible(
+    aeropuerto_id INT,
+    inicio TIMESTAMP,
+    fin TIMESTAMP,
+    tipo_vuelo VARCHAR
+)
+RETURNS INT AS $$
+DECLARE
+    result INT;
+BEGIN
+    SELECT p.id_empleado INTO result
+    FROM piloto p
+    JOIN empleado e ON p.id_empleado = e.id_empleado
+    WHERE chk_piloto_disponible_en_ubicacion = 1
+      AND chk_piloto_disponibilidad_temporal(p.id_empleado, inicio, fin) = 1
+      AND chk_piloto_licencia_valida(p.id_empleado, tipo_vuelo, inicio) = 1
+    LIMIT 1;
+
+    RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
