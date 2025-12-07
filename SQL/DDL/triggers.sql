@@ -606,4 +606,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+SELECT obtener_avion_disponible(
+    3,
+    '2025-01-14 08:00:00',
+    '2025-01-14 12:00:00'
+) AS avion_seleccionado;
+
+
 
