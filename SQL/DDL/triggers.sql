@@ -28,7 +28,7 @@ BEGIN
     JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
     WHERE pv.id_piloto = id_piloto_input
       AND v.estado <> 'CANCELADO'
-      AND existe_solapamiento_temporal(pv.etd, pv.eta, inicio_interval, final_intervalo);
+      AND existe_solapamiento_temporal(pv.etd, pv.eta, inicio_intervalo, final_intervalo);
 
     IF cnt = 0 THEN
         RETURN 1;
