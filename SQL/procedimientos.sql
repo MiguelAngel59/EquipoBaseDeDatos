@@ -6,29 +6,43 @@
 -- - Si ya llegó → 'FINALIZADO'
 -- Usa condicionales y operaciones en bloque.
 -- Tablas involucradas: vuelo
-CREATE OR REPLACE PROCEDURE actualizar_estado_por_hora()
+CREATE PROCEDURE actualizar_estado_por_hora()
 LANGUAGE plpgsql
 AS $$
 DECLARE
     vuelos_en_transito INT;
     vuelos_finalizados INT;
 BEGIN
-    -- Actualizar vuelos en vuelo
+    -- EN_VUELO: existen programaciones activas ahora
     UPDATE vuelo
     SET estado = 'EN_VUELO'
-    WHERE estado = 'PROGRAMADO' AND CURRENT_TIMESTAMP BETWEEN etd AND eta;
+    WHERE estado = 'PROGRAMADO'
+      AND EXISTS (
+          SELECT 1 FROM programacion_vuelo pv
+          WHERE pv.id_vuelo = vuelo.id_vuelo
+            AND CURRENT_TIMESTAMP BETWEEN pv.etd AND pv.eta
+      );
     GET DIAGNOSTICS vuelos_en_transito = ROW_COUNT;
 
-    -- Actualizar vuelos finalizados
+    -- FINALIZADO: la última programacion ya terminó (max eta < now)
     UPDATE vuelo
     SET estado = 'FINALIZADO'
-    WHERE estado IN ('EN_VUELO', 'PROGRAMADO') AND CURRENT_TIMESTAMP > eta;
+    WHERE EXISTS (
+        SELECT 1
+        FROM (
+            SELECT pv.id_vuelo, MAX(pv.eta) AS max_eta
+            FROM programacion_vuelo pv
+            GROUP BY pv.id_vuelo
+        ) as sub
+        WHERE sub.id_vuelo = vuelo.id_vuelo
+          AND sub.max_eta < CURRENT_TIMESTAMP
+    )
+    AND vuelo.estado <> 'FINALIZADO';
     GET DIAGNOSTICS vuelos_finalizados = ROW_COUNT;
 
-    RAISE NOTICE '% vuelos marcados EN_VUELO, % finalizados.', vuelos_en_transito, vuelos_finalizados;
+    RAISE NOTICE '% vuelos marcados EN_VUELO, % vuelos marcados FINALIZADO.', vuelos_en_transito, vuelos_finalizados;
 END;
 $$;
-
 
 -- Procedimiento: Aumenta o disminuye el precio de todas las tarifas de una clase
 -- específica (por ejemplo, 'EJECUTIVA' o 'TURISTA') dentro de un vuelo
@@ -40,7 +54,7 @@ $$;
 --   p_incremento → Monto a sumar al precio (puede ser negativo)
 --
 -- Tablas involucradas: tarifa_vuelo, vuelo
-CREATE OR REPLACE PROCEDURE ajustar_importe_clase_vuelo(
+CREATE PROCEDURE ajustar_importe_clase_vuelo(
     p_id_vuelo INT,
     p_clase VARCHAR,
     p_incremento NUMERIC(10,2)
@@ -48,27 +62,24 @@ CREATE OR REPLACE PROCEDURE ajustar_importe_clase_vuelo(
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    tarifas_ajustadas INT;
-    vuelo_existe BOOLEAN;
+    tarifas_ajustadas INT := 0;
+    vuelo_existe BOOLEAN := FALSE;
 BEGIN
-    -- Verificar que el vuelo exista
-    SELECT EXISTS (SELECT 1 FROM vuelo WHERE id_vuelo = p_id_vuelo)
-    INTO vuelo_existe;
-
+    SELECT EXISTS(SELECT 1 FROM vuelo WHERE id_vuelo = p_id_vuelo) INTO vuelo_existe;
     IF NOT vuelo_existe THEN
         RAISE NOTICE 'El vuelo con ID % no existe.', p_id_vuelo;
         RETURN;
     END IF;
 
-    -- Actualizar los precios de las tarifas correspondientes
-    UPDATE tarifa_vuelo
-    SET precio = precio + p_incremento
-    WHERE id_vuelo = p_id_vuelo
-      AND UPPER(clase) = UPPER(p_clase);
+    UPDATE tarifa_vuelo tv
+    SET precio = tv.precio + p_incremento
+    FROM programacion_vuelo pv
+    WHERE tv.id_programacion_vuelo = pv.id_programacion
+      AND pv.id_vuelo = p_id_vuelo
+      AND UPPER(tv.clase) = UPPER(p_clase);
 
     GET DIAGNOSTICS tarifas_ajustadas = ROW_COUNT;
 
-    -- Validar si hubo filas afectadas
     IF tarifas_ajustadas = 0 THEN
         RAISE NOTICE 'No se encontraron tarifas de clase % en el vuelo %.', p_clase, p_id_vuelo;
     ELSE
@@ -85,28 +96,38 @@ $$;
 -- aeropuerto de destino. Si no hay vuelos asociados o aún no comienzan,
 -- el valor actual no se modifica.
 -- Tablas involucradas: vuelo, avion
-CREATE OR REPLACE PROCEDURE actualizar_ubicacion_aviones()
+CREATE PROCEDURE actualizar_ubicacion_aviones()
 LANGUAGE plpgsql
 AS $$
 DECLARE
     tmp INT;
 BEGIN
-    -- Aviones actualmente en vuelo → quitar ubicación
+    -- 1) Aviones actualmente en vuelo -> quitar ubicación
     UPDATE avion
     SET id_aeropuerto = NULL
-    WHERE id_avion IN (
-        SELECT v.id_avion
-        FROM vuelo v
-        WHERE CURRENT_TIMESTAMP BETWEEN v.etd AND v.eta
+    WHERE EXISTS (
+        SELECT 1 FROM programacion_vuelo pv
+        WHERE pv.id_avion = avion.id_avion
+          AND CURRENT_TIMESTAMP BETWEEN pv.etd AND pv.eta
     );
     GET DIAGNOSTICS tmp = ROW_COUNT;
 
-    -- Aviones con vuelo finalizado → asignar aeropuerto destino
+    -- 2) Para cada avión, si su última programacion (por eta) ya concluyó, asignar aeropuerto destino de ese vuelo
     UPDATE avion
     SET id_aeropuerto = v.destino
-    FROM vuelo v
-    WHERE avion.id_avion = v.id_avion
-      AND CURRENT_TIMESTAMP >= v.eta;
+    FROM (
+        SELECT pv.id_avion, pv.id_vuelo, pv.eta
+        FROM programacion_vuelo pv
+        JOIN (
+            -- última programacion por avion
+            SELECT id_avion, MAX(eta) AS max_eta
+            FROM programacion_vuelo
+            GROUP BY id_avion
+        ) lastpv ON pv.id_avion = lastpv.id_avion AND pv.eta = lastpv.max_eta
+    ) AS lastprog
+    JOIN vuelo v ON lastprog.id_vuelo = v.id_vuelo
+    WHERE avion.id_avion = lastprog.id_avion
+      AND lastprog.eta <= CURRENT_TIMESTAMP;
     GET DIAGNOSTICS tmp = ROW_COUNT;
 END;
 $$;
@@ -118,28 +139,37 @@ $$;
 -- con el aeropuerto de destino. Si el piloto no tiene vuelos recientes,
 -- su ubicación permanece sin cambios.
 -- Tablas involucradas: vuelo, piloto
-CREATE OR REPLACE PROCEDURE actualizar_ubicacion_pilotos()
+CREATE PROCEDURE actualizar_ubicacion_pilotos()
 LANGUAGE plpgsql
 AS $$
 DECLARE
     tmp INT;
 BEGIN
-    -- Pilotos actualmente en vuelo → quitar ubicación
-    UPDATE piloto
+    -- Pilotos actualmente en vuelo -> quitar ubicación (empleado.id_aeropuerto)
+    UPDATE empleado
     SET id_aeropuerto = NULL
     WHERE id_empleado IN (
-        SELECT v.piloto
-        FROM vuelo v
-        WHERE CURRENT_TIMESTAMP BETWEEN v.etd AND v.eta
+        SELECT pv.id_piloto
+        FROM programacion_vuelo pv
+        WHERE CURRENT_TIMESTAMP BETWEEN pv.etd AND pv.eta
     );
     GET DIAGNOSTICS tmp = ROW_COUNT;
 
-    -- Pilotos con vuelo finalizado → asignar aeropuerto destino
-    UPDATE piloto
+    -- Pilotos con última programacion finalizada -> asignar aeropuerto destino de esa programacion
+    UPDATE empleado e
     SET id_aeropuerto = v.destino
-    FROM vuelo v
-    WHERE piloto.id_empleado = v.piloto
-      AND CURRENT_TIMESTAMP >= v.eta;
+    FROM (
+        SELECT pv.id_piloto, pv.id_vuelo, pv.eta
+        FROM programacion_vuelo pv
+        JOIN (
+            SELECT id_piloto, MAX(eta) AS max_eta
+            FROM programacion_vuelo
+            GROUP BY id_piloto
+        ) lastpv ON pv.id_piloto = lastpv.id_piloto AND pv.eta = lastpv.max_eta
+    ) AS lastprog
+    JOIN vuelo v ON lastprog.id_vuelo = v.id_vuelo
+    WHERE e.id_empleado = lastprog.id_piloto
+      AND lastprog.eta <= CURRENT_TIMESTAMP;
     GET DIAGNOSTICS tmp = ROW_COUNT;
 END;
 $$;
@@ -148,9 +178,7 @@ $$;
 -- Valida que la tarifa corresponda al vuelo, que haya asientos disponibles y que el asiento solicitado no esté ocupado.
 -- Si todo es correcto, inserta el boleto y devuelve su ID generado.
 -- Tablas involucradas: vuelo, avion, boleto, tarifa_vuelo.
-
-
-CREATE OR REPLACE PROCEDURE crear_reserva_con_boleto(
+CREATE PROCEDURE crear_reserva_con_boleto(
     p_id_vuelo INT,
     p_id_tarifa INT,
     p_numero_asiento INT,
@@ -159,40 +187,55 @@ CREATE OR REPLACE PROCEDURE crear_reserva_con_boleto(
 LANGUAGE plpgsql
 AS $$
 DECLARE
+    pv_id INT;
     capacidad INT;
     vendidos INT;
 BEGIN
-    -- valida tarifa
-    IF NOT EXISTS (SELECT 1 FROM tarifa_vuelo WHERE id_tarifa = p_id_tarifa AND id_vuelo = p_id_vuelo) THEN
-        RAISE EXCEPTION 'La tarifa % no existe para el vuelo %', p_id_tarifa, p_id_vuelo;
+    p_id_boleto_generado := NULL;
+
+    -- 1) Obtener la programacion asociada a la tarifa y que pertenezca al vuelo
+    SELECT tv.id_programacion_vuelo INTO pv_id
+    FROM tarifa_vuelo tv
+    JOIN programacion_vuelo pv ON tv.id_programacion_vuelo = pv.id_programacion
+    WHERE tv.id_tarifa = p_id_tarifa
+      AND pv.id_vuelo = p_id_vuelo
+    LIMIT 1;
+
+    IF pv_id IS NULL THEN
+        RAISE EXCEPTION 'La tarifa % no pertenece a ninguna programacion del vuelo %', p_id_tarifa, p_id_vuelo;
     END IF;
 
+    -- 2) Bloquear la programacion/avion para evitar race conditions
     SELECT a.capacidad_pasajeros INTO capacidad
-    FROM vuelo v JOIN avion a ON v.id_avion = a.id_avion
-    WHERE v.id_vuelo = p_id_vuelo
-    FOR UPDATE; -- bloquea el avión/vuelo
+    FROM programacion_vuelo pv
+    JOIN avion a ON pv.id_avion = a.id_avion
+    WHERE pv.id_programacion = pv_id
+    FOR UPDATE; -- bloquea la fila del avión
 
     IF capacidad IS NULL THEN
-        RAISE EXCEPTION 'Vuelo % o avión asociado no existe', p_id_vuelo;
+        RAISE EXCEPTION 'Programacion % o avion asociado no existe', pv_id;
     END IF;
 
-    SELECT COUNT(*) INTO vendidos FROM boleto WHERE id_vuelo = p_id_vuelo;
+    -- 3) Contar boletos ya vendidos para esa programacion
+    SELECT COUNT(*) INTO vendidos
+    FROM boleto b
+    WHERE b.id_programacion_vuelo = pv_id;
 
     IF vendidos >= capacidad THEN
-        RAISE EXCEPTION 'No hay asientos disponibles en el vuelo %', p_id_vuelo;
+        RAISE EXCEPTION 'No hay asientos disponibles en la programacion % (vuelo %)', pv_id, p_id_vuelo;
     END IF;
 
+    -- 4) Insertar boleto (manejo de unique_violation por asiento duplicado)
     BEGIN
-        INSERT INTO boleto (id_vuelo, id_tarifa, fecha_compra, numero_asiento)
-        VALUES (p_id_vuelo, p_id_tarifa, CURRENT_DATE, p_numero_asiento)
+        INSERT INTO boleto (id_programacion_vuelo, fecha_compra, numero_asiento)
+        VALUES (pv_id, CURRENT_DATE, p_numero_asiento)
         RETURNING id_boleto INTO p_id_boleto_generado;
     EXCEPTION WHEN unique_violation THEN
-        RAISE EXCEPTION 'Asiento % ya ocupado en el vuelo %', p_numero_asiento, p_id_vuelo;
+        RAISE EXCEPTION 'Asiento % ya ocupado en la programacion % (vuelo %).', p_numero_asiento, pv_id, p_id_vuelo;
     END;
 
 END;
 $$;
-
 
 -- Procedimiento: Elimina (reembolsa) todos los boletos asociados a un vuelo específico.
 -- Devuelve el número total de boletos eliminados mediante un parámetro de salida.
@@ -205,18 +248,25 @@ CREATE OR REPLACE PROCEDURE reembolsar_boletos_por_vuelo(p_id_vuelo INT, OUT ree
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    cnt INT;
+    cnt INT := 0;
 BEGIN
-    SELECT COUNT(*) INTO cnt FROM boleto WHERE id_vuelo = p_id_vuelo;
+    SELECT COUNT(*) INTO cnt
+    FROM boleto b
+    WHERE b.id_programacion_vuelo IN (
+        SELECT pv.id_programacion FROM programacion_vuelo pv WHERE pv.id_vuelo = p_id_vuelo
+    );
 
     IF cnt = 0 THEN
         reembolsados := 0;
         RETURN;
     END IF;
 
-    DELETE FROM boleto WHERE id_vuelo = p_id_vuelo;
+    DELETE FROM boleto
+    WHERE id_programacion_vuelo IN (
+        SELECT pv.id_programacion FROM programacion_vuelo pv WHERE pv.id_vuelo = p_id_vuelo
+    );
+
     reembolsados := cnt;
 END;
 $$;
-
 
