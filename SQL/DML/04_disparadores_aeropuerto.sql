@@ -631,7 +631,7 @@ FOR EACH ROW
 EXECUTE FUNCTION trg_update_tiempos_y_ubicacion_vuelo();
 
 
-
+/* Descomentar y ver ejemplos
 ----------------------------------------------- EJEMPLOS ----------------------------------------------------------------------------------------
 
 ----------------- TRIGGER 1: VUELO --------------------
@@ -714,8 +714,7 @@ WHERE id_empleado = 2;
 SELECT id_aeropuerto FROM avion
 WHERE id_avion = 2;
 
-
-
+*/
 
 
 
