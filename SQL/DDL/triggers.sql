@@ -437,8 +437,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-
-
 -- TRIGGER
 -- Creación del trigger al momento de crear o actualizar programación_vuelo
 CREATE TRIGGER trg_programacion_vuelo_before_ins_upd
@@ -455,13 +453,12 @@ IS 'Trigger que valida reglas de negocio antes de insertar/actualizar en program
    -- La verificación se realiza en el trigger de programacion_vuelo, se requiere una transacción para primero crear el vuelo y posterior su programacion_vuelo asociada
    -- Al crear la programacion_vuelo la validación es en conjunto tanto en datos como en creación en ambas tablas;
    -- Si la validación no pasa la transacción se cancela y el vuelo tampoco será creado.
-CREATE OR REPLACE FUNCTION registrar_vuelo_completo(
-    p_id_vuelo INT,
-    p_origen INT,
-    p_destino INT,
-    p_tipo_vuelo VARCHAR,
-    p_codigo_vuelo VARCHAR,
-    -- programacion
+CREATE OR REPLACE PROCEDURE registrar_vuelo_completo(
+    v_id_vuelo INT,
+    v_origen INT,
+    v_destino INT,
+    v_tipo_vuelo VARCHAR,
+    v_codigo_vuelo VARCHAR,
     p_id_programacion INT,
     p_id_avion INT,
     p_id_piloto INT,
@@ -469,28 +466,21 @@ CREATE OR REPLACE FUNCTION registrar_vuelo_completo(
     p_etd TIMESTAMP,
     p_eta TIMESTAMP
 )
-RETURNS TABLE (id_vuelo_insertado INT, id_programacion_insertado INT) AS $$
+LANGUAGE plpgsql
+AS $$
 BEGIN
     -- Insert del vuelo
     INSERT INTO vuelo (id_vuelo, origen, destino, estado, tipo_vuelo, codigo_vuelo, tiempo_salida, tiempo_llegada)
-    VALUES (p_id_vuelo, p_origen, p_destino, 'PROGRAMADO', p_tipo_vuelo, p_codigo_vuelo, NULL, NULL);
-    RETURNING p_id_vuelo INTO id_vuelo_insertado;
+    VALUES (v_id_vuelo, v_origen, v_destino, 'PROGRAMADO', v_tipo_vuelo, v_codigo_vuelo, NULL, NULL);
 
     -- Insert de la programación: el trigger trg_validar_programacion_vuelo se ejecutará y validará.
     INSERT INTO programacion_vuelo (id_programacion, id_vuelo, id_avion, id_piloto, id_puerta, etd, eta)
-    VALUES (p_id_programacion, new_vuelo_id, p_id_avion, p_id_piloto, p_id_puerta, p_etd, p_eta);
-
-    RETURNING p_id_programacion INTO id_programacion_insertado;
-
-    RETURN NEXT;
-EXCEPTION
-    WHEN others THEN
-        RAISE;
+    VALUES (p_id_programacion, v_id_vuelo, p_id_avion, p_id_piloto, p_id_puerta, p_etd, p_eta);
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
-COMMENT ON FUNCTION registrar_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
-IS 'Inserta vuelo y su programacion en una sola operación transaccional. Las validaciones completas se ejecutan en el trigger de programacion_vuelo; si el trigger falla, la transacción revierte.';
+COMMENT ON PROCEDURE registrar_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
+IS 'Inserta vuelo y su programación en una sola operación transaccional. Si el trigger de programacion_vuelo falla, la transacción completa se revierte y se devuelve el error.';
 
 
 
@@ -644,34 +634,85 @@ EXECUTE FUNCTION trg_update_tiempos_y_ubicacion_vuelo();
 
 ----------------------------------------------- EJEMPLOS ----------------------------------------------------------------------------------------
 
--- TRIGGER 1: VUELO
-
-
-
--- VUELO 
+----------------- TRIGGER 1: VUELO --------------------
 
 -- INSERT correcto
 INSERT INTO vuelo (id_vuelo,origen,destino,estado,tipo_vuelo,codigo_vuelo,tiempo_salida,tiempo_llegada)
 VALUES (10001,1,2,'PROGRAMADO','COMERCIAL','AT200',NULL,NULL);
 -- Programación que pasa todas las validaciones
 INSERT INTO programacion_vuelo (id_programacion,id_vuelo,id_avion,id_piloto,id_puerta,etd,eta)
-VALUES (10001,10001,1,6,1, now() + interval '2 days', now() + interval '2 days' + interval '3 hours');
+VALUES (10001,10001,11,6,1, now() + interval '2 days', now() + interval '2 days' + interval '3 hours');
 -- Debe INSERTARSE correctamente: hay pista operativa, avión OPERATIVO, licencia ATPL vigente,
 -- terminal con capacidad, disponibilidad por ubicación ok.
 
--- Usando función reistrar_vuelo_completo (RECOMENDADO y no hacerlo de la anterior forma)
+-- Usando el procedimiento reistrar_vuelo_completo (RECOMENDADO y no hacerlo de la anterior forma)
 -- Debería se correcto, es un vuelo subsecuente del anterior
-SELECT * 
-FROM registrar_vuelo_completo(
-    10002, 2, 1, 'COMERCIAL', 'AT201', 10002, 1, 6, 7, now() + interval '3 days', now() + interval '3 days' + interval '3 hours'
+CALL registrar_vuelo_completo(
+    10002, 2, 1, 'COMERCIAL', 'AT201',
+    10002, 11, 6, 7,
+    (now() + interval '3 days')::TIMESTAMP,
+    (now() + interval '3 days' + interval '3 hours')::TIMESTAMP
+);
+
+-- INSERT incorrecto (solapamiento temporal)
+CALL registrar_vuelo_completo(
+    10003, 2, 3, 'CARGA', 'AT202',
+    10003, 11, 6, 7,
+    (now() + interval '3 days')::TIMESTAMP,
+    (now() + interval '3 days' + interval '4 hours')::TIMESTAMP
+);
+
+-- INSERT incorrecto (no hay disponibilidad por ubicacion de recursos)
+CALL registrar_vuelo_completo(
+    10004, 1, 2, 'COMERCIAL', 'AT202',
+    10004, 1, 1, 1,
+    (now() + interval '2 days')::TIMESTAMP,
+    (now() + interval '2 days' + interval '3 hours')::TIMESTAMP
 );
 
 
 
 
+----------------- TRIGGER 2: BOLETO --------------------
+
+-- INSERT correcto (vuelo PROGRAMADO, COMERCIAL, con espacios)
+INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(7, 16, now(), 16);
+
+-- INSERT incorrecto (vuelo finalizado)
+INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(2, 1, '2025-10-01', 20);
+
+-- INSERT incorrecto (vuelo de CARGA)
+INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(9, 22, now(), 16);
 
 
+----------------- TRIGGER 3: VUELO CAMBIO DE ESTADO --------------------
+-- Vuelo 7 se encuentra programado, su origen es el aeropuerto 4, destino aeropuerto 1
+-- Tiene designado el piloto 2 y el avion 2
 
+-- PROGGRAMADO -> EN_VUELO
+UPDATE vuelo SET estado = 'EN_VUELO'
+WHERE id_vuelo = 7;
+
+-- id_aeropuerto debe ser NULL
+SELECT id_aeropuerto FROM empleado
+WHERE id_empleado = 2;
+
+SELECT id_aeropuerto FROM avion
+WHERE id_avion = 2;
+
+-- EN_VUELO -> FINALIZADO
+UPDATE vuelo SET estado = 'FINALIZADO'
+WHERE id_vuelo = 7;
+
+-- id_aeropuerto debe ser 1 (aeropuerto destino)
+SELECT id_aeropuerto FROM empleado
+WHERE id_empleado = 2;
+
+SELECT id_aeropuerto FROM avion
+WHERE id_avion = 2;
 
 
 
