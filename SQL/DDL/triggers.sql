@@ -473,17 +473,16 @@ RETURNS TABLE (id_vuelo_insertado INT, id_programacion_insertado INT) AS $$
 BEGIN
     -- Insert del vuelo
     INSERT INTO vuelo (id_vuelo, origen, destino, estado, tipo_vuelo, codigo_vuelo, tiempo_salida, tiempo_llegada)
-    VALUES (p_id_vuelo, p_origen, p_destino, "PROGRAMADO", p_tipo_vuelo, p_codigo_vuelo, NULL, NULL);
-
-    id_vuelo_insertado := new_vuelo_id;
+    VALUES (p_id_vuelo, p_origen, p_destino, 'PROGRAMADO', p_tipo_vuelo, p_codigo_vuelo, NULL, NULL);
+    RETURNING p_id_vuelo INTO id_vuelo_insertado;
 
     -- Insert de la programación: el trigger trg_validar_programacion_vuelo se ejecutará y validará.
     INSERT INTO programacion_vuelo (id_programacion, id_vuelo, id_avion, id_piloto, id_puerta, etd, eta)
     VALUES (p_id_programacion, new_vuelo_id, p_id_avion, p_id_piloto, p_id_puerta, p_etd, p_eta);
 
-    id_programacion_insertado := new_prog_id;
+    RETURNING p_id_programacion INTO id_programacion_insertado;
 
-    RETURN;
+    RETURN NEXT;
 EXCEPTION
     WHEN others THEN
         RAISE;
@@ -644,6 +643,30 @@ EXECUTE FUNCTION trg_update_tiempos_y_ubicacion_vuelo();
 
 
 ----------------------------------------------- EJEMPLOS ----------------------------------------------------------------------------------------
+
+-- TRIGGER 1: VUELO
+
+
+
+-- VUELO 
+
+-- INSERT correcto
+INSERT INTO vuelo (id_vuelo,origen,destino,estado,tipo_vuelo,codigo_vuelo,tiempo_salida,tiempo_llegada)
+VALUES (10001,1,2,'PROGRAMADO','COMERCIAL','AT200',NULL,NULL);
+-- Programación que pasa todas las validaciones
+INSERT INTO programacion_vuelo (id_programacion,id_vuelo,id_avion,id_piloto,id_puerta,etd,eta)
+VALUES (10001,10001,1,6,1, now() + interval '2 days', now() + interval '2 days' + interval '3 hours');
+-- Debe INSERTARSE correctamente: hay pista operativa, avión OPERATIVO, licencia ATPL vigente,
+-- terminal con capacidad, disponibilidad por ubicación ok.
+
+-- Usando función reistrar_vuelo_completo (RECOMENDADO y no hacerlo de la anterior forma)
+-- Debería se correcto, es un vuelo subsecuente del anterior
+SELECT * 
+FROM registrar_vuelo_completo(
+    10002, 2, 1, 'COMERCIAL', 'AT201', 10002, 1, 6, 7, now() + interval '3 days', now() + interval '3 days' + interval '3 hours'
+);
+
+
 
 
 
