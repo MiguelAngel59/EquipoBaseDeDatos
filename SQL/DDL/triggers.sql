@@ -1,9 +1,12 @@
+-----------------------------------------------DISPARADOR 1----------------------------------------------------------------------------------------
+-- Este disparador se encarga de avalar las reglas de negocio a la hora de crear un vuelo
+-- Para ello describimos las siguientes funciones de validación las cuales se usarán dentro del trigger
+-- Finalmente usamos una transacción pues un Vuelo se compone de un registro en la tabla vuelo y un registro en la tabla programacion_vuelo
 
--- Validaciones:
---------------------------------------------------------------------------------------------------
 
+-- ...........................................VALIDACIONES.................................................
 
--- Determinar solapamiento de intervalos.
+-- Aux: Determinar solapamiento de intervalos.
    -- devuelve true si existe solapamiento entre el intervalo a y b.
 CREATE OR REPLACE FUNCTION existe_solapamiento_temporal(a_inicio TIMESTAMP, a_final TIMESTAMP, b_inicio TIMESTAMP, b_final TIMESTAMP)
 RETURNS BOOLEAN AS $$
@@ -16,8 +19,8 @@ COMMENT ON FUNCTION existe_solapamiento_temporal(TIMESTAMP, TIMESTAMP, TIMESTAMP
 IS 'Devuelve true si los intervalos (a_inicio,a_final) y (b_inicio,b_final) se solapan.';
 
 
--- Validar disponibilidad de un PILOTO en un intervalo de tiempo.
-   -- retorna 1 = disponible, 0 = no disponible.
+-- 1: Validar disponibilidad de un PILOTO en un intervalo de tiempo.
+   -- Retorna 1 = disponible, 0 = no disponible.
 CREATE OR REPLACE FUNCTION chk_piloto_disponibilidad_temporal(id_piloto_input INT, inicio_intervalo TIMESTAMP, final_intervalo TIMESTAMP)
 RETURNS INTEGER AS $$
 DECLARE
@@ -39,11 +42,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION chk_piloto_disponibilidad_temporal(INT, TIMESTAMP, TIMESTAMP)
-IS '1 si el piloto no tiene vuelos que se solapen con el intervalo dado; 0 si hay conflicto.';
+IS 'Valida disponibilidad de un PILOTO en un intervalo de tiempo. 1 si el piloto no tiene vuelos que se solapen con el intervalo dado; 0 si hay conflicto.';
 
 
--- Validar disponibilidad de un AVIOn en un intervalo de tiempo.
-   -- retorna 1 = disponible, 0 = no disponible.
+-- 2: Validar disponibilidad de un AVIOn en un intervalo de tiempo.
+   -- Retorna 1 = disponible, 0 = no disponible.
 CREATE OR REPLACE FUNCTION chk_avion_disponibilidad_temporal(id_avion_input INT, inicio_intervalo TIMESTAMP, final_intervalo TIMESTAMP)
 RETURNS INTEGER AS $$
 DECLARE
@@ -65,15 +68,15 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION chk_avion_disponibilidad_temporal(INT, TIMESTAMP, TIMESTAMP)
-IS '1 si el avión no tiene programaciones que se solapen; 0 si hay conflicto.';
+IS 'Valida disponibilidad de un AVION en un intervalo de tiempo. 1 si el avión no tiene programaciones que se solapen; 0 si hay conflicto.';
 
 
--- Validar licencia válida para PILOTO para un tipo de vuelo en una fecha determinada.
+-- 3: Validar licencia válida para PILOTO para un tipo de vuelo en una fecha determinada.
    --  reglas:
      -- Debe tener vigencia en fecha del ETD.
      -- PRIVADO -> PPL.
      -- COMERCIAL/CARGA -> CPL o ATPL.
-   --  retorna 1 = valida, 0 = invalida
+   --  Retorna 1 = valida, 0 = invalida
 CREATE OR REPLACE FUNCTION chk_piloto_licencia_valida(id_piloto_input INT, tipo_vuelo_input VARCHAR, ref_date TIMESTAMP)
 RETURNS INTEGER AS $$
 DECLARE
@@ -99,11 +102,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION chk_piloto_licencia_valida(INT, VARCHAR, TIMESTAMP)
-IS 'Valida que el piloto tenga al menos una licencia vigente en la fecha de referencia (ref_date) compatible con el tipo de vuelo.';
+IS 'Valida que el piloto tenga al menos una licencia vigente en la fecha de referencia (ref_date) y que sea compatible con el tipo de vuelo.';
 
 
--- Validar estado operativo del avión
-   -- retorna 1 = OPERATIVO, 0 = no operativo o inexistente
+-- 4: Validar estado operativo del avión
+   -- Retorna 1 = OPERATIVO, 0 = no operativo o inexistente
 CREATE OR REPLACE FUNCTION chk_avion_estado_operativo(id_avion_input INT)
 RETURNS INTEGER AS $$
 DECLARE
@@ -125,7 +128,7 @@ COMMENT ON FUNCTION chk_avion_estado_operativo(INT)
 IS 'Verifica que el avión exista y tenga estado_avion = OPERATIVO.';
 
 
--- Validar disponibilidad por UBICACIÓN del PILOTO
+-- 5: Validar disponibilidad por UBICACIÓN del PILOTO
    -- Determinar si se encuentra o encontrará en el aeropuerto deseado en determinado tiempo
    -- Si el piloto se encuentra en el aeropuerto deseado y no tiene vuelos por realizar, está disponible
    -- Caso contrario, dado que existe secuenciación estricta de desplazamiento, se busca la última programación (de vuelo no cancelado) con eta <= tiempo_deseado
@@ -133,6 +136,9 @@ IS 'Verifica que el avión exista y tenga estado_avion = OPERATIVO.';
    -- Bajo lo anterior logramos que la inserción siempre sea lineal, osea después del último vuelo realizado o por realizar.
    -- Si pasa el anterior if. entonces el destino de la última programación es en efecto su último destino trazado hasta el momento de su desplazamiento.
    -- Si dicho ultimo destuno es igual al aeropuerto deseado entonces el piloto está disponible por ubicación en ese tiempo.
+   -- Los criterios de verificar que no existan más vuelos por realizar desde la última posición esperada del vaion, nos ayuda a que las inserciones de los 
+   -- vuelos sigan una secuenciación estricta para la inserción y actualización.
+   -- Retorna 1 = Disponible   0 = No Disponible
 CREATE OR REPLACE FUNCTION chk_piloto_disponible_en_ubicacion(
     id_piloto_input INT,
     aeropuerto_deseado INT,
@@ -207,12 +213,12 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION chk_piloto_disponible_en_ubicacion(INT, INT, TIMESTAMP)
-IS 'Determina si el piloto estará en el aeropuerto de origen en tiempo_deseado. 1=disponible, 0=no. Lógica: primero revisa ubicacion actual; si está en origen y no tiene programaciones PROGRAMADO desde ahora => disponible. Si no, usa la última programacion antes de new_etd (excluye CANCELADO) y verifica destino + que no existan programaciones PROGRAMADO posteriores a new_etd.';
+IS 'Determina si el piloto estará en el aeropuerto de origen en tiempo_deseado. 1=disponible, 0=no disponible';
 
 
--- Validar disponibilidad por UBICACIÓN del AVIÓN (sin CANCELADOS)
+-- 6: Validar disponibilidad por UBICACIÓN del AVIÓN (sin CANCELADOS)
    -- Igual lógica que para piloto, usando avion.id_aeropuerto
---retorna 1 = OK, 0 = no
+--Retorna 1 = Disponible, 0 = No disponible
 CREATE OR REPLACE FUNCTION chk_avion_disponible_en_ubicacion(
     id_avion_input INT,
     aeropuerto_deseado INT,
@@ -282,11 +288,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 COMMENT ON FUNCTION chk_avion_disponible_en_ubicacion(INT, INT, TIMESTAMP)
-IS 'Determina si el avión estará en el aeropuerto_deseado en tiempo_deseado. 1=disponible, 0=no. Primero verifica ubicación actual y ausencia de programaciones PROGRAMADO a futuro; si no aplica, utiliza la última programación antes de tiempo_deseado y verifica destino + ausencia de programaciones posteriores.';
+IS 'Determina si el avión estará en el aeropuerto_deseado en tiempo_deseado. 1=disponible, 0=no';
 
 
-
--- Validar capacidad disponible de la terminal
+-- 7: Validar capacidad disponible de la terminal
    -- Se obtiene id_terminal via puerta -> terminal
    -- Cuenta programaciones solapadas
    -- Retorna 1 = hay capacidad, 0 = no hay
@@ -332,7 +337,8 @@ $$ LANGUAGE plpgsql;
 COMMENT ON FUNCTION chk_terminal_capacidad_por_puerta(INT, TIMESTAMP, TIMESTAMP)
 IS 'Verifica que la terminal tenga capacidad libre para el el avion en un intervalo de tiempo';
 
--- Validar existencia de pista operativa en el AEROPUERTO
+
+-- 8: Validar existencia de pista operativa en el AEROPUERTO
    -- Retorna 1 = al menos una pista OPERATIVA, 0 = no
 CREATE OR REPLACE FUNCTION chk_aeropuerto_tiene_pista_operativa(id_aeropuerto_input INT)
 RETURNS INTEGER AS $$
@@ -358,7 +364,8 @@ IS 'Verifica que exista al menos una pista en estado OPERATIVA en el aeropuerto 
 
 
 
---   TRIGGER validator: antes de INSERT/UPDATE en programacion_vuelo
+--   FUNCION TRIGGER: 
+   -- Para validar que la programacion_vuelo y su vuelo asociado cumplan con las reglas de negocio antes de INSERT/UPDATE en programacion_vuelo
    -- Obtiene info del vuelo (tipo_vuelo, origen) para verificaciones
    -- Ejecuta todas las funciones de verificacion necesarias
    -- Si falla algo => RAISE EXCEPTION, la programación de vuelo es invalida
@@ -432,26 +439,23 @@ $$ LANGUAGE plpgsql;
 
 
 
-
-
+-- TRIGGER
 -- Creación del trigger al momento de crear o actualizar programación_vuelo
 CREATE TRIGGER trg_programacion_vuelo_before_ins_upd
 BEFORE INSERT OR UPDATE ON programacion_vuelo
 FOR EACH ROW EXECUTE FUNCTION trg_validar_programacion_vuelo();
 
 COMMENT ON FUNCTION trg_validar_programacion_vuelo()
-IS 'Trigger que valida reglas de negocio antes de insertar/actualizar programacion_vuelo (disponibilidades, licencias, estado de avión, capacidad terminal, pistas).';
+IS 'Trigger que valida reglas de negocio antes de insertar/actualizar en programacion_vuelo (disponibilidades, licencias, estado de avión, capacidad terminal, pistas).';
 
 
 
-
-
-
+-- TRANSACCION
 -- Procedimiento transaccional: Inserta vuelo -> programacion_vuelo
    -- La verificación se realiza en el trigger de programacion_vuelo, se requiere una transacción para primero crear el vuelo y posterior su programacion_vuelo asociada
    -- Al crear la programacion_vuelo la validación es en conjunto tanto en datos como en creación en ambas tablas;
    -- Si la validación no pasa la transacción se cancela y el vuelo tampoco será creado.
-CREATE OR REPLACE FUNCTION registro_vuelo_completo(
+CREATE OR REPLACE FUNCTION registrar_vuelo_completo(
     p_id_vuelo INT,
     p_origen INT,
     p_destino INT,
@@ -486,27 +490,60 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql;
 
-COMMENT ON FUNCTION registro_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
+COMMENT ON FUNCTION registrar_vuelo_completo(INT, INT, INT, VARCHAR, VARCHAR, INT, INT, INT, INT, TIMESTAMP, TIMESTAMP)
 IS 'Inserta vuelo y su programacion en una sola operación transaccional. Las validaciones completas se ejecutan en el trigger de programacion_vuelo; si el trigger falla, la transacción revierte.';
 
 
 
 
--- TRIGGER: Validar que solo se generen boletos para vuelos COMERCIALES
-CREATE OR REPLACE FUNCTION trg_boleto_solo_comercial()
+-----------------------------------------------DISPARADOR 2----------------------------------------------------------------------------------------
+--  Para corroborar las reglas de negocio a la hora de insertar o actualizar un boleto de un vuelo
+
+-- FUNCION TRIGGER: 
+-- Validar que solo se generen boletos válidos para vuelos COMERCIALES
+-- Verificar que no se exceda la capacidad del avión asociado
+-- Verificar que solo se puedan generar o actualizar boletos para vuelos con estado PROGRAMADO
+
+CREATE OR REPLACE FUNCTION trg_boleto_validaciones()
 RETURNS TRIGGER AS $$
 DECLARE
-    tipo VARCHAR(20);
+    tipo_v         VARCHAR(20);
+    estado_v       VARCHAR(20);
+    capacidad_max  INT;
+    boletos_actuales INT;
 BEGIN
-    SELECT v.tipo_vuelo INTO tipo
+    -- Obtener datos del vuelo y del avión
+    SELECT v.tipo_vuelo, v.estado, a.capacidad_pasajeros
+    INTO tipo_v, estado_v, capacidad_max
     FROM programacion_vuelo pv
-    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+        JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+        JOIN avion a ON pv.id_avion = a.id_avion
     WHERE pv.id_programacion = NEW.id_programacion_vuelo;
 
-    IF tipo <> 'COMERCIAL' THEN
+    -- Validar solo vuelos COMERCIALES
+    IF tipo_v <> 'COMERCIAL' THEN
         RAISE EXCEPTION
-            'No se pueden emitir boletos para vuelos de tipo %, solo COMERCIAL',
-            tipo;
+            'No se pueden emitir boletos para vuelos de tipo %, solo COMERCIAL.',
+            tipo_v;
+    END IF;
+
+    -- Validar estado del vuelo
+    IF estado_v <> 'PROGRAMADO' THEN
+        RAISE EXCEPTION
+            'No se pueden emitir boletos. El vuelo está en estado: % (solo PROGRAMADO permite ventas).',
+            estado_v;
+    END IF;
+
+    -- Contar boletos ya vendidos
+    SELECT COUNT(*) INTO boletos_actuales
+    FROM boleto
+    WHERE id_programacion_vuelo = NEW.id_programacion_vuelo;
+
+    -- Validar capacidad disponible
+    IF boletos_actuales >= capacidad_max THEN
+        RAISE EXCEPTION
+            'No se pueden emitir más boletos: capacidad % alcanzada (% boletos vendidos).',
+            capacidad_max, boletos_actuales;
     END IF;
 
     RETURN NEW;
@@ -514,28 +551,79 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER tg_boleto_solo_comercial
+-- TRIGGER
+
+CREATE TRIGGER tg_boleto_validaciones
 BEFORE INSERT ON boleto
 FOR EACH ROW
-EXECUTE FUNCTION trg_boleto_solo_comercial();
+EXECUTE FUNCTION trg_boleto_validaciones();
 
 
 
--- Actualizar tiempos al cambiar estado del vuelo
-CREATE OR REPLACE FUNCTION trg_update_tiempos_vuelo()
+
+-----------------------------------------------DISPARADOR 3----------------------------------------------------------------------------------------
+-- Trigger para manejar las implicaciones de cambio de estado de un vuelo
+
+
+-- FUNCION TRIGGER
+-- Trigger para actualizar tiempos de registro del vuelo y cambio en la ubicación de avión y piloto
+
+CREATE OR REPLACE FUNCTION trg_update_tiempos_y_ubicacion_vuelo()
 RETURNS TRIGGER AS $$
+DECLARE
+    destino_aeropuerto INT;
+    piloto_id INT;
+    avion_id INT;
 BEGIN
-    -- Cambio PROGRAMADO -> EN_VUELO
+    -- Obtener recursos asignados (piloto y avión)
+    SELECT pv.id_piloto, pv.id_avion
+    INTO piloto_id, avion_id
+    FROM programacion_vuelo pv
+    WHERE pv.id_vuelo = NEW.id_vuelo
+    LIMIT 1;
+
+    -- Obtener aeropuerto destino
+    SELECT destino INTO destino_aeropuerto
+    FROM vuelo
+    WHERE id_vuelo = NEW.id_vuelo;
+
+    -- Cambio PROGRAMADO → EN_VUELO (despegó)
     IF OLD.estado = 'PROGRAMADO' AND NEW.estado = 'EN_VUELO' THEN
+        
+        -- Registrar hora de salida
         NEW.tiempo_salida := NOW();
+
+        -- Quitar ubicación actual (ya no están en aeropuerto)
+        UPDATE empleado
+        SET id_aeropuerto = NULL
+        WHERE id_empleado = piloto_id;
+
+        UPDATE avion
+        SET id_aeropuerto = NULL
+        WHERE id_avion = avion_id;
+
     END IF;
 
-    -- Cambio EN_VUELO -> FINALIZADO
+
+    -- Cambio EN_VUELO → FINALIZADO (aterrizó)
     IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'FINALIZADO' THEN
+        
+        -- Registrar hora de llegada
         NEW.tiempo_llegada := NOW();
+
+        -- Asignar ubicación final en el aeropuerto destino
+        UPDATE empleado
+        SET id_aeropuerto = destino_aeropuerto
+        WHERE id_empleado = piloto_id;
+
+        UPDATE avion
+        SET id_aeropuerto = destino_aeropuerto
+        WHERE id_avion = avion_id;
+
     END IF;
 
-    -- Prohibición FINALIZADO -> otro estado
+
+    -- Prohibición FINALIZADO → otro estado
     IF OLD.estado = 'FINALIZADO' AND NEW.estado <> 'FINALIZADO' THEN
         RAISE EXCEPTION
             'No se puede cambiar un vuelo FINALIZADO a otro estado (%).',
@@ -546,11 +634,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
-CREATE TRIGGER tg_update_tiempos_vuelo
+-- FUNCION TRIGGER
+-- Se ejecuta al actualizar vuelo, en específico al realizar cambios en el estado
+CREATE TRIGGER tg_update_tiempos_y_ubicacion_vuelo
 BEFORE UPDATE ON vuelo
 FOR EACH ROW
-EXECUTE FUNCTION trg_update_tiempos_vuelo();
+EXECUTE FUNCTION trg_update_tiempos_y_ubicacion_vuelo();
+
+
+
+----------------------------------------------- EJEMPLOS ----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 
