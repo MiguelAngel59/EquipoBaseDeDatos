@@ -129,15 +129,11 @@ IS 'Verifica que el avión exista y tenga estado_avion = OPERATIVO.';
 
 
 -- 5: Validar disponibilidad por UBICACIÓN del PILOTO
-   -- Determinar si se encuentra o encontrará en el aeropuerto deseado en determinado tiempo
+   -- Se busca establecer una secuencia estricta de desplazamientos, de modo que solo podemos agregar vuelos que no rompan la secuencia de desplazamiento existente del piloto
+   -- Lo anterior es que, después del tiempo deseado no deben haber más vuelos por realizar, ya que rompería la secuencia una inserción intermedia.
    -- Si el piloto se encuentra en el aeropuerto deseado y no tiene vuelos por realizar, está disponible
-   -- Caso contrario, dado que existe secuenciación estricta de desplazamiento, se busca la última programación (de vuelo no cancelado) con eta <= tiempo_deseado
-   -- Verificamos que no existan vuelos por realizar después del tiempo_deseado, pues esto involucraría alteraciones en la disponibilidad de vuelos secuentes.
-   -- Bajo lo anterior logramos que la inserción siempre sea lineal, osea después del último vuelo realizado o por realizar.
-   -- Si pasa el anterior if. entonces el destino de la última programación es en efecto su último destino trazado hasta el momento de su desplazamiento.
-   -- Si dicho ultimo destuno es igual al aeropuerto deseado entonces el piloto está disponible por ubicación en ese tiempo.
-   -- Los criterios de verificar que no existan más vuelos por realizar desde la última posición esperada del vaion, nos ayuda a que las inserciones de los 
-   -- vuelos sigan una secuenciación estricta para la inserción y actualización.
+   -- Caso contrario, se busca la última programación (de vuelo no cancelado) para obtener la posición final del piloto (por la primera condición se sabe que es antes del tiempo deseado).
+   -- Si la posición final del vuelo es la ubicación deseada (origen del vuelo), entonces el piloto estará disponible, en caso contrario no estará disponible.
    -- Retorna 1 = Disponible   0 = No Disponible
 CREATE OR REPLACE FUNCTION chk_piloto_disponible_en_ubicacion(
     id_piloto_input INT,
@@ -151,7 +147,21 @@ DECLARE
     ubicacion_actual INT;
     vuelos_futuros INT;
 BEGIN
-    -- 1) Ubicación actual: si el empleado (piloto) tiene id_aeropuerto igual al origen
+
+    -- 0) Asegurar secuencia estricta: asegurarnos que NO existan vuelos con estado PROGRAMADO después de tiempo_deseado
+      --  de este modo los vuelos se insertan en forma de pila en base a la secuencia de desplazamiento de los pilotos
+    SELECT COUNT(*) INTO vuelos_futuros
+    FROM programacion_vuelo pv
+    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+    WHERE pv.id_piloto = id_piloto_input
+      AND v.estado = 'PROGRAMADO'
+      AND pv.eta > tiempo_deseado;  -- programaciones que ocurren después del tiempo que queremos
+
+    IF vuelos_futuros > 0 THEN
+        RETURN 0; -- existen vuelos programados después, no permitimos insertar (rompería la secuencia)
+    END IF;
+
+    -- 1) Ubicación actual: si el empleado (piloto) tiene id_aeropuerto igual al origen y no tiene vuelos por realizar
     SELECT id_aeropuerto INTO ubicacion_actual
     FROM empleado
     WHERE id_empleado = id_piloto_input;
@@ -165,24 +175,23 @@ BEGIN
           AND v.estado = 'PROGRAMADO';
 
         IF vuelos_futuros = 0 THEN
-            RETURN 1; -- disponible
-        ELSE
-            RETURN 0; -- tiene programaciones futuras, no disponible
-        END IF;
+            RETURN 1; -- disponible, piloto en ubicacion deseada y sin vuelos por realizar
+        END IF; -- si tiene vuelos programados, entonces debemos determinar en qué aeropuerto se encontrará antes del tiempo deseado
     END IF;
+   
 
-    -- 2) No está (o no hay info): buscar el último vuelo (no cancelado) con eta <= tiempo_deseado
+    -- 2) Tiene vuelos por realizar : buscar el último vuelo (no cancelado) y ver el destino, es la posición final del piloto en la secuencia
     SELECT pv.id_programacion INTO ultimo_prog_id
     FROM programacion_vuelo pv
     JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
     WHERE pv.id_piloto = id_piloto_input
       AND v.estado <> 'CANCELADO'
-      AND pv.eta <= tiempo_deseado
     ORDER BY pv.eta DESC
     LIMIT 1;
 
+
     IF ultimo_prog_id IS NULL THEN
-        -- No hay vuelos antes de tiempo_deseado y no está físicamente en el aeropuerto: no disponible
+        -- No hay vuelos por realizar o en proceso antes de tiempo_deseado y el piloto no se encuentra en el aeropuerto deseado
         RETURN 0;
     END IF;
 
@@ -196,19 +205,7 @@ BEGIN
         RETURN 0; -- el último destino no es el aeropuerto de origen pedido
     END IF;
 
-    -- Nuevo chequeo extra: asegurarnos que NO existan vuelos con estado PROGRAMADO después de tiempo_deseado
-    SELECT COUNT(*) INTO vuelos_futuros
-    FROM programacion_vuelo pv
-    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
-    WHERE pv.id_piloto = id_piloto_input
-      AND v.estado = 'PROGRAMADO'
-      AND pv.etd > tiempo_deseado;  -- programaciones que ocurren después del tiempo que queremos
-
-    IF vuelos_futuros = 0 THEN
-        RETURN 1; -- disponible (último destino coincide y no hay vuelos programados después)
-    ELSE
-        RETURN 0; -- existen vuelos programados después, no permitimos insertar (rompería la secuencia)
-    END IF;
+    RETURN 1; -- se encontrará en el aeropuerto deseado antes del tiempo deseado y no tiene más vuelos programados despúes
 END;
 $$ LANGUAGE plpgsql;
 
@@ -231,6 +228,18 @@ DECLARE
     ubicacion_actual INT;
     vuelos_futuros INT;
 BEGIN
+    SELECT COUNT(*) INTO vuelos_futuros
+    FROM programacion_vuelo pv
+    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
+    WHERE pv.id_avion = id_avion_input
+      AND v.estado = 'PROGRAMADO'
+      AND pv.eta > tiempo_deseado;
+
+    IF vuelos_futuros > 0 THEN
+        RETURN 0;
+    END IF;
+
+   
     SELECT id_aeropuerto INTO ubicacion_actual
     FROM avion
     WHERE id_avion = id_avion_input;
@@ -240,13 +249,10 @@ BEGIN
         FROM programacion_vuelo pv
         JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
         WHERE pv.id_avion = id_avion_input
-          AND v.estado = 'PROGRAMADO'
-          AND pv.etd > now();
+          AND v.estado = 'PROGRAMADO';
 
         IF vuelos_futuros = 0 THEN
             RETURN 1;
-        ELSE
-            RETURN 0;
         END IF;
     END IF;
 
@@ -255,7 +261,6 @@ BEGIN
     JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
     WHERE pv.id_avion = id_avion_input
       AND v.estado <> 'CANCELADO'
-      AND pv.eta <= tiempo_deseado
     ORDER BY pv.eta DESC
     LIMIT 1;
 
@@ -263,27 +268,7 @@ BEGIN
         RETURN 0;
     END IF;
 
-    SELECT v.destino INTO ultimo_vuelo_destino
-    FROM programacion_vuelo pv
-    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
-    WHERE pv.id_programacion = ultimo_prog_id;
-
-    IF ultimo_vuelo_destino IS NULL OR ultimo_vuelo_destino <> aeropuerto_deseado THEN
-        RETURN 0;
-    END IF;
-
-    SELECT COUNT(*) INTO vuelos_futuros
-    FROM programacion_vuelo pv
-    JOIN vuelo v ON pv.id_vuelo = v.id_vuelo
-    WHERE pv.id_avion = id_avion_input
-      AND v.estado = 'PROGRAMADO'
-      AND pv.etd > tiempo_deseado;
-
-    IF vuelos_futuros = 0 THEN
-        RETURN 1;
-    ELSE
-        RETURN 0;
-    END IF;
+    RETURN 1;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -555,7 +540,8 @@ EXECUTE FUNCTION trg_boleto_validaciones();
 
 
 -- FUNCION TRIGGER
--- Trigger para actualizar tiempos de registro del vuelo y cambio en la ubicación de avión y piloto
+-- Trigger para actualizar tiempos de registro del vuelo y cambio en la ubicación de avión y piloto en base al cambio de estado de un vuelo
+-- En específico para cambios cuando el vuelo despega o aterriza
 
 CREATE OR REPLACE FUNCTION trg_update_tiempos_y_ubicacion_vuelo()
 RETURNS TRIGGER AS $$
@@ -619,6 +605,31 @@ BEGIN
             NEW.estado;
     END IF;
 
+    -- Prohibición FINALIZADO → otro estado
+    IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'PROGRAMADO' THEN
+        RAISE EXCEPTION
+            'No se puede cambiar un vuelo EN_VUELO a otro PROGRAMADO.',
+            NEW.estado;
+    END IF;
+
+    IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'CANCELADO' THEN
+        RAISE EXCEPTION
+            'No se puede cancelar un vuelo EN_VUELO, cambie el destino al aeropuerto de retorno',
+            NEW.estado;
+    END IF;
+
+    IF OLD.estado = 'PROGRAMADO' AND NEW.estado = 'FINALIZADO' THEN
+        RAISE EXCEPTION
+            'No se puede finalizar un vuelo sin haber iniciado, use cancelar',
+            NEW.estado;
+    END IF;
+
+    IF OLD.estado = 'CANCELADO' AND NEW.estado <> 'CANCELADO' THEN
+        RAISE EXCEPTION
+            'No se puede descancelar un vuelo, vuelva a programar un nuevo vuelo',
+            NEW.estado;
+    END IF;
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -629,6 +640,154 @@ CREATE TRIGGER tg_update_tiempos_y_ubicacion_vuelo
 BEFORE UPDATE ON vuelo
 FOR EACH ROW
 EXECUTE FUNCTION trg_update_tiempos_y_ubicacion_vuelo();
+
+
+
+
+
+-----------------------------------------------DISPARADOR 4----------------------------------------------------------------------------------------
+-- Disparador para el cambio de estado de vuelo PROGRAMADO -> CANCELADO
+-- Se enfoca en abordar el problema de suptura de secuencia de diponibilidad por la cancelación de un vuelo y sus vuelos subsecuencuetes
+
+-- Funciones auxiliares
+
+-- Devuelve un piloto disponible en una aeropuerto dado en el intervalo inicio-final
+CREATE OR REPLACE FUNCTION obtener_piloto_disponible(
+    aeropuerto_origen INT,
+    tipo_vuelo_input VARCHAR,
+    inicioIntervalo TIMESTAMP,
+    finalIntervalo TIMESTAMP
+)
+RETURNS INT AS $$
+DECLARE
+    pid INT;
+BEGIN
+    SELECT p.id_empleado
+    INTO pid
+    FROM piloto p
+    JOIN empleado e ON e.id_empleado = p.id_empleado
+    WHERE chk_piloto_disponible_en_ubicacion(p.id_empleado, aeropuerto_origen, inicioIntervalo) = 1
+      AND chk_piloto_disponibilidad_temporal(p.id_empleado, inicioIntervalo, finalIntervalo) = 1
+      AND chk_piloto_licencia_valida(p.id_empleado, tipo_vuelo_input, inicioIntervalo) = 1
+    LIMIT 1;
+
+    RETURN pid; -- puede ser NULL
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- Devuelve un avion disponible en una aeropuerto dado en el intervalo inicio-final
+CREATE OR REPLACE FUNCTION obtener_avion_disponible(
+    aeropuerto_origen INT,
+    inicioIntervalo TIMESTAMP,
+    finalIntervalo TIMESTAMP
+)
+RETURNS INT AS $$
+DECLARE
+    aid INT;
+BEGIN
+    SELECT a.id_avion
+    INTO aid
+    FROM avion a
+    WHERE chk_avion_estado_operativo(a.id_avion) = 1
+      AND chk_avion_disponible_en_ubicacion(a.id_avion, aeropuerto_origen, inicioIntervalo) = 1
+      AND chk_avion_disponibilidad_temporal(a.id_avion, inicioIntervalo, finalIntervalo) = 1
+    LIMIT 1;
+
+    RETURN aid;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Procedimiento almacenado
+-- Identifica vuelos afectados
+-- Reasigna recursos encadenadamente
+-- Todo dentro de UNA transacción
+CREATE OR REPLACE PROCEDURE propagar_cancelacion(id_vuelo_cancelado INT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v RECORD;
+    piloto_actual INT;
+    avion_actual INT;
+BEGIN
+    -- obtener recursos originales
+    SELECT id_piloto, id_avion, pv.eta
+    INTO piloto_actual, avion_actual, v
+    FROM programacion_vuelo pv
+    WHERE pv.id_vuelo = id_vuelo_cancelado;
+
+    -- recorrer vuelos posteriores
+    FOR v IN
+        SELECT pv.*, vu.origen, vu.tipo_vuelo
+        FROM programacion_vuelo pv
+        JOIN vuelo vu ON vu.id_vuelo = pv.id_vuelo
+        WHERE vu.estado = 'PROGRAMADO'
+          AND pv.etd >= (SELECT eta FROM programacion_vuelo WHERE id_vuelo = id_vuelo_cancelado)
+          AND (pv.id_piloto = piloto_actual OR pv.id_avion = avion_actual)
+        ORDER BY pv.etd
+    LOOP
+
+        -- piloto afectado
+        IF v.id_piloto = piloto_actual THEN
+            piloto_actual := obtener_piloto_disponible(
+                v.origen, v.tipo_vuelo, v.etd, v.eta
+            );
+
+            IF piloto_actual IS NULL THEN
+                RAISE EXCEPTION 'No hay piloto disponible para vuelo %', v.id_vuelo;
+            END IF;
+
+            UPDATE programacion_vuelo
+            SET id_piloto = piloto_actual
+            WHERE id_programacion = v.id_programacion;
+        END IF;
+
+        -- avión afectado
+        IF v.id_avion = avion_actual THEN
+            avion_actual := obtener_avion_disponible(
+                v.origen, v.etd, v.eta
+            );
+
+            IF avion_actual IS NULL THEN
+                RAISE EXCEPTION 'No hay avión disponible para vuelo %', v.id_vuelo;
+            END IF;
+
+            UPDATE programacion_vuelo
+            SET id_avion = avion_actual
+            WHERE id_programacion = v.id_programacion;
+        END IF;
+
+    END LOOP;
+END;
+$$;
+
+
+-- Funcion Trigger
+-- Cuando se detecta la cancelación de un vuelo PROGRAMADO llama al proceso almacenado de reasignación de recursos
+CREATE OR REPLACE FUNCTION trg_cancelacion_vuelo()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.estado = 'CANCELADO' AND OLD.estado <> 'CANCELADO' THEN
+        CALL propagar_cancelacion(NEW.id_vuelo);
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Trigger
+CREATE TRIGGER cancelar_vuelo
+AFTER UPDATE OF estado ON vuelo
+FOR EACH ROW
+EXECUTE FUNCTION trg_cancelacion_vuelo();
+
+
+
+
+
+
 
 
 /* Descomentar y ver ejemplos
