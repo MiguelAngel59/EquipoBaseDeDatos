@@ -1,7 +1,6 @@
 -- FUNCIONES
 
-
--- Función: Calcula el porcentaje de ocupación de un vuelo (boletos vendidos / capacidad del avión).
+-- Función 1: Calcula el porcentaje de ocupación de un vuelo (boletos vendidos / capacidad del avión).
 -- Útil para monitorear rendimiento de vuelos y ocupación.
 -- Tablas involucradas: programacion_vuelo, avion, boleto
 CREATE FUNCTION porcentaje_ocupacion_vuelo(p_id_vuelo INT)
@@ -37,7 +36,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Función: Devuelve el número de vuelos actualmente en estado 'PROGRAMADO' o 'EN_VUELO' de una aerolínea.
+
+
+-- Función 2: Devuelve el número de vuelos actualmente en estado 'PROGRAMADO' o 'EN_VUELO' de una aerolínea.
 -- Útil para ver cuántos vuelos están activos o representan una actividad operacional por aerolínea.
 -- Tablas involucradas: programacion_vuelo, vuelo, avion
 CREATE FUNCTION vuelos_activos_aerolinea(p_id_aerolinea INT)
@@ -57,7 +58,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Función: Calcula los ingresos totales generados por todos los vuelos que parten desde un aeropuerto.
+
+
+-- Función 3: Calcula los ingresos totales generados por todos los vuelos que parten desde un aeropuerto.
 -- Tablas involucradas: programacion_vuelo, vuelo, boleto, tarifa_vuelo
 CREATE FUNCTION total_ingresos_aeropuerto(p_id_aeropuerto INT)
 RETURNS NUMERIC(12,2) AS $$
@@ -76,7 +79,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Función: Cuenta cuántos vuelos salen de un aeropuerto en una fecha específica.
+
+
+-- Función 4: Cuenta cuántos vuelos salen de un aeropuerto en una fecha específica.
 -- Útil para generar reportes de tráfico aéreo o medir la actividad diaria por aeropuerto.
 -- Tablas involucradas: programacion_vuelo, vuelo
 CREATE FUNCTION contar_vuelos_por_aeropuerto(p_id_aeropuerto INT, p_fecha DATE)
@@ -96,7 +101,8 @@ $$ LANGUAGE plpgsql;
 
 
 
--- Función: Calcula la duración estimada de un vuelo en minutos.
+
+-- Función 5: Calcula la duración estimada de un vuelo en minutos.
 -- Útil para mostrar tiempos de vuelo en reportes.
 -- Tablas involucradas: programacion_vuelo
 CREATE FUNCTION duracion_vuelo_minutos(p_id_vuelo INT)
@@ -121,7 +127,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- Función: Devuelve la tarifa mínima disponible para un vuelo, de forma general o filtrada por clase.
+-- Función 6: Devuelve la tarifa mínima disponible para un vuelo, de forma general o filtrada por clase.
 -- Útil para mostrar precios más bajos disponibles.
 -- Tablas involucradas: tarifa_vuelo, programacion_vuelo
 CREATE FUNCTION tarifa_minima_por_vuelo(p_id_vuelo INT, p_clase VARCHAR DEFAULT NULL)
@@ -145,6 +151,67 @@ BEGIN
     RETURN COALESCE(min_precio, 0);
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+---------------Pruebas de Funciones----------------------------------------
+
+/*
+
+-- 1 porcentaje_ocupacion_vuelo(p_id_vuelo INT)
+SELECT 
+    v.id_vuelo,
+    (SELECT a.modelo FROM programacion_vuelo pv JOIN avion a ON pv.id_avion = a.id_avion
+     WHERE pv.id_vuelo = v.id_vuelo LIMIT 1) AS avion_modelo_example,
+    porcentaje_ocupacion_vuelo(v.id_vuelo) AS porcentaje_ocupacion
+FROM vuelo v
+ORDER BY porcentaje_ocupacion DESC;
+
+
+-- 2 vuelos_activos_aerolinea(p_id_aerolinea INT)
+SELECT 
+    al.nombre AS aerolinea,
+    vuelos_activos_aerolinea(al.id_aerolinea) AS vuelos_activos
+FROM aerolinea al
+ORDER BY vuelos_activos DESC;
+
+
+-- 3 total_ingresos_aeropuerto(p_id_aeropuerto INT)
+SELECT 
+    ap.nombre AS aeropuerto_origen,
+    total_ingresos_aeropuerto(ap.id_aeropuerto) AS ingresos_totales
+FROM aeropuerto ap
+ORDER BY ingresos_totales DESC;
+
+
+-- 4 contar_vuelos_por_aeropuerto(p_id_aeropuerto, p_fecha)
+SELECT 
+    ap.id_aeropuerto,
+    ap.nombre AS aeropuerto,
+    contar_vuelos_por_aeropuerto(ap.id_aeropuerto, CURRENT_DATE) AS vuelos_salida_hoy
+FROM aeropuerto ap
+ORDER BY vuelos_salida_hoy DESC;
+
+
+-- 5 duracion_vuelo_minutos(p_id_vuelo INT)
+SELECT 
+    v.id_vuelo,
+    v.origen,
+    v.destino,
+    duracion_vuelo_minutos(v.id_vuelo) AS duracion_minutos
+FROM vuelo v
+ORDER BY duracion_minutos DESC NULLS LAST;
+
+
+-- 6 tarifa_minima_por_vuelo(p_id_vuelo INT)
+SELECT 
+    v.id_vuelo,
+    tarifa_minima_por_vuelo(v.id_vuelo) AS tarifa_minima_general,
+    tarifa_minima_por_vuelo(v.id_vuelo,'ECONOMICA') AS tarifa_minima_economica
+FROM vuelo v
+ORDER BY tarifa_minima_general ASC;
+
+*/
 
 
 
