@@ -3,7 +3,7 @@
 
 -- Función: Calcula el porcentaje de ocupación de un vuelo (boletos vendidos / capacidad del avión).
 -- Útil para monitorear rendimiento de vuelos y ocupación.
--- Tablas involucradas: vuelo, avion, boleto
+-- Tablas involucradas: programacion_vuelo, avion, boleto
 CREATE FUNCTION porcentaje_ocupacion_vuelo(p_id_vuelo INT)
 RETURNS NUMERIC(5,2) AS $$
 DECLARE
@@ -39,7 +39,7 @@ $$ LANGUAGE plpgsql;
 
 -- Función: Devuelve el número de vuelos actualmente en estado 'PROGRAMADO' o 'EN_VUELO' de una aerolínea.
 -- Útil para ver cuántos vuelos están activos o representan una actividad operacional por aerolínea.
--- Tablas involucradas: vuelo, avion, aerolinea
+-- Tablas involucradas: programacion_vuelo, vuelo, avion
 CREATE FUNCTION vuelos_activos_aerolinea(p_id_aerolinea INT)
 RETURNS INT AS $$
 DECLARE
@@ -58,7 +58,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Función: Calcula los ingresos totales generados por todos los vuelos que parten desde un aeropuerto.
--- Tablas involucradas: aeropuerto, vuelo, boleto, tarifa_vuelo
+-- Tablas involucradas: programacion_vuelo, vuelo, boleto, tarifa_vuelo
 CREATE FUNCTION total_ingresos_aeropuerto(p_id_aeropuerto INT)
 RETURNS NUMERIC(12,2) AS $$
 DECLARE
@@ -78,7 +78,7 @@ $$ LANGUAGE plpgsql;
 
 -- Función: Cuenta cuántos vuelos salen de un aeropuerto en una fecha específica.
 -- Útil para generar reportes de tráfico aéreo o medir la actividad diaria por aeropuerto.
--- Tablas involucradas: vuelo
+-- Tablas involucradas: programacion_vuelo, vuelo
 CREATE FUNCTION contar_vuelos_por_aeropuerto(p_id_aeropuerto INT, p_fecha DATE)
 RETURNS INT AS $$
 DECLARE
@@ -98,7 +98,7 @@ $$ LANGUAGE plpgsql;
 
 -- Función: Calcula la duración estimada de un vuelo en minutos.
 -- Útil para mostrar tiempos de vuelo en reportes.
--- Tablas involucradas: vuelo
+-- Tablas involucradas: programacion_vuelo
 CREATE FUNCTION duracion_vuelo_minutos(p_id_vuelo INT)
 RETURNS INT AS $$
 DECLARE
@@ -123,7 +123,7 @@ $$ LANGUAGE plpgsql;
 
 -- Función: Devuelve la tarifa mínima disponible para un vuelo, de forma general o filtrada por clase.
 -- Útil para mostrar precios más bajos disponibles.
--- Tablas involucradas: tarifa_vuelo
+-- Tablas involucradas: tarifa_vuelo, programacion_vuelo
 CREATE FUNCTION tarifa_minima_por_vuelo(p_id_vuelo INT, p_clase VARCHAR DEFAULT NULL)
 RETURNS NUMERIC AS $$
 DECLARE
