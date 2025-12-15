@@ -1,7 +1,7 @@
 -- PROCEDIMIENTOS
 
 
--- Procedimiento: Cambia automáticamente el estado de los vuelos según la hora actual:
+-- Procedimiento 1: Cambia automáticamente el estado de los vuelos según la hora actual:
 -- - Si ya despegó y no llegó → 'EN_VUELO'
 -- - Si ya llegó → 'FINALIZADO'
 -- Usa condicionales y operaciones en bloque.
@@ -44,7 +44,10 @@ BEGIN
 END;
 $$;
 
--- Procedimiento: Aumenta o disminuye el precio de todas las tarifas de una clase
+
+
+
+-- Procedimiento 2: Aumenta o disminuye el precio de todas las tarifas de una clase
 -- específica (por ejemplo, 'EJECUTIVA' o 'TURISTA') dentro de un vuelo
 -- determinado.
 --
@@ -90,12 +93,14 @@ END;
 $$;
 
 
--- Procedimiento: Actualiza la ubicación de los aviones con base en el estado temporal
+
+
+-- Procedimiento 3: Actualiza la ubicación de los aviones con base en el estado temporal
 -- de los vuelos. Si un vuelo ya inició, el avión se marca como no disponible
 -- (id_aeropuerto = NULL). Si el vuelo ya finalizó, se actualiza con el
 -- aeropuerto de destino. Si no hay vuelos asociados o aún no comienzan,
 -- el valor actual no se modifica.
--- Tablas involucradas: vuelo, avion
+-- Tablas involucradas: programacion_vuelo, vuelo, avion
 CREATE PROCEDURE actualizar_ubicacion_aviones()
 LANGUAGE plpgsql
 AS $$
@@ -133,12 +138,12 @@ END;
 $$;
 
 
--- Procedimiento: Actualiza el aeropuerto actual de los pilotos en función de los vuelos
+-- Procedimiento 4: Actualiza el aeropuerto actual de los pilotos en función de los vuelos
 -- registrados. Si el vuelo ya inició, el piloto se marca como no disponible
 -- (id_aeropuerto = NULL). Si el vuelo ya finalizó, se actualiza su ubicación
 -- con el aeropuerto de destino. Si el piloto no tiene vuelos recientes,
 -- su ubicación permanece sin cambios.
--- Tablas involucradas: vuelo, piloto
+-- Tablas involucradas: programacion_vuelo, empleado(piloto), vuelo
 CREATE PROCEDURE actualizar_ubicacion_pilotos()
 LANGUAGE plpgsql
 AS $$
@@ -174,10 +179,10 @@ BEGIN
 END;
 $$;
 
--- Procedimiento: Crea una nueva reserva generando automáticamente un boleto para un vuelo y asiento específicos.
+-- Procedimiento 5: Crea una nueva reserva generando automáticamente un boleto para un vuelo y asiento específicos.
 -- Valida que la tarifa corresponda al vuelo, que haya asientos disponibles y que el asiento solicitado no esté ocupado.
 -- Si todo es correcto, inserta el boleto y devuelve su ID generado.
--- Tablas involucradas: vuelo, avion, boleto, tarifa_vuelo.
+-- Tablas involucradas: programacion_vuelo, avion, boleto, tarifa_vuelo.
 CREATE PROCEDURE crear_reserva_con_boleto(
     p_id_vuelo INT,
     p_id_tarifa INT,
@@ -237,13 +242,14 @@ BEGIN
 END;
 $$;
 
--- Procedimiento: Elimina (reembolsa) todos los boletos asociados a un vuelo específico.
+
+
+
+-- Procedimiento 6: Elimina (reembolsa) todos los boletos asociados a un vuelo específico.
 -- Devuelve el número total de boletos eliminados mediante un parámetro de salida.
 -- Si no hay boletos para ese vuelo, devuelve 0.
 -- Si existen boletos, los elimina y devuelve la cantidad reembolsada.
 -- Tablas involucradas: boleto
-
-
 CREATE OR REPLACE PROCEDURE reembolsar_boletos_por_vuelo(p_id_vuelo INT, OUT reembolsados INT)
 LANGUAGE plpgsql
 AS $$
@@ -270,3 +276,59 @@ BEGIN
 END;
 $$;
 
+---------------Pruebas de Procedimientos----------------------------------------
+
+/*
+
+-- 1 actualizar_estado_por_hora()
+CALL actualizar_estado_por_hora();
+SELECT id_vuelo, estado
+FROM vuelo
+WHERE estado LIKE 'PROGRAMADO';
+
+
+-- 2 ajustar_importe_clase_vuelo(p_id_vuelo, p_clase, p_incremento)
+-- Ejemplo: aumenta el precio de la clase EJECUTIVA del vuelo con id 10.
+CALL ajustar_importe_clase_vuelo(10, 'EJECUTIVA', 250.00);
+-- Verifica tarifas afectadas (usa las programaciones del vuelo 10)
+SELECT tv.id_tarifa, tv.clase, tv.precio, pv.id_programacion
+FROM tarifa_vuelo tv
+JOIN programacion_vuelo pv ON tv.id_programacion_vuelo = pv.id_programacion
+WHERE pv.id_vuelo = 10 AND tv.clase ILIKE 'EJECUTIVA';
+
+
+-- 3 actualizar_ubicacion_aviones()
+CALL actualizar_ubicacion_aviones();
+SELECT id_avion, modelo, id_aeropuerto
+FROM avion
+ORDER BY id_avion;
+
+
+-- 4 actualizar_ubicacion_pilotos()
+CALL actualizar_ubicacion_pilotos();
+-- Pilotos están en empleado, listamos empleados que también son pilotos:
+SELECT e.id_empleado AS id_piloto, e.nombre, e.id_aeropuerto
+FROM empleado e
+WHERE e.id_empleado IN (SELECT id_empleado FROM piloto)
+ORDER BY e.id_empleado;
+
+
+-- 5 crear_reserva_con_boleto(p_id_vuelo, p_id_tarifa, p_numero_asiento, OUT p_id_boleto_generado)
+-- IMPORTANTE: ahora la tarifa debe referenciarse por id_tarifa que exista y pertenezca
+-- a una programacion del vuelo. Ejemplo:
+CALL crear_reserva_con_boleto(10, 25, 5, NULL);
+-- Luego:
+SELECT id_boleto, id_programacion_vuelo, fecha_compra, numero_asiento
+FROM boleto
+WHERE numero_asiento = 5
+ORDER BY fecha_compra DESC
+LIMIT 5;
+
+
+-- 6 reembolsar_boletos_por_vuelo(p_id_vuelo INT, OUT reembolsados INT)
+CALL reembolsar_boletos_por_vuelo(11, NULL);
+-- comprobar:
+SELECT COUNT(*) AS boletos_restantes_v11
+FROM boleto
+WHERE id_programacion_vuelo IN (SELECT id_programacion FROM programacion_vuelo WHERE id_vuelo = 11);
+*/
