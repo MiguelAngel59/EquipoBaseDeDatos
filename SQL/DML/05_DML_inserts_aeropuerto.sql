@@ -164,12 +164,8 @@ CALL registrar_vuelo_completo(
 
 
 
-
 --...................BOLETOS...................
 -- REGISTRAR COMPRA DE BOLETOS
-
-
---------------------------TARIFAS Y BOLETOS POR VUELO-----------------------------------------------------------
 
 ---- AEROMÉXICO ----
 -- TARIFAS DEL AMX100
@@ -177,7 +173,7 @@ INSERT INTO tarifa_vuelo (id_tarifa, id_programacion_vuelo, precio, clase) VALUE
 (1, 100, 1200, 'ECONOMICA'),
 (2, 100, 2200, 'EJECUTIVA'),
 (3, 100, 3500, 'PREMIUM');
--- BOLETOS DEL VUELO 2
+-- BOLETOS DEL AMX100
 INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
 (100, 1, now()::TIMESTAMP, 1),
 (100, 1, now()::TIMESTAMP, 2),
@@ -195,3 +191,84 @@ INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asien
 (100, 3, now()::TIMESTAMP, 14),
 (100, 3, now()::TIMESTAMP, 15),
 (100, 3, now()::TIMESTAMP, 16);
+
+
+-- TARIFAS DEL AMX101
+INSERT INTO tarifa_vuelo (id_tarifa, id_programacion_vuelo, precio, clase) VALUES
+(4, 101, 1120, 'ECONOMICA'),
+(5, 101, 1230, 'EJECUTIVA'),
+(6, 101, 1200, 'PREMIUM');
+-- BOLETOS DEL VUELO AMX101
+INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(101, 1, now()::TIMESTAMP, 1),
+(101, 1, now()::TIMESTAMP, 2),
+(101, 1, now()::TIMESTAMP, 3),
+(101, 1, now()::TIMESTAMP, 4),
+(101, 1, now()::TIMESTAMP, 5),
+(101, 1, now()::TIMESTAMP, 6),
+(101, 1, now()::TIMESTAMP, 7),
+(101, 2, now()::TIMESTAMP, 8),
+(101, 2, now()::TIMESTAMP, 9),
+(101, 2, now()::TIMESTAMP, 10),
+(101, 2, now()::TIMESTAMP, 11),
+(101, 2, now()::TIMESTAMP, 12),
+(101, 3, now()::TIMESTAMP, 13),
+(101, 3, now()::TIMESTAMP, 14),
+(101, 3, now()::TIMESTAMP, 15),
+(101, 3, now()::TIMESTAMP, 16);
+
+-- AMX102
+INSERT INTO tarifa_vuelo VALUES
+(7, 102, 980,  'ECONOMICA'),
+(8, 102, 1850, 'EJECUTIVA'),
+(9, 102, 2900, 'PREMIUM');
+
+INSERT INTO boleto VALUES
+(102, 1, now(), 1),
+(102, 1, now(), 2),
+(102, 1, now(), 3),
+(102, 1, now(), 4),
+(102, 2, now(), 5),
+(102, 2, now(), 6),
+(102, 3, now(), 7);
+
+-- AMX104
+INSERT INTO tarifa_vuelo VALUES
+(10, 104, 4200, 'ECONOMICA'),
+(11, 104, 7200, 'EJECUTIVA'),
+(12, 104, 9800, 'PREMIUM');
+INSERT INTO boleto VALUES
+(104, 1, now(), 1),
+(104, 1, now(), 2),
+(104, 1, now(), 3),
+(104, 1, now(), 4),
+(104, 2, now(), 5),
+(104, 2, now(), 6),
+(104, 2, now(), 7),
+(104, 3, now(), 8),
+(104, 3, now(), 9);
+
+-- AMX105
+INSERT INTO tarifa_vuelo VALUES
+(13, 105, 4100, 'ECONOMICA'),
+(14, 105, 6900, 'EJECUTIVA'),
+(15, 105, 9500, 'PREMIUM');
+INSERT INTO boleto VALUES
+(105, 1, now(), 1),
+(105, 1, now(), 2),
+(105, 1, now(), 3),
+(105, 2, now(), 4),
+(105, 2, now(), 5),
+(105, 3, now(), 6);
+
+-- AMX106
+INSERT INTO tarifa_vuelo VALUES
+(16, 106, 850,  'ECONOMICA'),
+(17, 106, 1500, 'EJECUTIVA'),
+(18, 106, 2100, 'PREMIUM');
+INSERT INTO boleto VALUES
+(106, 1, now(), 1),
+(106, 1, now(), 2),
+(106, 1, now(), 3),
+(106, 2, now(), 4),
+(106, 3, now(), 5);
