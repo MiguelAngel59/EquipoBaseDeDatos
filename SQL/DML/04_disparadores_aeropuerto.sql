@@ -608,26 +608,22 @@ BEGIN
     -- Prohibición FINALIZADO → otro estado
     IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'PROGRAMADO' THEN
         RAISE EXCEPTION
-            'No se puede cambiar un vuelo EN_VUELO a otro PROGRAMADO.',
-            NEW.estado;
+            'No se puede cambiar un vuelo EN_VUELO a otro PROGRAMADO.';
     END IF;
 
     IF OLD.estado = 'EN_VUELO' AND NEW.estado = 'CANCELADO' THEN
         RAISE EXCEPTION
-            'No se puede cancelar un vuelo EN_VUELO, cambie el destino al aeropuerto de retorno',
-            NEW.estado;
+            'No se puede cancelar un vuelo EN_VUELO, cambie el destino al aeropuerto de retorno';
     END IF;
 
     IF OLD.estado = 'PROGRAMADO' AND NEW.estado = 'FINALIZADO' THEN
         RAISE EXCEPTION
-            'No se puede finalizar un vuelo sin haber iniciado, use cancelar',
-            NEW.estado;
+            'No se puede finalizar un vuelo sin haber iniciado, use cancelar';
     END IF;
 
     IF OLD.estado = 'CANCELADO' AND NEW.estado <> 'CANCELADO' THEN
         RAISE EXCEPTION
-            'No se puede descancelar un vuelo, vuelva a programar un nuevo vuelo',
-            NEW.estado;
+            'No se puede descancelar un vuelo, vuelva a programar un nuevo vuelo';
     END IF;
 
     RETURN NEW;
@@ -709,23 +705,28 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
     v RECORD;
-    piloto_actual INT;
-    avion_actual INT;
+    piloto_original INT;
+    avion_original  INT;
+    piloto_actual   INT;
+    avion_actual    INT;
+    eta_cancelado   TIMESTAMP;
 BEGIN
-    -- obtener recursos originales
-    SELECT id_piloto, id_avion, pv.eta
-    INTO piloto_actual, avion_actual, v
+    SELECT pv.id_piloto, pv.id_avion, pv.eta
+    INTO piloto_original, avion_original, eta_cancelado
     FROM programacion_vuelo pv
     WHERE pv.id_vuelo = id_vuelo_cancelado;
 
-    -- recorrer vuelos posteriores
+    piloto_actual := piloto_original;
+    avion_actual  := avion_original;
+
     FOR v IN
-        SELECT pv.*, vu.origen, vu.tipo_vuelo
+        SELECT pv.id_programacion, pv.id_vuelo, pv.id_piloto, pv.id_avion,
+               pv.etd, pv.eta, vu.origen, vu.tipo_vuelo
         FROM programacion_vuelo pv
         JOIN vuelo vu ON vu.id_vuelo = pv.id_vuelo
         WHERE vu.estado = 'PROGRAMADO'
-          AND pv.etd >= (SELECT eta FROM programacion_vuelo WHERE id_vuelo = id_vuelo_cancelado)
-          AND (pv.id_piloto = piloto_actual OR pv.id_avion = avion_actual)
+          AND pv.etd >= eta_cancelado
+          AND (pv.id_piloto = piloto_original OR pv.id_avion = avion_original)
         ORDER BY pv.etd
     LOOP
 
