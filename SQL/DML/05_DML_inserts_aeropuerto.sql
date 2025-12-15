@@ -167,3 +167,31 @@ CALL registrar_vuelo_completo(
 
 --...................BOLETOS...................
 -- REGISTRAR COMPRA DE BOLETOS
+
+
+--------------------------TARIFAS Y BOLETOS POR VUELO-----------------------------------------------------------
+
+---- AEROMÉXICO ----
+-- TARIFAS DEL AMX100
+INSERT INTO tarifa_vuelo (id_tarifa, id_programacion_vuelo, precio, clase) VALUES
+(1, 100, 1200, 'ECONOMICA'),
+(2, 100, 2200, 'EJECUTIVA'),
+(3, 100, 3500, 'PREMIUM');
+-- BOLETOS DEL VUELO 2
+INSERT INTO boleto (id_programacion_vuelo, id_tarifa, fecha_compra, numero_asiento) VALUES
+(100, 1, now()::TIMESTAMP, 1),
+(100, 1, now()::TIMESTAMP, 2),
+(100, 1, now()::TIMESTAMP, 3),
+(100, 1, now()::TIMESTAMP, 4),
+(100, 1, now()::TIMESTAMP, 5),
+(100, 1, now()::TIMESTAMP, 6),
+(100, 1, now()::TIMESTAMP, 7),
+(100, 2, now()::TIMESTAMP, 8),
+(100, 2, now()::TIMESTAMP, 9),
+(100, 2, now()::TIMESTAMP, 10),
+(100, 2, now()::TIMESTAMP, 11),
+(100, 2, now()::TIMESTAMP, 12),
+(100, 3, now()::TIMESTAMP, 13),
+(100, 3, now()::TIMESTAMP, 14),
+(100, 3, now()::TIMESTAMP, 15),
+(100, 3, now()::TIMESTAMP, 16);
