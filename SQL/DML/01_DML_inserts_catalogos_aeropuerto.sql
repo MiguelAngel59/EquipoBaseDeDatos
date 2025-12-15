@@ -188,7 +188,7 @@ INSERT INTO terminal (id_terminal, id_aeropuerto, numero_terminal, nombre, capac
 -- CTS (id = 26)
 (51, 26, 1, 'Terminal 1', 12),
 -- FUK (id = 27)
-(52, 27, 1, 'Terminal 1', 10);
+(52, 27, 1, 'Terminal 1', 10),
 
 
 -- Alemania ----------------------------------------------------
