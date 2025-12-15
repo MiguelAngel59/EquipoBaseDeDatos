@@ -555,14 +555,14 @@ INSERT INTO avion (id_avion, id_aeropuerto, id_aerolinea, modelo, capacidad_pasa
 ---------------MEXICO------------------
 -- Aeroméxico
 (1, 1, 1, 'Boeing 737-800', 160, 'MX-A0001', 'OPERATIVO'),
-(2, 1, 1, 'Boeing 737 MAX 9', 180, 'MX-A0002', 'OPERATIVO'),
-(3, 2, 1, 'Boeing 787-9 Dreamliner', 290, 'MX-A0003', 'MANTENIMIENTO'),
+(2, 2, 1, 'Boeing 737 MAX 9', 180, 'MX-A0002', 'OPERATIVO'),
+(3, 2, 1, 'Boeing 787-9 Dreamliner', 290, 'MX-A0003', 'OPERATIVO'),
 (4, 3, 1, 'Embraer 190', 99, 'MX-A0004', 'OPERATIVO'),
 (5, 4, 1, 'Boeing 737-700', 144, 'MX-A0005', 'RETIRADO'),
-(6, 1, 1, 'Boeing 737 MAX 8', 175, 'MX-A0006', 'OPERATIVO'),
+(6, 1, 1, 'Boeing 737 MAX 8', 175, 'MX-A0006', 'MANTENIMIENTO'),
 (7, 2, 1, 'Boeing 787-8 Dreamliner', 250, 'MX-A0007', 'OPERATIVO'),
 -- Volaris
-(8, 2, 2, 'Airbus A320neo', 186, 'MX-A0008', 'OPERATIVO'),
+(8, 1, 2, 'Airbus A320neo', 186, 'MX-A0008', 'OPERATIVO'),
 (9, 3, 2, 'Airbus A321neo', 230, 'MX-A0009', 'OPERATIVO'),
 (10, 4, 2, 'Airbus A319', 144, 'MX-A0010', 'RETIRADO'),
 (11, 1, 2, 'Airbus A320', 174, 'MX-A0011', 'OPERATIVO'),
@@ -763,10 +763,10 @@ INSERT INTO empleado (id_empleado, id_aerolinea, id_aeropuerto, nombre, apellido
 -- Aeroméxico
 (1, 1, 1, 'Juan', 'Pérez', 'López', '1980-03-15', 'Mexicana'),
 (2, 1, 2, 'María', 'González', 'Hernández', '1985-07-22', 'Mexicana'),
-(3, 1, 3, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana'),
+(3, 1, 2, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana'),
 (4, 1, 1, 'Ana', 'Sánchez', 'Morales', '1990-01-18', 'Mexicana'),
 -- Volaris
-(5, 2, 2, 'Luis', 'Torres', 'Reyes', '1982-05-27', 'Mexicana'),
+(5, 2, 1, 'Luis', 'Torres', 'Reyes', '1982-05-27', 'Mexicana'),
 (6, 2, 3, 'Fernanda', 'Vázquez', 'Cruz', '1991-09-12', 'Mexicana'),
 (7, 2, 4, 'Miguel', 'Castillo', 'Ríos', '1987-12-09', 'Mexicana'),
 -- Viva Aerobus
