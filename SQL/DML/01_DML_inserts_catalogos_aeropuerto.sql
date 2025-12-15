@@ -763,15 +763,15 @@ INSERT INTO empleado (id_empleado, id_aerolinea, id_aeropuerto, nombre, apellido
 -- Aeroméxico
 (1, 1, 1, 'Juan', 'Pérez', 'López', '1980-03-15', 'Mexicana'),
 (2, 1, 2, 'María', 'González', 'Hernández', '1985-07-22', 'Mexicana'),
-(3, 1, 2, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana'),
+(3, 1, 3, 'Carlos', 'Ramírez', 'Vega', '1978-11-03', 'Mexicana'),
 (4, 1, 1, 'Ana', 'Sánchez', 'Morales', '1990-01-18', 'Mexicana'),
 -- Volaris
 (5, 2, 1, 'Luis', 'Torres', 'Reyes', '1982-05-27', 'Mexicana'),
 (6, 2, 3, 'Fernanda', 'Vázquez', 'Cruz', '1991-09-12', 'Mexicana'),
 (7, 2, 4, 'Miguel', 'Castillo', 'Ríos', '1987-12-09', 'Mexicana'),
 -- Viva Aerobus
-(8, 3, 3, 'Paola', 'Flores', 'Jiménez', '1984-04-30', 'Mexicana'),
-(9, 3, 6, 'Roberto', 'Mendoza', 'Soto', '1979-08-11', 'Mexicana'),
+(8, 3, 1, 'Paola', 'Flores', 'Jiménez', '1984-04-30', 'Mexicana'),
+(9, 3, 2, 'Roberto', 'Mendoza', 'Soto', '1979-08-11', 'Mexicana'),
 (10, 3, 7, 'Lorena', 'Romero', 'Gutiérrez', '1986-06-21', 'Mexicana'),
 -- Interjet
 (11, 4, 6, 'Jorge', 'Ortega', 'Navarro', '1983-02-14', 'Mexicana'),
