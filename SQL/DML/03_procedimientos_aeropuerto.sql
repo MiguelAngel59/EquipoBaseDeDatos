@@ -5,7 +5,7 @@
 -- - Si ya despegó y no llegó → 'EN_VUELO'
 -- - Si ya llegó → 'FINALIZADO'
 -- Usa condicionales y operaciones en bloque.
--- Tablas involucradas: vuelo
+-- Tablas involucradas: programacion_vuelo
 CREATE PROCEDURE actualizar_estado_por_hora()
 LANGUAGE plpgsql
 AS $$
@@ -56,7 +56,7 @@ $$;
 --   p_clase      → Clase de tarifa ('EJECUTIVA', 'TURISTA', etc.)
 --   p_incremento → Monto a sumar al precio (puede ser negativo)
 --
--- Tablas involucradas: tarifa_vuelo, vuelo
+-- Tablas involucradas: tarifa_vuelo, programacion_vuelo
 CREATE PROCEDURE ajustar_importe_clase_vuelo(
     p_id_vuelo INT,
     p_clase VARCHAR,
